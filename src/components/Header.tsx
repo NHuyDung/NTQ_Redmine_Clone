@@ -25,15 +25,15 @@ const Header = () => {
 
       <div className="flex justify-between h-[88px] items-start text-white bg-primary pt-1 pl-[6px] pr-2 pb-5 ">
         <h1 className="text-2xl font-bold">NTQ Redmine</h1>
-        <div className="flex gap-2 text-black">
+        <div className="flex gap-2 text-black text-sm">
           <div>
             <label className="text-white pr-2" htmlFor="search">
               Search:
             </label>
-            <input className=" outline-none" type="text" name="search" id="search" />
+            <input className="" type="text" name="search" id="search" />
           </div>
           <div>
-            <select className="outline-none">
+            <select className="text-black">
               <option value="" disabled selected>
                 Jump to a project...
               </option>
