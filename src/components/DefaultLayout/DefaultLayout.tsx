@@ -11,7 +11,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
     <div className="bg-[#eeeeee]">
       <div className="relative mx-[10px]">
         <Header />
-        <main className="p-2 mt-[6px] border-[1px] border-solid border-[#bbb] bg-white">{children}</main>
+        <main className="p-2 mt-[6px] border-[1px] border-solid border-[#bbb] bg-white min-h-[615px]">{children}</main>
         <Footer />
       </div>
     </div>
