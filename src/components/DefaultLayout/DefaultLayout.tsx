@@ -8,9 +8,9 @@ interface DefaultLayoutProps {
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
-    <div className="">
+    <div className="relative max-w-7xl mx-auto ">
       <Header />
-      <main className="max-w-7xl">{children}</main>
+      <main className="p-2">{children}</main>
       <Footer />
     </div>
   );
