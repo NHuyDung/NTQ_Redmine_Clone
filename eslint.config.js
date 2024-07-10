@@ -55,6 +55,7 @@ export default [
       "import/prefer-default-export": 0,
       "import/no-extraneous-dependencies": "off",
       "import/no-mutable-exports": "off",
+      "@typescript-eslint/no-explicit-any": "error",
     },
   },
   { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
