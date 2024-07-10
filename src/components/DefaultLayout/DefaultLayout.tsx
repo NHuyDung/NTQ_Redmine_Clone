@@ -8,10 +8,12 @@ interface DefaultLayoutProps {
 
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
-    <div className="relative w-full ">
-      <Header />
-      <main className="p-2">{children}</main>
-      <Footer />
+    <div className="bg-[#eeeeee]">
+      <div className="relative mx-[10px]">
+        <Header />
+        <main className="p-2 mt-[6px] border-[1px] border-solid border-[#bbb] bg-white">{children}</main>
+        <Footer />
+      </div>
     </div>
   );
 };

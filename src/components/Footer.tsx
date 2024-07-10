@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="text-xs text-center bg-[#eeeeee] p-5">
+    <div className="text-xs text-center bg-[#eeeeee] p-1">
       Powered by
       <a className="text-primary" href="https://bitnami.com/stack/redmine">
         Bitnami Redmine Stack
