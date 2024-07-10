@@ -1,8 +1,13 @@
 import React from "react";
+import Help from "~/pages/Help/Help";
 import HomePage from "~/pages/HomePage/HomePage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
+import MyAccount from "~/pages/MyAccount/MyAccount";
 import MyPage from "~/pages/MyPage/MyPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
+import Project from "~/pages/Project/Project";
+import SignOut from "~/pages/SignOut/SignOut";
+import WorkTime from "~/pages/WorkTime/WorkTime";
 
 interface RouteConfig {
   path: string;
@@ -15,12 +20,32 @@ const routesConfig: RouteConfig[] = [
     element: <HomePage />,
   },
   {
-    path: "/mypage",
+    path: "/my-page",
     element: <MyPage />,
   },
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/projects",
+    element: <Project />,
+  },
+  {
+    path: "/help",
+    element: <Help />,
+  },
+  {
+    path: "/work-time",
+    element: <WorkTime />,
+  },
+  {
+    path: "/my-account",
+    element: <MyAccount />,
+  },
+  {
+    path: "/sign-out",
+    element: <SignOut />,
   },
   {
     path: "*",
