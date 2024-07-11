@@ -9,7 +9,6 @@ export default {
           DEFAULT: "#628db7",
           dark: "#3d5b75",
           border: "#bbb",
-          sub_bg: "#eeeeee",
         },
       },
       borderWidth: {
@@ -25,6 +24,9 @@ export default {
       },
       height: {
         88: "88px",
+      },
+      fontSize: {
+        10: ["10px", { lineHeight: "14px" }],
       },
     },
   },
