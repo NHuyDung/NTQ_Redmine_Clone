@@ -30,6 +30,9 @@ export default {
       height: {
         88: "88px",
       },
+      fontSize: {
+        10: ["10px", { lineHeight: "14px" }],
+      },
     },
   },
   plugins: [],

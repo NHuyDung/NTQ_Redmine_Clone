@@ -11,36 +11,52 @@ const axiosInstance = axios.create({
   },
 });
 
+axiosInstance.interceptors.request.use(
+  function (config) {
+    // Add tokens to headers if available
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    // Handle action before send request
+    return config;
+  },
+  function (error) {
+    // Handle errors if any when sending requests
+    return Promise.reject(error);
+  },
+);
+
 axiosInstance.interceptors.response.use(
   function (response) {
-    // Xử lý response data
+    // handle response data
     return response;
   },
   function (error) {
-    // Xử lý lỗi response
+    // handle error response
     if (error.response) {
-      // Kiểm tra mã trạng thái HTTP
+      // Check HTTP
       switch (error.response.status) {
         case 401:
-          // Chuyển hướng người dùng tới trang đăng nhập nếu token hết hạn
+          // route user to login page if token expired
           alert("Unauthorized! Redirecting to login...");
           // window.location.href = "/login";
           break;
         case 403:
-          // Hiển thị thông báo không có quyền truy cập
+          // Display notify access denied
           alert("You do not have permission to perform this action.");
           break;
         case 500:
-          // Hiển thị thông báo lỗi server
+          // Display server error
           alert("Server error. Please try again later.");
           break;
         default:
-          // Xử lý các mã trạng thái khác nếu cần
+          // Process other status codes as needed
           alert(`Error: ${error.response.status}`);
           break;
       }
     } else {
-      // Xử lý lỗi không có response (ví dụ: network error)
+      // Handle no response errors (eg: network error)
       alert("Network error. Please check your connection.");
     }
     return Promise.reject(error);
