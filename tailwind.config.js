@@ -13,7 +13,7 @@ export default {
           borderLogin: "#fdbf3b",
           bgLogin: "#ffebc1",
           bgError: "#ffe3e3",
-          borderError: "#ee7878"
+          borderError: "#ee7878",
         },
       },
       borderWidth: {
