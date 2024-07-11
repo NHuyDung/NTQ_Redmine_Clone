@@ -1,42 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Header = () => {
-  const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "My page", href: "/my-page" },
-    { label: "Projects", href: "/projects" },
-    { label: "Help", href: "/help" },
-  ];
-
-  const menuItems2 = [
-    { label: "WorkTime", href: "/work-time" },
-    { label: "My account", href: "/my-account" },
-    { label: "Sign out", href: "/sign-out" },
-  ];
-
   return (
     <div className="min-w-[900px]">
       <div className=" flex items-center justify-between p-2 bg-primary-dark h-5 text-xs">
         <ul className="flex text-white gap-2 font-bold ">
-          {menuItems.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 cursor-pointer list-none">
-              {item.label}
-            </Link>
-          ))}
+          <li className="">
+            <a href="/">Home</a>
+          </li>
+          <li className="">
+            <a href="/my-page">My page</a>
+          </li>
+          <li className="">Projects</li>
+          <li className="">Help</li>
         </ul>
         <ul className="flex text-white gap-2 font-bold">
           <li className="font-normal">
             Logged in as
-            <Link to="" className="ml-1 font-bold hover:underline duration-150 cursor-pointer">
+            <a href="" className="ml-1 font-bold">
               duc.nguyen14@ntq-solution.com.vn
-            </Link>
+            </a>
           </li>
-          {menuItems2.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 cursor-pointer list-none">
-              {item.label}
-            </Link>
-          ))}
+          <li className="">WorkTime</li>
+          <li className="">My account</li>
+          <li className="">Sign out</li>
         </ul>
       </div>
 
