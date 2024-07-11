@@ -1,7 +1,7 @@
 // src/api/axiosInstance.js
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL || "https://defaultapi.com/";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
@@ -10,22 +10,6 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
-
-axiosInstance.interceptors.request.use(
-  function (config) {
-    // Thêm token vào headers nếu có
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-    // Thực hiện các thao tác trước khi gửi yêu cầu
-    return config;
-  },
-  function (error) {
-    // Xử lý lỗi nếu có khi gửi yêu cầu
-    return Promise.reject(error);
-  },
-);
 
 axiosInstance.interceptors.response.use(
   function (response) {
