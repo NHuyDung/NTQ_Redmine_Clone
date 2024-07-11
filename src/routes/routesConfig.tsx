@@ -1,4 +1,5 @@
 import React from "react";
+import ForgotPasswordPage from "~/pages/ForgotPasswordPage/ForgotPasswordPage";
 import Help from "~/pages/Help/Help";
 import HomePage from "~/pages/HomePage/HomePage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
@@ -51,6 +52,10 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/sign-out",
     element: <SignOut />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
   },
   {
     path: "*",
