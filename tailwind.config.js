@@ -10,8 +10,8 @@ export default {
           dark: "#3d5b75",
           border: "#bbb",
           sub_bg: "#eeeeee",
-          borderLogin:"#fdbf3b",
-          bgLogin:"#ffebc1"
+          borderLogin: "#fdbf3b",
+          bgLogin: "#ffebc1",
         },
       },
       borderWidth: {
