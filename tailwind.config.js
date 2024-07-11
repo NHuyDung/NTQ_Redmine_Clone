@@ -9,6 +9,11 @@ export default {
           DEFAULT: "#628db7",
           dark: "#3d5b75",
           border: "#bbb",
+          sub_bg: "#eeeeee",
+          borderLogin: "#fdbf3b",
+          bgLogin: "#ffebc1",
+          bgError: "#ffe3e3",
+          borderError: "#ee7878",
         },
       },
       borderWidth: {
