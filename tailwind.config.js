@@ -22,6 +22,9 @@ export default {
       minWidth: {
         900: "900px",
       },
+      minHeight: {
+        615: "615px",
+      },
       height: {
         88: "88px",
       },

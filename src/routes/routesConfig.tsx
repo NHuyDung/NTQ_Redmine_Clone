@@ -6,6 +6,7 @@ import MyAccount from "~/pages/MyAccount/MyAccount";
 import MyPage from "~/pages/MyPage/MyPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
 import Project from "~/pages/Project/Project";
+import ProjectOverviewPage from "~/pages/ProjectOverviewPage/ProjectOverviewPage";
 import SignOut from "~/pages/SignOut/SignOut";
 import WorkTime from "~/pages/WorkTime/WorkTime";
 
@@ -30,6 +31,10 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/projects",
     element: <Project />,
+  },
+  {
+    path: "/projects/overview",
+    element: <ProjectOverviewPage />,
   },
   {
     path: "/help",
