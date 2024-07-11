@@ -16,11 +16,11 @@ const Header = () => {
   ];
 
   return (
-    <div className="min-w-[900px]">
+    <div className="min-w-900">
       <div className=" flex items-center justify-between p-2 bg-primary-dark h-5 text-xs">
         <ul className="flex text-white gap-2 font-bold ">
           {menuItems.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 cursor-pointer list-none">
+            <Link key={index} to={item.href} className="hover:underline duration-150 list-none">
               {item.label}
             </Link>
           ))}
@@ -33,23 +33,23 @@ const Header = () => {
             </Link>
           </li>
           {menuItems2.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 cursor-pointer list-none">
+            <Link key={index} to={item.href} className="hover:underline duration-150 list-none">
               {item.label}
             </Link>
           ))}
         </ul>
       </div>
 
-      <div className="flex justify-between h-[88px] items-start text-white bg-primary pt-1 pl-[6px] pr-2 pb-5 ">
+      <div className="flex justify-between h-88 items-start text-white bg-primary pt-1 px-2 pb-5 ">
         <h1 className="text-2xl font-bold">NTQ Redmine</h1>
         <div className="flex gap-2 text-black text-sm">
           <div>
             <label className="text-white pr-2" htmlFor="search">
               Search:
             </label>
-            <input className="" type="text" name="search" id="search" />
+            <input id="search" className="" type="text" name="search" />
           </div>
-          <div>
+          <>
             <select className="text-black">
               <option value="" disabled selected>
                 Jump to a project...
@@ -57,7 +57,7 @@ const Header = () => {
               <option value="redmine">Redmine</option>
               <option value="fresher">[Fresher]_ ReactJS Fresher</option>
             </select>
-          </div>
+          </>
         </div>
       </div>
     </div>
