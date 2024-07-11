@@ -1,4 +1,5 @@
 import React from "react";
+// import {useState, useEffect} from "react";
 // import { getProjects } from "~/services/ProjectService";
 
 const HomePage = () => {
@@ -16,6 +17,7 @@ const HomePage = () => {
 
   //   fetchProjects();
   // }, []);
+  // console.log(projects);
   return (
     <div className="text-red-800">
       <h1>Projects</h1>
