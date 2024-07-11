@@ -12,6 +12,8 @@ export default {
           sub_bg: "#eeeeee",
           borderLogin: "#fdbf3b",
           bgLogin: "#ffebc1",
+          bgError: "#ffe3e3",
+          borderError: "#ee7878"
         },
       },
       borderWidth: {
