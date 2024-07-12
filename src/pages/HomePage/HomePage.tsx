@@ -1,23 +1,6 @@
 import React from "react";
-// import {useState, useEffect} from "react";
-// import { getProjects } from "~/services/ProjectService";
 
 const HomePage = () => {
-  // const [projects, setProjects] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchProjects = async () => {
-  //     try {
-  //       const result = await getProjects();
-  //       setProjects(result);
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   };
-
-  //   fetchProjects();
-  // }, []);
-  // console.log(projects);
   return (
     <div className="flex justify-between">
       <h2 className="text-xl font-semibold">Home</h2>

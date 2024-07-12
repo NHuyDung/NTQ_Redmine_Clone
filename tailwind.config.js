@@ -8,6 +8,7 @@ export default {
         primary: {
           DEFAULT: "#628db7",
           dark: "#3d5b75",
+          light: "#507AAA",
           border: "#bbb",
         },
       },

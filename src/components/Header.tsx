@@ -3,7 +3,20 @@ import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const location = useLocation();
-  const isProjectOverviewPage = location.pathname === "/projects/overview";
+  const isProjectOverviewPage = location.pathname.includes("/projects/");
+
+  const projects = [
+    { id: 1, name: "Overview", slug: "overview" },
+    { id: 2, name: "Activity", slug: "activity" },
+    { id: 3, name: "Issues", slug: "issues" },
+    { id: 4, name: "New issue", slug: "newissue" },
+    { id: 5, name: "Gantt", slug: "gantt" },
+    { id: 6, name: "Calendar", slug: "calendar" },
+    { id: 7, name: "Documents", slug: "documents" },
+    { id: 8, name: "Wiki", slug: "wiki" },
+    { id: 9, name: "Files", slug: "files" },
+    { id: 10, name: "Settings", slug: "settings" },
+  ];
 
   const menuItems = [
     { label: "Home", href: "/" },
@@ -51,8 +64,8 @@ const Header = () => {
               Search:
             </label>
             <input id="search" className="" type="text" name="search" />
-            <select className="text-black text-xs">
-              <option value="" disabled selected>
+            <select className="text-black text-xs" defaultValue="*">
+              <option value="*" hidden>
                 Jump to a project...
               </option>
               <option value="redmine">Redmine</option>
@@ -61,7 +74,15 @@ const Header = () => {
           </div>
         </div>
 
-        {isProjectOverviewPage && <label className="text-white pl-2 mt-1">You are viewing the project overview</label>}
+        {isProjectOverviewPage && (
+          <div className="flex gap-[2px]">
+            {projects.map((project) => (
+              <Link key={project.id} to={`/projects/${project.slug}`} className="hover:underline bg-primary-light duration-150 list-none px-3 py-1 ">
+                {project.name}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
