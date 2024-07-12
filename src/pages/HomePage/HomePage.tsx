@@ -32,7 +32,7 @@ const HomePage = () => {
 
   return (
     <div className="flex justify-between">
-      <h2 className="text-lg text-[20px] font-semibold">Home</h2>
+      <h2 className="text-xl font-semibold">Home</h2>
       <div className="mt-10 mr-2 border border-gray-300 border-solid min-h-[120px] min-w-[820px]">
         <div className="p-3">
           <div className="flex">

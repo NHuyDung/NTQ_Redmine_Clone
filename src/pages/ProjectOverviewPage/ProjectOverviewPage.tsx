@@ -86,7 +86,7 @@ const ProjectOverviewPage = () => {
                   </a>
                 ))}
               </p>
-              <p className="text-[14px] break-words w-auto">
+              <p className="text-[14px] break-words max-w-[550px]">
                 Developer:
                 {developers.map((developer) => (
                   <a className="text-primary" key={developer.id}>
