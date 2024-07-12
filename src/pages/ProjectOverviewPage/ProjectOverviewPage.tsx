@@ -1,6 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getMembers } from "~/services/ProjectService";
 
+interface Member {
+  id: number;
+  name: string;
+  roles: { name: string }[]; // roles là một mảng các đối tượng có thuộc tính name là string
+  user: { name: string };
+}
 const ProjectOverviewPage = () => {
+  const [members, setMembers] = useState<Member[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const result = await getMembers();
+        setMembers(result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+  console.log(members);
+
+  const managers = members.filter((member) => {
+    return member.roles.some((role) => role.name === "Manager");
+  });
+  console.log(managers);
+
+  const developers = members.filter((member) => {
+    return member.roles.some((role) => role.name === "Developer");
+  });
+
   return (
     <div>
       <h2 className="text-[#555] text-lg text-5 font-semibold">Overview</h2>
@@ -26,7 +58,7 @@ const ProjectOverviewPage = () => {
               </li>
             </ul>
             <div className="flex pt-[10px]">
-              <a className="text-sm pl-1 text-primary" rel="noreferrer noopener">
+              <a href="/issues" className="text-sm pl-1 text-primary" rel="noreferrer noopener">
                 View all issues |
               </a>
               <a className="text-sm pl-1 text-primary" rel="noreferrer noopener">
@@ -46,8 +78,22 @@ const ProjectOverviewPage = () => {
               <h3 className="bg-image font-medium">Members</h3>
             </div>
             <div>
-              <p className="text-[14px] break-words max-w-48">Manager:</p>
-              <p className="text-[14px] break-words max-w-48">Developer:</p>
+              <p className="text-[14px] break-words w-auto">
+                Manager:
+                {managers.map((manager) => (
+                  <a className="text-primary" key={manager.id}>
+                    {manager.user.name},{" "}
+                  </a>
+                ))}
+              </p>
+              <p className="text-[14px] break-words max-w-[550px]">
+                Developer:
+                {developers.map((developer) => (
+                  <a className="text-primary" key={developer.id}>
+                    {developer.user.name},{" "}
+                  </a>
+                ))}
+              </p>
             </div>
           </div>
         </div>
