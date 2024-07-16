@@ -10,6 +10,11 @@ export default {
           dark: "#3d5b75",
           light: "#507AAA",
           border: "#bbb",
+          sub_bg: "#eeeeee",
+          borderLogin: "#fdbf3b",
+          bgLogin: "#ffebc1",
+          bgError: "#ffe3e3",
+          borderError: "#ee7878",
         },
       },
       borderWidth: {

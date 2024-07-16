@@ -1,9 +1,12 @@
 import React from "react";
+import ForgotPasswordPage from "~/pages/ForgotPasswordPage/ForgotPasswordPage";
 import Help from "~/pages/Help/Help";
 import HomePage from "~/pages/HomePage/HomePage";
+import IssuesPage from "~/pages/IssuesPage/IssuesPage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import MyAccount from "~/pages/MyAccount/MyAccount";
 import MyPage from "~/pages/MyPage/MyPage";
+import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
 import Project from "~/pages/Project/Project";
 import ProjectDetail from "~/pages/ProjectDetail/ProjectDetail";
@@ -25,6 +28,10 @@ const routesConfig: RouteConfig[] = [
     element: <MyPage />,
   },
   {
+    path: "/my/page_layout",
+    element: <MyPageLayoutPage />,
+  },
+  {
     path: "/login",
     element: <LoginPage />,
   },
@@ -41,6 +48,10 @@ const routesConfig: RouteConfig[] = [
     element: <ProjectDetail />,
   },
   {
+    path: "/issues",
+    element: <IssuesPage />,
+  },
+  {
     path: "/help",
     element: <Help />,
   },
@@ -55,6 +66,10 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/sign-out",
     element: <SignOut />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
   },
   {
     path: "*",

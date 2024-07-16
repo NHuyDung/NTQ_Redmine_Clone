@@ -1,42 +1,18 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { MenuItems, MenuItems2 } from "~/const/Menu";
+import { Projects } from "~/const/Project";
 
 const Header = () => {
   const location = useLocation();
   const isProjectOverviewPage = location.pathname.includes("/projects/");
 
-  const projects = [
-    { id: 1, name: "Overview", slug: "overview" },
-    { id: 2, name: "Activity", slug: "activity" },
-    { id: 3, name: "Issues", slug: "issues" },
-    { id: 4, name: "New issue", slug: "newissue" },
-    { id: 5, name: "Gantt", slug: "gantt" },
-    { id: 6, name: "Calendar", slug: "calendar" },
-    { id: 7, name: "Documents", slug: "documents" },
-    { id: 8, name: "Wiki", slug: "wiki" },
-    { id: 9, name: "Files", slug: "files" },
-    { id: 10, name: "Settings", slug: "settings" },
-  ];
-
-  const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "My page", href: "/my-page" },
-    { label: "Projects", href: "/projects" },
-    { label: "Help", href: "/help" },
-  ];
-
-  const menuItems2 = [
-    { label: "WorkTime", href: "/work-time" },
-    { label: "My account", href: "/my-account" },
-    { label: "Sign out", href: "/sign-out" },
-  ];
-
   return (
     <div className="">
       <div className=" flex items-center justify-between p-2 bg-primary-dark h-5 text-10">
         <ul className="flex text-white gap-2 font-bold ">
-          {menuItems.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 list-none">
+          {MenuItems.map((item) => (
+            <Link key={item.id} to={item.href} className="hover:underline duration-150 list-none">
               {item.label}
             </Link>
           ))}
@@ -48,8 +24,8 @@ const Header = () => {
               duc.nguyen14@ntq-solution.com.vn
             </a>
           </li>
-          {menuItems2.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 list-none">
+          {MenuItems2.map((item) => (
+            <Link key={item.id} to={item.href} className="hover:underline duration-150 list-none">
               {item.label}
             </Link>
           ))}
@@ -76,8 +52,12 @@ const Header = () => {
 
         {isProjectOverviewPage && (
           <div className="flex gap-[2px]">
-            {projects.map((project) => (
-              <Link key={project.id} to={`/projects/${project.slug}`} className="hover:underline bg-primary-light duration-150 list-none px-3 py-1 ">
+            {Projects.map((project) => (
+              <Link
+                key={project.id}
+                to={`/projects/${project.slug}`}
+                className="hover:underline bg-primary-light text-xs duration-150 list-none px-3 py-1 "
+              >
                 {project.name}
               </Link>
             ))}
