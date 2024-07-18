@@ -33,6 +33,8 @@ export default {
       },
       fontSize: {
         10: ["10px", { lineHeight: "14px" }],
+        11: ["11px", { lineHeight: "15px" }],
+        13: ["13px", { lineHeight: "18px" }],
       },
     },
   },
