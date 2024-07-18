@@ -1,6 +1,9 @@
 import React from "react";
+import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 
 const MyPage = () => {
+  const itemFromLocalStorage = localStorage.getItem("items");
+  const items = JSON.parse(itemFromLocalStorage || "[]");
   return (
     <div>
       <div className="flex justify-between">
@@ -9,6 +12,7 @@ const MyPage = () => {
           Personalize this page
         </a>
       </div>
+      <DragAndDropMyPage items={items} hasBorder={false} />
     </div>
   );
 };
