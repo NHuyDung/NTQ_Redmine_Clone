@@ -1,11 +1,11 @@
 import React from "react";
+import DragAndDrop from "~/components/DragAndDrop/DragAndDrop";
 
 const MyPageLayoutPage = () => {
   return (
     <div>
       <div className="flex justify-between">
         <h2 className="text-[#555] text-lg text-5 font-semibold">My page</h2>
-
         <div>
           <p>My page block</p>
           <select>
@@ -24,6 +24,7 @@ const MyPageLayoutPage = () => {
           </a>
         </div>
       </div>
+      <DragAndDrop hasBorder={true} />
     </div>
   );
 };
