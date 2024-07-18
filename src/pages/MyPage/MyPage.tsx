@@ -1,4 +1,8 @@
 import React from "react";
+// import TableIssue from "./TableIssue";
+// import Schedule from "./Schedule";
+import TotalTime from "./TotalTime";
+// import SpentTime from "./SpentTime";
 
 const MyPage = () => {
   return (
@@ -9,6 +13,10 @@ const MyPage = () => {
           Personalize this page
         </a>
       </div>
+      {/* <TableIssue/>
+      <Schedule/>
+      {/* <SpentTime/> */}
+      <TotalTime />
     </div>
   );
 };

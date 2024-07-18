@@ -8,7 +8,6 @@ const ProjectDetail = () => {
   const selectedProject = Projects.find((project) => project.slug === projectSlug);
 
   if (!selectedProject) return <div>{Projects[0].name}</div>;
-
   return (
     <div>
       <h2>{selectedProject.name}</h2>

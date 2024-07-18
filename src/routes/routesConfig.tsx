@@ -5,6 +5,7 @@ import HomePage from "~/pages/HomePage/HomePage";
 import IssuesPage from "~/pages/IssuesPage/IssuesPage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import MyAccount from "~/pages/MyAccount/MyAccount";
+import LogTime from "~/pages/MyPage/LogTime";
 import MyPage from "~/pages/MyPage/MyPage";
 import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
@@ -70,6 +71,10 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/forgot-password",
     element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/log-time",
+    element: <LogTime />,
   },
   {
     path: "*",
