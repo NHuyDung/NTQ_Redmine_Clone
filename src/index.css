@@ -14,6 +14,12 @@ body {
   background-color: #eeeeee;
 }
 
+.react-tabs__tab--selected {
+  font-weight: bold;
+  background-color: #eeeeee !important;
+  color: #555;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -1,29 +1,18 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { MenuItems, MenuItems2 } from "~/const/Menu";
+import { Projects } from "~/const/Project";
 
 const Header = () => {
   const location = useLocation();
-  const isProjectOverviewPage = location.pathname === "/projects/overview";
-
-  const menuItems = [
-    { label: "Home", href: "/" },
-    { label: "My page", href: "/my-page" },
-    { label: "Projects", href: "/projects" },
-    { label: "Help", href: "/help" },
-  ];
-
-  const menuItems2 = [
-    { label: "WorkTime", href: "/work-time" },
-    { label: "My account", href: "/my-account" },
-    { label: "Sign out", href: "/sign-out" },
-  ];
+  const isProjectOverviewPage = location.pathname.includes("/projects/");
 
   return (
     <div className="">
       <div className=" flex items-center justify-between p-2 bg-primary-dark h-5 text-10">
         <ul className="flex text-white gap-2 font-bold ">
-          {menuItems.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 list-none">
+          {MenuItems.map((item) => (
+            <Link key={item.id} to={item.href} className="hover:underline duration-150 list-none">
               {item.label}
             </Link>
           ))}
@@ -35,8 +24,8 @@ const Header = () => {
               duc.nguyen14@ntq-solution.com.vn
             </a>
           </li>
-          {menuItems2.map((item, index) => (
-            <Link key={index} to={item.href} className="hover:underline duration-150 list-none">
+          {MenuItems2.map((item) => (
+            <Link key={item.id} to={item.href} className="hover:underline duration-150 list-none">
               {item.label}
             </Link>
           ))}
@@ -51,8 +40,8 @@ const Header = () => {
               Search:
             </label>
             <input id="search" className="" type="text" name="search" />
-            <select className="text-black text-xs">
-              <option value="" disabled selected>
+            <select className="text-black text-xs" defaultValue="*">
+              <option value="*" hidden>
                 Jump to a project...
               </option>
               <option value="redmine">Redmine</option>
@@ -61,7 +50,19 @@ const Header = () => {
           </div>
         </div>
 
-        {isProjectOverviewPage && <label className="text-white pl-2 mt-1">You are viewing the project overview</label>}
+        {isProjectOverviewPage && (
+          <div className="flex gap-[2px]">
+            {Projects.map((project) => (
+              <Link
+                key={project.id}
+                to={`/projects/${project.slug}`}
+                className="hover:underline bg-primary-light text-xs duration-150 list-none px-3 py-1 "
+              >
+                {project.name}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
