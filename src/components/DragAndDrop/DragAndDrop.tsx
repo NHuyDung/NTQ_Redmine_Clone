@@ -1,9 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./DragAndDrop.css";
+import LogTime from "~/pages/MyPage/LogTime";
+import Schedule from "~/pages/MyPage/Schedule";
+import TableIssue from "~/pages/MyPage/TableIssue";
+import TotalTime from "~/pages/MyPage/TotalTime";
+
+const componentMap: { [key: string]: React.ReactNode } = {
+  LogTime: <LogTime />,
+  Schedule: <Schedule />,
+  TableIssue: <TableIssue />,
+  TotalTime: <TotalTime />,
+};
 
 type Item = {
   id: string;
-  content: string;
+  content?: string;
+  componentName: string;
 };
 
 type ItemsState = {
@@ -14,16 +26,16 @@ type ItemsState = {
 
 const initialItems: ItemsState = {
   A: [
-    { id: "1", content: "Item 1" },
-    { id: "2", content: "Item 2" },
+    { id: "1", content: "Item 1", componentName: "LogTime" },
+    { id: "2", content: "Item 2", componentName: "Schedule" },
   ],
   B: [
-    { id: "3", content: "Item 3" },
-    { id: "4", content: "Item 4" },
+    { id: "3", content: "Item 3", componentName: "TableIssue" },
+    { id: "4", content: "Item 4", componentName: "TotalTime" },
   ],
   C: [
-    { id: "5", content: "Item 5" },
-    { id: "6", content: "Item 6" },
+    { id: "5", content: "Item 5", componentName: "TableIssue" },
+    { id: "6", content: "Item 6", componentName: "TableIssue" },
   ],
 };
 
@@ -235,7 +247,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         onMouseDown={(e) => onDragStart(e, item, targetList)}
         style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
       >
-        {item.content}
+        {componentMap[item.componentName]}
       </div>
     ));
   };
@@ -244,7 +256,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
     <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative", height: "100vh", width: "100vw" }}>
       {isDragging && draggingItem && (
         <div style={draggingStyle} className="item dragging">
-          {draggingItem.content}
+          {componentMap[draggingItem.componentName]}
         </div>
       )}
 
