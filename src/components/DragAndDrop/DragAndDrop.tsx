@@ -132,7 +132,6 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
       const x = e.clientX;
       const y = e.clientY;
       const currentDropTarget = getCurrentDropTarget(x, y);
-      console.log(currentDropTarget);
 
       if (currentDropTarget) {
         onDrop(draggingItem, currentDropTarget);
