@@ -1,7 +1,7 @@
 import React from "react";
 // import TableIssue from "./TableIssue";
 // import Schedule from "./Schedule";
-import TotalTime from "./TotalTime";
+import TotalTime from "./components/TotalTime";
 // import SpentTime from "./SpentTime";
 // import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 
