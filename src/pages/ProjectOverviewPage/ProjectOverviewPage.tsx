@@ -4,7 +4,7 @@ import { getMembers } from "~/services/ProjectService";
 interface Member {
   id: number;
   name: string;
-  roles: { name: string }[]; // roles là một mảng các đối tượng có thuộc tính name là string
+  roles: { name: string }[];
   user: { name: string };
 }
 const ProjectOverviewPage = () => {

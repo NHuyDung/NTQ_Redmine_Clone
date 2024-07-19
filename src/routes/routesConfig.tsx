@@ -5,11 +5,12 @@ import HomePage from "~/pages/HomePage/HomePage";
 import IssuesPage from "~/pages/IssuesPage/IssuesPage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import MyAccount from "~/pages/MyAccount/MyAccount";
+import LogTime from "~/pages/MyPage/LogTime";
 import MyPage from "~/pages/MyPage/MyPage";
 import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
 import Project from "~/pages/Project/Project";
-import ProjectOverviewPage from "~/pages/ProjectOverviewPage/ProjectOverviewPage";
+import ProjectDetail from "~/pages/ProjectDetail/ProjectDetail";
 import SignOut from "~/pages/SignOut/SignOut";
 import WorkTime from "~/pages/WorkTime/WorkTime";
 
@@ -41,7 +42,11 @@ const routesConfig: RouteConfig[] = [
   },
   {
     path: "/projects/overview",
-    element: <ProjectOverviewPage />,
+    element: <ProjectDetail />,
+  },
+  {
+    path: "/projects/:projectSlug",
+    element: <ProjectDetail />,
   },
   {
     path: "/issues",
@@ -66,6 +71,10 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/forgot-password",
     element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/log-time",
+    element: <LogTime />,
   },
   {
     path: "*",
