@@ -1,9 +1,14 @@
 import React from "react";
 import "./DragAndDrop.css";
+import LogTime from "~/pages/MyPage/LogTime";
+import Schedule from "~/pages/MyPage/Schedule";
+import TableIssue from "~/pages/MyPage/TableIssue";
+import TotalTime from "~/pages/MyPage/TotalTime";
 
 type Item = {
   id: string;
-  content: string;
+  content?: string;
+  componentName: string;
 };
 
 type ItemsState = {
@@ -17,14 +22,25 @@ interface DragAndDropProps {
   hasBorder: boolean;
 }
 
+const componentsMap = {
+  LogTime,
+  Schedule,
+  TableIssue,
+  TotalTime,
+  // Add more components as needed...
+};
+
 const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderItems = (items: Item[], targetList: "A" | "B" | "C") => {
-    return items.map((item) => (
-      <div key={item.id} className="item">
-        {item.content}
-      </div>
-    ));
+    return items.map((item) => {
+      const Component = componentsMap[item.componentName as keyof typeof componentsMap];
+      return (
+        <div key={item.id} className="item">
+          {Component ? <Component /> : null}
+        </div>
+      );
+    });
   };
 
   return (

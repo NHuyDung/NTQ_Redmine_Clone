@@ -1,13 +1,10 @@
 import React from "react";
-// import TableIssue from "./TableIssue";
-// import Schedule from "./Schedule";
-import TotalTime from "./TotalTime";
-// import SpentTime from "./SpentTime";
-// import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
+import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 
 const MyPage = () => {
-  // const itemFromLocalStorage = localStorage.getItem("items");
-  // const items = JSON.parse(itemFromLocalStorage || "[]");
+  const itemFromLocalStorage = localStorage.getItem("items");
+  const items = JSON.parse(itemFromLocalStorage || "[]");
+  console.log(items);
   return (
     <div>
       <div className="flex justify-between">
@@ -16,11 +13,7 @@ const MyPage = () => {
           Personalize this page
         </a>
       </div>
-      {/* <TableIssue/>
-      <Schedule/>
-      {/* <SpentTime/> */}
-      <TotalTime />
-      {/* <DragAndDropMyPage items={items} hasBorder={false} /> */}
+      <DragAndDropMyPage items={items} hasBorder={false} />
     </div>
   );
 };

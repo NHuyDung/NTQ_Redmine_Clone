@@ -253,7 +253,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   };
 
   return (
-    <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative", height: "100vh", width: "100vw" }}>
+    <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative", height: "100vh" }}>
       {isDragging && draggingItem && (
         <div style={draggingStyle} className="item dragging">
           {componentMap[draggingItem.componentName]}
