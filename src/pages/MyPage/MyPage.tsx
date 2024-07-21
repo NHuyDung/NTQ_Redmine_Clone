@@ -1,5 +1,10 @@
 import React from "react";
 import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
+// import TableIssue from "./TableIssue";
+// import Schedule from "./Schedule";
+// import TotalTime from "./components/TotalTime";
+// import SpentTime from "./SpentTime";
+// import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 
 const MyPage = () => {
   const itemFromLocalStorage = localStorage.getItem("items");

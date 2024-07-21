@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import CustomTooltip from "./CustomTooltip";
+import CustomTooltip from "~/pages/MyPage/CustomTooltip";
 import { Tooltip } from "react-tooltip";
-import { getIssue } from "../../services/IssueService";
-import { GroupedIssues } from "../../types/Issue";
+import { getIssue } from "~/services/IssueService";
+import { GroupedIssues } from "~/types/Issue";
 
 const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const startOfWeek = moment().startOf("week").add(1, "day");

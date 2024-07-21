@@ -24,7 +24,6 @@ const HomePage = () => {
 
     fetchProjects();
   }, []);
-  console.log(projects);
 
   const handleViewProject = (projectId: number) => {
     localStorage.setItem("project-id", String(projectId));

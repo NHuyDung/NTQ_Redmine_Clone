@@ -1,9 +1,9 @@
 import React from "react";
 import "./DragAndDrop.css";
-import LogTime from "~/pages/MyPage/LogTime";
-import Schedule from "~/pages/MyPage/Schedule";
-import TableIssue from "~/pages/MyPage/TableIssue";
-import TotalTime from "~/pages/MyPage/TotalTime";
+import LogTime from "~/pages/MyPage/components/LogTime";
+import Schedule from "~/pages/MyPage/components/Schedule";
+import TableIssue from "~/pages/MyPage/components/TableIssue";
+import TotalTime from "~/pages/MyPage/components/TotalTime";
 
 type Item = {
   id: string;

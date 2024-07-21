@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./DragAndDrop.css";
-import LogTime from "~/pages/MyPage/LogTime";
-import Schedule from "~/pages/MyPage/Schedule";
-import TableIssue from "~/pages/MyPage/TableIssue";
-import TotalTime from "~/pages/MyPage/TotalTime";
+import LogTime from "~/pages/MyPage/components/LogTime";
+import Schedule from "~/pages/MyPage/components/Schedule";
+import TableIssue from "~/pages/MyPage/components/TableIssue";
+import TotalTime from "~/pages/MyPage/components/TotalTime";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   LogTime: <LogTime />,
@@ -253,7 +253,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   };
 
   return (
-    <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative", height: "100vh" }}>
+    <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative" }}>
       {isDragging && draggingItem && (
         <div style={draggingStyle} className="item dragging">
           {componentMap[draggingItem.componentName]}
