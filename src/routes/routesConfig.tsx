@@ -11,6 +11,7 @@ import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
 import Project from "~/pages/Project/Project";
 import ProjectDetail from "~/pages/ProjectDetail/ProjectDetail";
+import ProjectOverviewPage from "~/pages/ProjectOverviewPage/ProjectOverviewPage";
 import SignOut from "~/pages/SignOut/SignOut";
 import WorkTime from "~/pages/WorkTime/WorkTime";
 
@@ -42,7 +43,7 @@ const routesConfig: RouteConfig[] = [
   },
   {
     path: "/projects/overview",
-    element: <ProjectDetail />,
+    element: <ProjectOverviewPage />,
   },
   {
     path: "/projects/:projectSlug",

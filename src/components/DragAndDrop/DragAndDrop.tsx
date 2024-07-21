@@ -1,9 +1,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./DragAndDrop.css";
+import LogTime from "~/pages/MyPage/components/LogTime";
+import Schedule from "~/pages/MyPage/components/Schedule";
+import TableIssue from "~/pages/MyPage/components/TableIssue";
+import TotalTime from "~/pages/MyPage/components/TotalTime";
+
+const componentMap: { [key: string]: React.ReactNode } = {
+  LogTime: <LogTime />,
+  Schedule: <Schedule />,
+  TableIssue: <TableIssue />,
+  TotalTime: <TotalTime />,
+};
 
 type Item = {
   id: string;
-  content: string;
+  content?: string;
+  componentName: string;
 };
 
 type ItemsState = {
@@ -14,16 +26,16 @@ type ItemsState = {
 
 const initialItems: ItemsState = {
   A: [
-    { id: "1", content: "Item 1" },
-    { id: "2", content: "Item 2" },
+    { id: "1", content: "Item 1", componentName: "LogTime" },
+    { id: "2", content: "Item 2", componentName: "Schedule" },
   ],
   B: [
-    { id: "3", content: "Item 3" },
-    { id: "4", content: "Item 4" },
+    { id: "3", content: "Item 3", componentName: "TableIssue" },
+    { id: "4", content: "Item 4", componentName: "TotalTime" },
   ],
   C: [
-    { id: "5", content: "Item 5" },
-    { id: "6", content: "Item 6" },
+    { id: "5", content: "Item 5", componentName: "TableIssue" },
+    { id: "6", content: "Item 6", componentName: "TableIssue" },
   ],
 };
 
@@ -41,7 +53,8 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   const isMouseDownRef = useRef(false);
   const [itemSources, setItemSources] = useState<{ [itemId: string]: "A" | "B" | "C" }>({});
   const [currentList, setCurrentList] = useState<"A" | "B" | "C">("A");
-  const [targetList, setTargetList] = useState<"A" | "B" | "C">("A");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [targetList, setTargetList] = useState<"A" | "B" | "C" | "">("A");
 
   useEffect(() => {
     const storedItems = localStorage.getItem("items");
@@ -115,13 +128,14 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
 
   const getCurrentDropTarget = (x: number, y: number) => {
     if (checkDropTarget(x, y, "A")) {
-      setTargetList("A");
+      return "A";
     } else if (checkDropTarget(x, y, "B")) {
-      setTargetList("B");
+      return "B";
     } else if (checkDropTarget(x, y, "C")) {
-      setTargetList("C");
+      return "C";
     }
-    return null;
+
+    return null; // Trường hợp không nằm trong bất kỳ bảng nào
   };
 
   const onDragEnd = (e: React.MouseEvent) => {
@@ -129,9 +143,6 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
     if (draggingItem) {
       const x = e.clientX;
       const y = e.clientY;
-      const isDroppedInTableA = checkDropTarget(x, y, "A");
-      const isDroppedInTableB = checkDropTarget(x, y, "B");
-      const isDroppedInTableC = checkDropTarget(x, y, "C");
       const currentDropTarget = getCurrentDropTarget(x, y);
 
       if (currentDropTarget) {
@@ -140,24 +151,11 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         resetDragState();
       }
 
-      if (isDroppedInTableA) {
-        onDrop(draggingItem, "A");
-      } else if (isDroppedInTableB) {
-        onDrop(draggingItem, "B");
-      } else if (isDroppedInTableC) {
-        onDrop(draggingItem, "C");
-      } else {
-        setDraggingItem(null);
-        setDraggingStyle({});
-        setIsDragging(false);
-        isMouseDownRef.current = false;
-      }
-
-      if (currentList === targetList && draggingItem) {
-        const itemsContainer = containerRef.current!.querySelector(`#table-${targetList}`);
+      if (currentList === currentDropTarget && draggingItem) {
+        const itemsContainer = containerRef.current!.querySelector(`#table-${currentDropTarget}`);
         if (itemsContainer) {
           const itemElements = itemsContainer.children;
-          const currentIndex = items[targetList].findIndex((item) => item.id === draggingItem.id);
+          const currentIndex = items[currentDropTarget].findIndex((item) => item.id === draggingItem.id);
           let newIndex = -1;
 
           for (let i = 0; i < itemElements.length; i++) {
@@ -165,27 +163,27 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
             if (y >= itemRect.top && y <= itemRect.bottom) {
               const itemMiddleY = (itemRect.top + itemRect.bottom) / 2;
               if (y >= itemMiddleY - itemRect.height && y <= itemMiddleY + itemRect.height) {
-                newIndex = -i;
+                newIndex = i;
                 break;
               }
             }
           }
 
-          if (currentIndex >= 0 && newIndex >= 0 && newIndex < items[targetList].length && newIndex !== currentIndex) {
-            const newItems = [...items[targetList]];
+          if (currentIndex >= 0 && newIndex >= 0 && newIndex < items[currentDropTarget].length && newIndex !== currentIndex) {
+            const newItems = [...items[currentDropTarget]];
             const [movedItem] = newItems.splice(currentIndex, 1);
             newItems.splice(newIndex, 0, movedItem);
 
             setItems((prevItems) => ({
               ...prevItems,
-              [targetList]: newItems,
+              [currentDropTarget]: newItems,
             }));
 
             localStorage.setItem(
               "items",
               JSON.stringify({
                 ...items,
-                [targetList]: newItems,
+                [currentDropTarget]: newItems,
               }),
             );
           }
@@ -249,16 +247,16 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         onMouseDown={(e) => onDragStart(e, item, targetList)}
         style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
       >
-        {item.content}
+        {componentMap[item.componentName]}
       </div>
     ));
   };
 
   return (
-    <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative", height: "100vh", width: "100vw" }}>
+    <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative", width: "100vw" }}>
       {isDragging && draggingItem && (
         <div style={draggingStyle} className="item dragging">
-          {draggingItem.content}
+          {componentMap[draggingItem.componentName]}
         </div>
       )}
 

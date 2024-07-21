@@ -6,7 +6,7 @@ const MyPageLayoutPage = () => {
     <div>
       <div className="flex justify-between">
         <h2 className="text-[#555] text-lg text-5 font-semibold">My page</h2>
-        <div>
+        <div className="flex align-middle">
           <p>My page block</p>
           <select>
             <option></option>
@@ -15,12 +15,12 @@ const MyPageLayoutPage = () => {
             <option value="option3">Option 3</option>
           </select>
 
-          <a>
-            <img src="https://redmine.ntq.solutions/images/add.png"></img> Add
+          <a className="flex align-middle">
+            <img src="https://redmine.ntq.solutions/images/add.png" className="w-4 h-4"></img> Add
           </a>
 
-          <a href="/my-page" rel="noreferrer noopener">
-            <img src="https://redmine.ntq.solutions/images/cancel.png"></img> Back
+          <a href="/my-page" rel="noreferrer noopener" className="flex">
+            <img src="https://redmine.ntq.solutions/images/cancel.png" className="w-4 h-4"></img> Back
           </a>
         </div>
       </div>
