@@ -3,6 +3,8 @@ import ArrowRightIcon from "../../assets/images/bullet_go.png";
 import { Issue } from "../../types/Issue";
 
 const CustomTooltip: React.FC<Issue> = (issue) => {
+  console.log("issue: ", issue);
+
   return (
     <div>
       <div className="flex pb-5 items-center">
@@ -14,6 +16,7 @@ const CustomTooltip: React.FC<Issue> = (issue) => {
       </div>
       <div className="flex items-center gap-1">
         <span className="font-bold">Project:</span>
+        <img src={ArrowRightIcon} alt="" />
         <a href="" className="text-[#116699]">
           {issue?.project.name}
         </a>

@@ -14,6 +14,7 @@ export interface Issue {
   updated_on: string;
   due_date: string;
   assigned_to: { id: number; name: string };
+  deadline: boolean;
 }
 export interface GroupedIssues {
   day: string;
