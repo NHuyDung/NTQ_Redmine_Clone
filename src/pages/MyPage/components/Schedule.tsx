@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import CustomTooltip from "~/pages/MyPage/CustomTooltip";
+import CustomTooltip from "~/pages/MyPage/components/Schedule/CustomTooltip";
 import { Tooltip } from "react-tooltip";
 import { getIssue } from "~/services/IssueService";
 import { GroupedIssues } from "~/types/Issue";
