@@ -1,15 +1,14 @@
 import React from "react";
 import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
+import SpentTime from "./components/SpentTime/SpentTime";
 // import TableIssue from "./TableIssue";
 // import Schedule from "./Schedule";
 // import TotalTime from "./components/TotalTime";
-// import SpentTime from "./SpentTime";
 // import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 
 const MyPage = () => {
   const itemFromLocalStorage = localStorage.getItem("items");
   const items = JSON.parse(itemFromLocalStorage || "[]");
-  console.log(items);
   return (
     <div>
       <div className="flex justify-between">
@@ -18,6 +17,7 @@ const MyPage = () => {
           Personalize this page
         </a>
       </div>
+      <SpentTime />
       <DragAndDropMyPage items={items} hasBorder={false} />
     </div>
   );
