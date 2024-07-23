@@ -1,9 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import images from "~/assets/img";
+
 import Select from "~/components/Select/Select";
+import Detail from "./Detail";
+import Report from "./Report";
+import { getSpentTime } from "~/services/PageService";
+
+interface SpentTime {
+  id: number;
+  project: {
+    id: number;
+    name: string;
+  };
+  spent_on: string;
+  user: {
+    id: number;
+    name: string;
+  };
+  activity: {
+    id: number;
+    name: string;
+  };
+  issue: {
+    id: number;
+  };
+  comments: string;
+  hours: number;
+}
 
 const SpentTime = () => {
-  const [tabActive, setTabActive] = useState<number>(0);
+  const [spentTimeData, setSpentTimeData] = useState<SpentTime[]>([]);
+  const [tabPage, setTabPage] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const result = await getSpentTime();
+        setSpentTimeData(result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const OPTIONS_DATE = [
     { value: "date1", label: "Date 1" },
@@ -130,19 +170,19 @@ const SpentTime = () => {
       </div>
       <ul className="flex items-center gap-2 text-xs font-semibold text-subText px-2 border-b">
         <li
-          onClick={() => setTabActive(0)}
-          className={`relative bottom-[-1px] rounded-tl-md rounded-tr-md p-1 border z-10 cursor-pointer ${tabActive === 0 ? "border-b-[#fff]" : "bg-[#f6f6f6] text-[#999] hover:bg-yellow-custom-10"}`}
+          onClick={() => setTabPage(0)}
+          className={`relative top-[0.5px] border-t-1 border-x-1  rounded-tl-md rounded-tr-md p-1 z-100 cursor-pointer ${tabPage === 0 ? "bg-[#fff]" : "bg-[#f6f6f6] text-[#999] hover:bg-[#ffffdd]"}`}
         >
           Detail
         </li>
         <li
-          onClick={() => setTabActive(1)}
-          className={`relative bottom-[-1px] rounded-tl-md rounded-tr-md p-1 border z-10 cursor-pointer ${tabActive === 1 ? "border-b-[#fff]" : "bg-[#f6f6f6] text-[#999] hover:bg-yellow-custom-10"}`}
+          onClick={() => setTabPage(1)}
+          className={`relative top-[0.5px] border-t-1 border-x-1  rounded-tl-md rounded-tr-md p-1 z-100 cursor-pointer ${tabPage === 1 ? "bg-[#fff]" : "bg-[#f6f6f6] text-[#999] hover:bg-[#ffffdd]"}`}
         >
           Report
         </li>
       </ul>
-      {/* <div>{tabActive === 0 ? <Detail data={detailTabActive} /> : <Report />}</div> */}
+      <div>{tabPage === 0 ? <Detail data={spentTimeData} /> : <Report />}</div>
     </div>
   );
 };

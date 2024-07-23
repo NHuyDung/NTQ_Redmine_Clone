@@ -1,10 +1,7 @@
 import React from "react";
 import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 import SpentTime from "./components/SpentTime/SpentTime";
-// import TableIssue from "./TableIssue";
-// import Schedule from "./Schedule";
-// import TotalTime from "./components/TotalTime";
-// import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
+import TotalTime from "./components/TotalTime/TotalTime";
 
 const MyPage = () => {
   const itemFromLocalStorage = localStorage.getItem("items");
@@ -17,6 +14,7 @@ const MyPage = () => {
           Personalize this page
         </a>
       </div>
+      <TotalTime />
       <SpentTime />
       <DragAndDropMyPage items={items} hasBorder={false} />
     </div>

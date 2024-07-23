@@ -1,5 +1,4 @@
 import React from "react";
-// import { IOptionSelect } from "~/types";
 
 export interface IOptionSelect {
   value: string;
@@ -13,15 +12,16 @@ interface SelectProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: IOptionSelect[];
-  label: string;
+  label?: string;
   className?: string;
+  ariaLabel?: string;
 }
 
-const Select: React.FC<SelectProps> = ({ options, className, ...props }) => {
+const Select: React.FC<SelectProps> = ({ options, className, ariaLabel, ...props }) => {
   return (
-    <select className={className} {...props}>
+    <select className={className} aria-label={ariaLabel} {...props}>
       {options.map((option) => (
-        <option className={`${option.hidden ? "hidden" : ""}`} key={option.value} value={option.value} disabled={option.disabled}>
+        <option key={option.value} value={option.value} disabled={option.disabled || option.hidden}>
           {option.label}
         </option>
       ))}

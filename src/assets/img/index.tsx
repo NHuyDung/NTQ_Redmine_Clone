@@ -6,6 +6,9 @@ import magnifier from "./logtime_magnifier.png";
 import calendar from "./logtime_calendar.png";
 import check from "./spenttime_toggle_check.png";
 import reload from "./spenttime_reload.png";
+import add from "./mypage_add.png";
+import edit from "./mypage_edit.png";
+import remove from "./mypage_delete.png";
 
 const images = {
   arrow_right,
@@ -15,6 +18,9 @@ const images = {
   calendar,
   check,
   reload,
+  add,
+  edit,
+  remove,
 };
 
 export default images;
