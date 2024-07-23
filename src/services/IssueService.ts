@@ -1,5 +1,5 @@
 import axiosInstance from "./api";
-import { Issue, GroupedIssues } from "../types/Issue";
+import { Issue, GroupedIssues, IssueReport } from "../types/Issue";
 import moment from "moment";
 
 export const getIssue = async (): Promise<GroupedIssues[]> => {
@@ -46,3 +46,4 @@ export const getIssue = async (): Promise<GroupedIssues[]> => {
     throw error;
   }
 };
+export const getIssueAssigned = async (): Promise<IssueReport[]> => {};

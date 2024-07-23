@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import CustomTooltip from "./CustomTooltip";
 import { Tooltip } from "react-tooltip";
-import { getIssue } from "../../../../services/IssueService";
+import { getIssueSchedule } from "../../../../services/IssueService";
 import { GroupedIssues } from "../../../../types/Issue";
 import images from "~/assets/img";
 
@@ -13,7 +13,7 @@ const Schedule: React.FC = () => {
   useEffect(() => {
     const fetchIssues = async () => {
       try {
-        const result = await getIssue();
+        const result = await getIssueSchedule();
         setIssuesSchedule(result);
       } catch (error) {
         console.error("Error:", error);

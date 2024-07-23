@@ -25,18 +25,9 @@ type ItemsState = {
 };
 
 const initialItems: ItemsState = {
-  A: [
-    { id: "1", content: "Item 1", componentName: "LogTime" },
-    { id: "2", content: "Item 2", componentName: "Schedule" },
-  ],
-  B: [
-    { id: "3", content: "Item 3", componentName: "TableIssue" },
-    { id: "4", content: "Item 4", componentName: "TotalTime" },
-  ],
-  C: [
-    { id: "5", content: "Item 5", componentName: "TableIssue" },
-    { id: "6", content: "Item 6", componentName: "TableIssue" },
-  ],
+  A: [],
+  B: [],
+  C: [],
 };
 
 interface DragAndDropProps {

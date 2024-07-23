@@ -20,3 +20,10 @@ export interface GroupedIssues {
   day: string;
   tasks: Issue[];
 }
+
+export interface IssueReport {
+  id: number;
+  project: { id: number; name: string };
+  tracker: { id: number; name: string };
+  subject: string;
+}
