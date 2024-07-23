@@ -1,5 +1,6 @@
 // src/assets/images/images.js
 import arrow_right from "./mypage_bullet_go.png";
+import arrow_left from "./mypage_bullet_end.png";
 import arrow_down from "./spenttime_arrow_expanded.png";
 import logtime from "./spenttime_time_add.png";
 import magnifier from "./logtime_magnifier.png";
@@ -15,6 +16,7 @@ const images = {
   calendar,
   check,
   reload,
+  arrow_left,
 };
 
 export default images;
