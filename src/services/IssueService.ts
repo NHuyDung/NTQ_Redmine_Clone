@@ -2,7 +2,7 @@ import axiosInstance from "./api";
 import { Issue, GroupedIssues, IssueReport } from "../types/Issue";
 import moment from "moment";
 
-export const getIssue = async (): Promise<GroupedIssues[]> => {
+export const getIssueSchedule = async (): Promise<GroupedIssues[]> => {
   try {
     const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json");
     const issues: Issue[] = response.data.issues;
@@ -46,4 +46,30 @@ export const getIssue = async (): Promise<GroupedIssues[]> => {
     throw error;
   }
 };
-export const getIssueAssigned = async (): Promise<IssueReport[]> => {};
+export const getIssueReport = async (): Promise<IssueReport[]> => {
+  try {
+    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=2803");
+    return response.data.issues;
+  } catch (error) {
+    console.error("Error fetching issues:", error);
+    throw error;
+  }
+};
+export const getIssueWatched = async (): Promise<IssueReport[]> => {
+  try {
+    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=2803");
+    return response.data.issues;
+  } catch (error) {
+    console.error("Error fetching issues:", error);
+    throw error;
+  }
+};
+export const getIssueAssigned = async (): Promise<IssueReport[]> => {
+  try {
+    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=2803");
+    return response.data.issues;
+  } catch (error) {
+    console.error("Error fetching issues:", error);
+    throw error;
+  }
+};
