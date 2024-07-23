@@ -9,7 +9,7 @@ import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 const MyPage = () => {
   const itemFromLocalStorage = localStorage.getItem("items");
   const items = JSON.parse(itemFromLocalStorage || "[]");
-  console.log(items);
+
   return (
     <div>
       <div className="flex justify-between">
