@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import CustomTooltip from "./CustomTooltip";
 import { Tooltip } from "react-tooltip";
-import { getIssueSchedule } from "../../../../services/IssueService";
-import { GroupedIssues } from "../../../../types/Issue";
+import { getIssueSchedule } from "~/services/IssueService";
+import { GroupedIssues } from "~/types/Issue";
 import images from "~/assets/img";
 
 const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
