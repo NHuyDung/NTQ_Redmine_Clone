@@ -3,18 +3,20 @@ import images from "~/assets/img";
 import { Issue } from "~/types/Issue";
 
 const CustomTooltip: React.FC<Issue> = (issue) => {
+  console.log("issue", issue);
   return (
     <div>
       <div className="flex pb-5 items-center">
-        <img src={images.arrow_right} alt="" />
-        <a href="#!" className="text-ocean-blue">
+        {issue?.deadline ? <img src={images.arrow_left} alt="" /> : <img src={images.arrow_right} alt="" />}
+        <a href="#!" className="text-primary-blue">
           {issue?.tracker.name} #{issue.id}
         </a>
         : {issue?.subject}
       </div>
       <div className="flex items-center gap-1">
         <span className="font-bold">Project:</span>
-        <a href="" className="text-[#116699]">
+        {issue?.deadline ? <img src={images.arrow_left} alt="" /> : <img src={images.arrow_right} alt="" />}
+        <a href="" className="text-primary-blue">
           {issue?.project.name}
         </a>
       </div>

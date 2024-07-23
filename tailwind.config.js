@@ -15,6 +15,7 @@ export default {
           bgLogin: "#ffebc1",
           bgError: "#ffe3e3",
           borderError: "#ee7878",
+          blue: "#116699",
         },
       },
       borderWidth: {
