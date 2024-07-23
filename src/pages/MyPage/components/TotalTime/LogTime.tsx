@@ -2,8 +2,7 @@ import React, { useRef } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import LogTimeMagnifier from "~/assets/img/logtime_magnifier.png";
-import LogTimeCalendar from "~/assets/img/logtime_calendar.png";
+import images from "~/assets/img";
 
 type FormValues = {
   selectedProject: string;
@@ -89,7 +88,7 @@ const LogTime = () => {
               <img
                 onClick={handleMagnifierClick}
                 className="absolute z-0 left-[2px] top-1/2 transform -translate-y-1/2 cursor-pointer"
-                src={LogTimeMagnifier}
+                src={images.magnifier}
                 alt="manifier"
               />
             </div>
@@ -111,7 +110,7 @@ const LogTime = () => {
                     onChange={(date) => field.onChange(date)}
                     ref={datePickerRef}
                   />
-                  <img src={LogTimeCalendar} alt="calendar" onClick={() => datePickerRef.current?.setFocus()} className="cursor-pointer" />
+                  <img src={images.calendar} alt="calendar" onClick={() => datePickerRef.current?.setFocus()} className="cursor-pointer" />
                 </div>
               )}
             />

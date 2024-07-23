@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import DragAndDrop from "~/components/DragAndDrop/DragAndDrop";
 import { ItemsState } from "~/types/ItemDragAndDrop";
-import LogTime from "~/pages/MyPage/components/LogTime";
-import Schedule from "~/pages/MyPage/components/Schedule";
-import TableIssue from "~/pages/MyPage/components/TableIssue";
-import TotalTime from "~/pages/MyPage/components/TotalTime";
+import LogTime from "../MyPage/components/TotalTime/LogTime";
+import Schedule from "../MyPage/components/Schedule/Schedule";
+import TableIssue from "../MyPage/components/TableIssue/TableIssue";
+import TotalTime from "../MyPage/components/TotalTime/TotalTime";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   LogTime: <LogTime />,

@@ -5,7 +5,7 @@ import HomePage from "~/pages/HomePage/HomePage";
 import IssuesPage from "~/pages/IssuesPage/IssuesPage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import MyAccount from "~/pages/MyAccount/MyAccount";
-import LogTime from "~/pages/MyPage/components/LogTime";
+import LogTime from "~/pages/MyPage/components/TotalTime/LogTime";
 import MyPage from "~/pages/MyPage/MyPage";
 import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
