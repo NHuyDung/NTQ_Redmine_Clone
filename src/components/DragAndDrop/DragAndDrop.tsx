@@ -4,12 +4,14 @@ import LogTime from "~/pages/MyPage/components/TotalTime/LogTime";
 import Schedule from "~/pages/MyPage/components/Schedule/Schedule";
 import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
+import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   LogTime: <LogTime />,
   Schedule: <Schedule />,
   TableIssue: <TableIssue />,
   TotalTime: <TotalTime />,
+  SpentTime: <SpentTime />,
 };
 
 type Item = {
