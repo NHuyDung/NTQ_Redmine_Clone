@@ -5,6 +5,7 @@ import Schedule from "~/pages/MyPage/components/Schedule/Schedule";
 import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
+import closeButton from "~/assets/img/close.png";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   LogTime: <LogTime />,
@@ -232,6 +233,20 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
     };
   }, [isDragging]);
 
+  const handleCloseItem = (itemId: string, targetList: "A" | "B" | "C") => {
+    const storedItems = JSON.parse(localStorage.getItem("items") || "{}");
+    const updatedList = storedItems[targetList].filter((item: { id: string }) => item.id !== itemId);
+    storedItems[targetList] = updatedList;
+    localStorage.setItem("items", JSON.stringify(storedItems));
+
+    const addedItems = JSON.parse(localStorage.getItem("addedOptions") || "[]");
+    const updatedAddedItems = addedItems.filter((item: string) => item !== itemId);
+    console.log(updatedAddedItems);
+    localStorage.setItem("addedOptions", JSON.stringify(updatedAddedItems));
+
+    window.location.reload();
+  };
+
   const renderItems = (items: Item[], targetList: "A" | "B" | "C") => {
     return items.map((item) => (
       <div
@@ -240,6 +255,12 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         onMouseDown={(e) => onDragStart(e, item, targetList)}
         style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
       >
+        <div className="flex justify-between items-center">
+          <p>{item.componentName}</p>
+          <a className="close-button" onClick={() => handleCloseItem(item.id, targetList)}>
+            <img className="close" src={closeButton}></img>
+          </a>
+        </div>
         {componentMap[item.componentName]}
       </div>
     ));

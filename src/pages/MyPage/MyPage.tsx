@@ -1,8 +1,5 @@
 import React from "react";
 import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
-import TotalTime from "./components/TotalTime/TotalTime";
-import SpentTime from "./components/SpentTime/SpentTime";
-// import SpentTime from "./components/SpentTime/SpentTime";
 
 const MyPage = () => {
   const itemFromLocalStorage = localStorage.getItem("items");
@@ -11,8 +8,6 @@ const MyPage = () => {
 
   return (
     <div>
-      <SpentTime />
-      <TotalTime />
       {hasItems ? (
         <div>
           <div className="flex justify-between">
