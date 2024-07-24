@@ -38,9 +38,9 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center h-[615px]">
+    <div className="flex flex-col items-center">
       {errors && <p className="text-red-500 text-sm w-full border-primary-borderError bg-primary-bgError border-2 ps-4">{errors}</p>}
-      <div id="login-form" className="border-2 border-primary-borderLogin w-[463px] h-40 p-1 mt-14 bg-primary-bgLogin">
+      <div id="login-form" className="border-2 border-primary-borderLogin min-w-463 h-40 p-1 mt-14 bg-primary-bgLogin">
         <form id="login-form" className="" acceptCharset="UTF-8" action="/login" method="post" onSubmit={handleSubmit}>
           <div className="grid grid-cols-[100px_minmax(200px,_1fr)] m-3">
             <label htmlFor="username" className="font-semibold text-xs text-right p-1">
@@ -50,7 +50,7 @@ const LoginPage: React.FC = () => {
               id="username"
               name="username"
               type="text"
-              className="block w-[308px] p-1 ml-4 h-6"
+              className="block min-w-[308px] p-1 ml-4 h-6"
               value={formData.username}
               onChange={handleChange}
             />
@@ -63,7 +63,7 @@ const LoginPage: React.FC = () => {
               id="password"
               name="password"
               type="password"
-              className="block w-[308px] p-1 ml-4 h-6"
+              className="block min-w-[308px] p-1 ml-4 h-6"
               value={formData.password}
               onChange={handleChange}
             />

@@ -34,7 +34,7 @@ const HomePage = () => {
       <div className="mt-10 mr-2 border border-gray-300 border-solid min-h-[120px] min-w-[820px]">
         <div className="p-3">
           <div className="flex">
-            <img className="pr-1" src="https://redmine.ntq.solutions/images/projects.png"></img>
+            <img className="pr-1" src="https://redmine.ntq.solutions/images/projects.png" alt="redmine_ntq_solutions"></img>
             <h3 className="bg-image font-medium">Latest projects</h3>
           </div>
           <ul className="pl-10 pt-3 list-disc">

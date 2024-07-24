@@ -55,7 +55,7 @@ const ForgotPasswordPage: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
           />
-          <button className="border border-primary text-center text-xs w-10 h-5 bg-[#f2f2f2] border border-[#cccccc] hover:bg-[#ccccbb] ">Gửi</button>
+          <button className="text-center text-xs w-10 h-5 bg-[#f2f2f2] border border-[#cccccc] hover:bg-[#ccccbb] ">Gửi</button>
         </div>
       </form>
     </>

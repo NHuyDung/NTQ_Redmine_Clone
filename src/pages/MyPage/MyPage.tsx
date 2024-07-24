@@ -1,8 +1,5 @@
 import React from "react";
 import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
-import TotalTime from "./components/TotalTime/TotalTime";
-import SpentTime from "./components/SpentTime/SpentTime";
-// import SpentTime from "./components/SpentTime/SpentTime";
 
 const MyPage = () => {
   const itemFromLocalStorage = localStorage.getItem("items");
@@ -11,13 +8,11 @@ const MyPage = () => {
 
   return (
     <div>
-      <SpentTime />
-      <TotalTime />
       {hasItems ? (
         <div>
           <div className="flex justify-between">
             <h2 className="text-[#555] text-xl text-5 font-semibold">My page</h2>
-            <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout">
+            <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout" rel="noreferrer noopener">
               Personalize this page
             </a>
           </div>
@@ -26,7 +21,7 @@ const MyPage = () => {
       ) : (
         <div className="flex justify-between">
           <h2 className="text-[#555] text-xl text-5 font-semibold">My page</h2>
-          <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout">
+          <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout" rel="noreferrer noopener">
             Personalize this page
           </a>
         </div>

@@ -10,7 +10,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   return (
     <div className="mx-3 min-w-max w-[calc(100%-24px)]">
       <Header />
-      <main className="p-2 mt-2 border-1 border-solid border-primary-border bg-white h-full">{children}</main>
+      <main className="p-2 mt-2 border-1 border-solid border-primary-border bg-white h-full min-h-615">{children}</main>
       <Footer />
     </div>
   );
