@@ -20,7 +20,7 @@ const Schedule: React.FC = () => {
       }
     };
     fetchIssues();
-  }, [issuesSchedule]);
+  }, []);
   return (
     <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-auto">
       <thead className="bg-[#eeeeee] h-7">
