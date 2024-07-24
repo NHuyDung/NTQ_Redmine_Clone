@@ -10,6 +10,8 @@ import reload from "./spenttime_reload.png";
 import add from "./mypage_add.png";
 import edit from "./mypage_edit.png";
 import remove from "./mypage_delete.png";
+import exclamation from "./logtime_exclamation.png";
+import feed from "./spenttime_feed.png";
 
 const images = {
   arrow_right,
@@ -23,6 +25,8 @@ const images = {
   edit,
   remove,
   arrow_left,
+  exclamation,
+  feed,
 };
 
 export default images;

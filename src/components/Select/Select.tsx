@@ -1,21 +1,5 @@
 import React from "react";
-
-export interface IOptionSelect {
-  value: string;
-  label: string;
-  disabled?: boolean;
-  hidden?: boolean;
-}
-
-interface SelectProps {
-  name?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: IOptionSelect[];
-  label?: string;
-  className?: string;
-  ariaLabel?: string;
-}
+import { SelectProps } from "./index";
 
 const Select: React.FC<SelectProps> = ({ options, className, ariaLabel, ...props }) => {
   return (

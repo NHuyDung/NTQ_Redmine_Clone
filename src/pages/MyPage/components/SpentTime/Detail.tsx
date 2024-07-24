@@ -1,30 +1,10 @@
 import React from "react";
 import images from "~/assets/img";
-
-interface SpentTime {
-  id: number;
-  project: {
-    id: number;
-    name: string;
-  };
-  spent_on: string;
-  user: {
-    id: number;
-    name: string;
-  };
-  activity: {
-    id: number;
-    name: string;
-  };
-  issue: {
-    id: number;
-  };
-  comments: string;
-  hours: number;
-}
+import { formatDate } from "~/utils/FormatDay";
+import { SpentTimeType } from "~/types/MyPage";
 
 interface DetailProps {
-  data: SpentTime[];
+  data: SpentTimeType[];
 }
 
 const Detail: React.FC<DetailProps> = ({ data }) => {
@@ -52,7 +32,7 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
                 <input type="checkbox" />
               </td>
               <td className="p-1 text-left text-xs border border-[#dcdcdc]">{item.project.name}</td>
-              <td className="p-1 text-left text-xs border border-[#dcdcdc]">{item.spent_on}</td>
+              <td className="p-1 text-left text-xs border border-[#dcdcdc]">{formatDate(item.spent_on)}</td>
               <td className="p-1 text-left text-xs border border-[#dcdcdc]">{item.user.name}</td>
               <td className="p-1 text-left text-xs border border-[#dcdcdc]">{item.activity.name}</td>
               <td className=" p-1 text-left text-xs last:border-b border-[#dcdcdc] flex gap-1">
@@ -75,6 +55,19 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
           ))}
         </tbody>
       </table>
+      <span className="text-11 text-[#484848] my-2">(1-15)/15</span>
+
+      <div className="flex items-center gap-1 justify-end text-11">
+        <span>Also available in: CSV</span>
+        <a className="flex items-center gap-1 text-primary hover:underline hover:text-red-400" href="">
+          <img src={images.feed} alt="feed" />
+          Atom
+        </a>
+        <span>|</span>
+        <a href="" className="text-primary  text-11 hover:underline hover:text-red-400">
+          CSV
+        </a>
+      </div>
     </div>
   );
 };

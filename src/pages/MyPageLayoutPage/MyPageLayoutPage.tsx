@@ -28,7 +28,7 @@ const MyPageLayoutPage = () => {
     { label: "Latest news", value: "4" },
     { label: "Calendar", value: "5" },
     { label: "Documents", value: "6" },
-    { label: "Spent time", value: "7" },
+    { label: "Spent time", value: "7", componentName: "SpentTime" },
   ];
 
   const [options, setOptions] = useState<Option[]>(initialOptions);
