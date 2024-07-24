@@ -3,29 +3,30 @@ import images from "~/assets/img";
 
 import { formatDate } from "~/utils/FormatDay";
 import { getTotalTime } from "~/services/PageService";
-import { TotalType } from "~/types/MyPage";
+import { TimeEntriesType } from "~/types/MyPage";
+import { groupIssuesByDate } from "~/utils/GroupByDate";
 
-interface GroupedIssues {
-  [date: string]: {
-    issues: TotalType[];
-    totalHours: number;
-  };
-}
+// interface GroupedIssues {
+//   [date: string]: {
+//     issues: TimeEntriesType[];
+//     totalHours: number;
+//   };
+// }
 
-const groupIssuesByDate = (issues: TotalType[]): GroupedIssues => {
-  return issues.reduce((acc: GroupedIssues, issue: TotalType) => {
-    const date = issue.spent_on;
-    if (!acc[date]) {
-      acc[date] = { issues: [], totalHours: 0 };
-    }
-    acc[date].issues.push(issue);
-    acc[date].totalHours += issue.hours;
-    return acc;
-  }, {});
-};
+// const groupIssuesByDate = (issues: TimeEntriesType[]): GroupedIssues => {
+//   return issues.reduce((acc: GroupedIssues, issue: TimeEntriesType) => {
+//     const date = issue.spent_on;
+//     if (!acc[date]) {
+//       acc[date] = { issues: [], totalHours: 0 };
+//     }
+//     acc[date].issues.push(issue);
+//     acc[date].totalHours += issue.hours;
+//     return acc;
+//   }, {});
+// };
 
 const TotalTime: React.FC = () => {
-  const [totalTimeData, setTotalTimeData] = useState<TotalType[]>([]);
+  const [totalTimeData, setTotalTimeData] = useState<TimeEntriesType[]>([]);
 
   useEffect(() => {
     const fetchProjects = async () => {

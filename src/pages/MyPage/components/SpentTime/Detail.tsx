@@ -1,27 +1,61 @@
 import React from "react";
 import images from "~/assets/img";
 import { formatDate } from "~/utils/FormatDay";
-import { SpentTimeType } from "~/types/MyPage";
+import { TimeEntriesType } from "~/types/MyPage";
+import { groupIssuesByDate } from "~/utils/GroupByDate";
 
 interface DetailProps {
-  data: SpentTimeType[];
+  data: TimeEntriesType[];
 }
 
+// interface GroupedIssues {
+//   [date: string]: {
+//     issues: TimeEntriesType[];
+//     totalHours: number;
+//   };
+// }
+
+// const groupIssuesByDate = (issues: TimeEntriesType[]): GroupedIssues => {
+//   return issues.reduce((acc: GroupedIssues, issue: TimeEntriesType) => {
+//     const date = issue.spent_on;
+//     if (!acc[date]) {
+//       acc[date] = { issues: [], totalHours: 0 };
+//     }
+//     acc[date].issues.push(issue);
+//     acc[date].totalHours += issue.hours;
+//     return acc;
+//   }, {});
+// };
+
+const HeaderDetailData = [
+  { id: 1, label: "Project" },
+  { id: 2, label: "Date" },
+  { id: 3, label: "User" },
+  { id: 4, label: "Activity" },
+  { id: 5, label: "Issue" },
+  { id: 6, label: "Comment" },
+  { id: 7, label: "Hours" },
+];
+
 const Detail: React.FC<DetailProps> = ({ data }) => {
+  const groupedIssues = groupIssuesByDate(data);
+
+  const totalHours = Object.values(groupedIssues).reduce((sum, { totalHours }) => sum + totalHours, 0);
+
   return (
     <div>
-      <h2>Detail View</h2>
+      <h2 className="text-13 my-3 font-bold">
+        Total time:<span> {totalHours.toFixed(2)}</span>
+      </h2>
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>
             <th className="p-1 text-xs border border-[#dcdcdc]"></th>
-            <th className="p-1 text-xs border border-[#dcdcdc]">Project</th>
-            <th className="p-1 text-xs border border-[#dcdcdc]">Date</th>
-            <th className="p-1 text-xs border border-[#dcdcdc]">User</th>
-            <th className="p-1 text-xs border border-[#dcdcdc]">Activity</th>
-            <th className="p-1 text-xs border border-[#dcdcdc]">Issue</th>
-            <th className="p-1 text-xs border border-[#dcdcdc]">Comment</th>
-            <th className="p-1 text-xs border border-[#dcdcdc]">Hours</th>
+            {HeaderDetailData.map((header) => (
+              <th key={header.id} className="p-1 text-xs border border-[#dcdcdc]">
+                {header.label}
+              </th>
+            ))}
             <th className="p-1 text-xs border border-[#dcdcdc]"></th>
           </tr>
         </thead>
@@ -31,12 +65,12 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
               <td className="p-1 text-left text-xs border border-[#dcdcdc]">
                 <input type="checkbox" />
               </td>
-              <td className="p-1 text-left text-xs border border-[#dcdcdc]">{item.project.name}</td>
+              <td className="text-primary hover:underline hover:text-red-400 p-1 text-left text-xs border border-[#dcdcdc]">{item.project.name}</td>
               <td className="p-1 text-left text-xs border border-[#dcdcdc]">{formatDate(item.spent_on)}</td>
-              <td className="p-1 text-left text-xs border border-[#dcdcdc]">{item.user.name}</td>
+              <td className="text-primary hover:underline hover:text-red-400 p-1 text-left text-xs border border-[#dcdcdc]">{item.user.name}</td>
               <td className="p-1 text-left text-xs border border-[#dcdcdc]">{item.activity.name}</td>
               <td className=" p-1 text-left text-xs last:border-b border-[#dcdcdc] flex gap-1">
-                <a className="" href="">
+                <a className="text-primary hover:underline hover:text-red-400" href="">
                   Bug #122815:
                 </a>
                 <div className=""> API issue</div>
@@ -55,9 +89,9 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
           ))}
         </tbody>
       </table>
-      <span className="text-11 text-[#484848] my-2">(1-15)/15</span>
+      <div className="text-11 text-[#484848] my-2">(1-15)/15</div>
 
-      <div className="flex items-center gap-1 justify-end text-11">
+      <div className="flex items-center gap-1 justify-end text-11 mb-2">
         <span>Also available in: CSV</span>
         <a className="flex items-center gap-1 text-primary hover:underline hover:text-red-400" href="">
           <img src={images.feed} alt="feed" />

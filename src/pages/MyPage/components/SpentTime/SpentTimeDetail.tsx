@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import images from "~/assets/img";
 import { getSpentTime } from "~/services/PageService";
-import { SpentTimeType } from "~/types/MyPage";
+import { TimeEntriesType } from "~/types/MyPage";
 
 import Select from "~/components/Select/Select";
 import Detail from "./Detail";
 import Report from "./Report";
 
 const SpentTimeDetail = () => {
-  const [spentTimeData, setSpentTimeData] = useState<SpentTimeType[]>([]);
+  const [spentTimeData, setSpentTimeData] = useState<TimeEntriesType[]>([]);
   const [tabPage, setTabPage] = useState<number>(0);
 
   useEffect(() => {
@@ -121,12 +121,13 @@ const SpentTimeDetail = () => {
             <span className="text-nowrap">Add filter</span>
             <Select
               value="selectedValue"
-              className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-[#d7d7d7] rounded-none mr-2"
+              className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-[#d7d7d7] rounded-none mr-2 min-w-[210px] "
               onChange={() => {
                 return "selectedValue";
               }}
               options={OPTIONS_FILTER}
               label="Select an option"
+              placeholder=" "
             />
           </div>
         </div>

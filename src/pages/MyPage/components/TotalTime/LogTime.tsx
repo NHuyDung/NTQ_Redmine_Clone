@@ -126,40 +126,46 @@ const LogTime = () => {
             <input className="w-full border-1 border-solid border-[#d7d7d7] p-1" type="text" {...register("comment")} />
           </div>
           <div className="flex text-end gap-2">
-            <div className="min-w-[130px]  flex justify-end items-center gap-1 font-bold">
-              <label className="text-[#505050] ">Activity</label>
+            <div className="min-w-[130px] flex justify-end items-center gap-1 font-bold">
+              <label className="text-[#505050]">Activity</label>
               <span className="flex items-center text-[#bb0000]">*</span>
             </div>
-            <select
-              className="border-1 border-solid border-[#d7d7d7] p-1"
-              {...register("selectedActivity", { required: "Activity is required" })}
+            <Controller
+              name="selectedActivity"
+              control={control}
               defaultValue=""
-            >
-              <option value="">---Please select---</option>
-              {activities.map((activity) => (
-                <option key={activity.value} value={activity.value}>
-                  {activity.label}
-                </option>
-              ))}
-            </select>
+              rules={{ required: "Activity is required" }}
+              render={({ field }) => (
+                <Select
+                  className="border-1 border-solid border-[#d7d7d7] p-1"
+                  ariaLabel="Activity"
+                  options={activities}
+                  placeholder="---Please select---"
+                  {...field}
+                />
+              )}
+            />
           </div>
           <div className="flex text-end gap-2">
-            <div className="min-w-[130px]  flex justify-end items-center gap-1 font-bold">
-              <label className="text-[#505050] ">Product Category</label>
+            <div className="min-w-[130px] flex justify-end items-center gap-1 font-bold">
+              <label className="text-[#505050]">Product Category</label>
               <span className="flex items-center text-[#bb0000]">*</span>
             </div>
-            <select
-              className="border-1 border-solid border-[#d7d7d7] p-1"
-              {...register("selectedCategory", { required: "Product Category is required" })}
+            <Controller
+              name="selectedCategory"
+              control={control}
               defaultValue=""
-            >
-              <option value="">---Please select---</option>
-              {categories.map((category) => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
+              rules={{ required: "Product Category is required" }}
+              render={({ field }) => (
+                <Select
+                  className="border-1 border-solid border-[#d7d7d7] p-1"
+                  ariaLabel="Category"
+                  options={categories}
+                  placeholder="---Please select---"
+                  {...field}
+                />
+              )}
+            />
           </div>
         </div>
         <div className="flex gap-1 mt-3 text-xs">
