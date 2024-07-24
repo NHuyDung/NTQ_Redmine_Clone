@@ -5,6 +5,7 @@ import HomePage from "~/pages/HomePage/HomePage";
 import IssuesPage from "~/pages/IssuesPage/IssuesPage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import MyAccount from "~/pages/MyAccount/MyAccount";
+import SpentTimeDetail from "~/pages/MyPage/components/SpentTime/SpentTimeDetail";
 import LogTime from "~/pages/MyPage/components/TotalTime/LogTime";
 import MyPage from "~/pages/MyPage/MyPage";
 import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
@@ -76,6 +77,10 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/log-time",
     element: <LogTime />,
+  },
+  {
+    path: "/time_entries",
+    element: <SpentTimeDetail />,
   },
   {
     path: "*",

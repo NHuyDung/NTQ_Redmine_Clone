@@ -1,6 +1,6 @@
 import React from "react";
 import images from "~/assets/img";
-import { Issue } from "../../../../types/Issue";
+import { Issue } from "~/types/Issue";
 
 const CustomTooltip: React.FC<Issue> = (issue) => {
   console.log("issue", issue);
