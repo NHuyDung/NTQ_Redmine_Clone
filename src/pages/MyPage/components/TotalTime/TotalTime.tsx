@@ -1,28 +1,68 @@
-import React from "react";
-import MyPageAdd from "~/assets/img/mypage_add.png";
-import MyPageEdit from "~/assets/img/mypage_edit.png";
-import MyPageDelete from "~/assets/img/mypage_delete.png";
+import React, { useState, useEffect } from "react";
+import images from "~/assets/img";
 
-const issues = [
-  { id: 1, activity: "Bug", project: "Project A", comment: "comment A", hours: "8.00" },
-  { id: 2, activity: "Create", project: "Project B", comment: "comment B", hours: "8.00" },
-];
+import { formatDate } from "~/utils/FormatDay";
+import { getTotalTime } from "~/services/PageService";
+import { TotalType } from "~/types/MyPage";
+
+interface GroupedIssues {
+  [date: string]: {
+    issues: TotalType[];
+    totalHours: number;
+  };
+}
+
+const groupIssuesByDate = (issues: TotalType[]): GroupedIssues => {
+  return issues.reduce((acc: GroupedIssues, issue: TotalType) => {
+    const date = issue.spent_on;
+    if (!acc[date]) {
+      acc[date] = { issues: [], totalHours: 0 };
+    }
+    acc[date].issues.push(issue);
+    acc[date].totalHours += issue.hours;
+    return acc;
+  }, {});
+};
 
 const TotalTime: React.FC = () => {
+  const [totalTimeData, setTotalTimeData] = useState<TotalType[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const result = await getTotalTime();
+        setTotalTimeData(result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // data table
+  const groupedIssues = groupIssuesByDate(totalTimeData);
+
+  // total time
+  const totalHours = Object.values(groupedIssues).reduce((sum, { totalHours }) => sum + totalHours, 0);
+
   return (
     <div>
       <div className="flex justify-between my-3">
         <h2 className="text-13">
-          Total time:<span>8.00</span>
+          Total time:<span>{totalHours.toFixed(2)}</span>
         </h2>
         <a href="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400">
-          <img src={MyPageAdd} alt="add" />
+          <img src={images.add} alt="add" />
           <span>Log time</span>
         </a>
       </div>
       <table className="min-w-full divide-gray-200 border border-gray-300">
         <thead className="bg-[#eeeeee] h-7">
           <tr>
+            <th scope="col" className="p-1 text-xs border border-[#dcdcdc]">
+              Date
+            </th>
             <th scope="col" className="p-1 text-xs border border-[#dcdcdc]">
               Activity
             </th>
@@ -39,26 +79,36 @@ const TotalTime: React.FC = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200 h-6">
-          {issues.map((issue) => (
-            <>
-              <tr className={"hover:bg-[#ffffdd] bg-[#f6f7f8]"}>
-                <td className="p-1 text-center text-xs font-medium text-gray-900 border border-[#dcdcdc]">Today</td>
-                <td colSpan={2} className="col-span p-1 text-left text-xs border border-[#dcdcdc]"></td>
-                <td className="p-1 text-center text-xs border border-[#dcdcdc]">4.00</td>
-                <td className="p-1 text-center text-xs border border-[#dcdcdc]"></td>
-              </tr>
-              <tr key={issue.id} className={"hover:bg-[#ffffdd]"}>
-                <td className="p-1 text-center text-xs font-medium text-gray-900 border border-[#dcdcdc]">{issue.activity}</td>
-                <td className="p-1 text-left text-xs border border-[#dcdcdc]">{issue.project}</td>
-                <td className="p-1 text-left text-xs border border-[#dcdcdc]">{issue.comment}</td>
-                <td className="p-1 text-center text-xs border border-[#dcdcdc]">{issue.hours}</td>
-                <td className="flex justify-center gap-1 p-1 text-xs border border-[#dcdcdc] ">
-                  <img src={MyPageEdit} alt="edit" />
-                  <img src={MyPageDelete} alt="delete" />
-                </td>
-              </tr>
-            </>
-          ))}
+          {Object.keys(groupedIssues).map((date) => {
+            // console.log(`Issues for date ${date}:`, groupedIssues[date]);
+
+            return (
+              <React.Fragment key={date}>
+                <tr className={"hover:bg-[#ffffdd] bg-[#f6f7f8]"}>
+                  <td className="p-1 text-center text-xs font-medium text-gray-900 border border-[#dcdcdc]">{formatDate(date)}</td>
+                  <td colSpan={2} className="col-span p-1 text-left text-xs border border-[#dcdcdc]"></td>
+                  <td className="p-1 text-center text-xs border border-[#dcdcdc]">{groupedIssues[date].totalHours.toFixed(2)}</td>
+                  <td className="p-1 text-center text-xs border border-[#dcdcdc]"></td>
+                </tr>
+                {groupedIssues[date].issues.map((issue) => (
+                  <tr key={issue.id} className={"hover:bg-[#ffffdd]"}>
+                    <td className="p-1 text-center text-xs font-medium text-gray-900 border border-[#dcdcdc]">{issue.activity.name}</td>
+                    <td className="p-1 text-left text-xs border border-[#dcdcdc]">{issue.project.name}</td>
+                    <td className="p-1 text-left text-xs border border-[#dcdcdc]">{issue.comments}</td>
+                    <td className="p-1 text-center text-xs border border-[#dcdcdc]">{issue.hours.toFixed(2)}</td>
+                    <td className="flex justify-center gap-1 p-1 text-xs border border-[#dcdcdc]">
+                      <a href="">
+                        <img src={images.edit} alt="edit" />
+                      </a>
+                      <a href="">
+                        <img src={images.remove} alt="delete" />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            );
+          })}
         </tbody>
       </table>
     </div>

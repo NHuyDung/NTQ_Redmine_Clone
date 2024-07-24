@@ -5,12 +5,14 @@ import LogTime from "../MyPage/components/TotalTime/LogTime";
 import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
 import TotalTime from "../MyPage/components/TotalTime/TotalTime";
+import SpentTime from "../MyPage/components/SpentTime/SpentTime";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   LogTime: <LogTime />,
   Schedule: <Schedule />,
   TableIssue: <TableIssue />,
   TotalTime: <TotalTime />,
+  SpentTime: <SpentTime />,
 };
 
 interface Option {
@@ -23,12 +25,12 @@ interface Option {
 const MyPageLayoutPage = () => {
   const initialOptions: Option[] = [
     { label: "Issues assigned to me", value: "1", componentName: "TableIssue" },
-    { label: "Reported issues", value: "2", componentName: "Schedule" },
-    { label: "Watched issues", value: "3", componentName: "LogTime" },
-    { label: "Latest news", value: "4" },
-    { label: "Calendar", value: "5" },
-    { label: "Documents", value: "6" },
-    { label: "Spent time", value: "7" },
+    { label: "Reported issues", value: "2", componentName: "TableIssue" },
+    { label: "Watched issues", value: "3", componentName: "TableIssue" },
+    { label: "Latest news", value: "4", componentName: "" },
+    { label: "Calendar", value: "5", componentName: "Schedule" },
+    { label: "Documents", value: "6", componentName: "" },
+    { label: "Spent time", value: "7", componentName: "SpentTime" },
   ];
 
   const [options, setOptions] = useState<Option[]>(initialOptions);

@@ -3,6 +3,7 @@ import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import images from "~/assets/img";
+import Select from "~/components/Select/Select";
 
 type FormValues = {
   selectedProject: string;
@@ -52,8 +53,9 @@ const LogTime = () => {
       <h1 className="text-[#555] text-xl font-semibold">Spent time</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {Object.keys(errors).length > 0 && (
-          <div className="text-red-500 bg-red-100 py-4 px-10 border-2 border-solid border-red-500">
-            <ul className="list-disc">
+          <div className="relative text-red-800 bg-red-100 my-3 py-4 px-[70px] border-2 border-solid border-red-500">
+            <img className="absolute left-2 top-1/2 -translate-y-1/2" src={images.exclamation} alt="exclamation" />
+            <ul className="list-disc text-start text-xs">
               {Object.values(errors).map((error, index) => (
                 <li key={index}>{error.message}</li>
               ))}
@@ -63,18 +65,15 @@ const LogTime = () => {
         <div className="flex flex-col gap-2 bg-[#fcfcfc]  text-xs border-1 border-solid border-[#d7d7d7] py-4 px-10 mt-3">
           <div className="flex text-end gap-2 ">
             <label className="min-w-[130px] font-bold text-[#505050] ">Project</label>
-            <select
-              className="border-1 border-solid border-[#d7d7d7] p-1"
-              {...register("selectedProject", { required: "Project is required" })}
+            <Controller
+              name="selectedProject"
+              control={control}
               defaultValue=""
-            >
-              <option value=""></option>
-              {projects.map((project) => (
-                <option key={project.value} value={project.value}>
-                  {project.label}
-                </option>
-              ))}
-            </select>
+              rules={{ required: "Project is required" }}
+              render={({ field }) => (
+                <Select className="border-1 border-solid border-[#d7d7d7] p-1" ariaLabel="Project" options={projects} {...field} />
+              )}
+            />
           </div>
           <div className="flex text-end gap-2 ">
             <label className="min-w-[130px] text-[#505050] font-bold">Issue</label>
