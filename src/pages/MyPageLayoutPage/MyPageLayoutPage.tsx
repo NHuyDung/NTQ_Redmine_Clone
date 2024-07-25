@@ -6,11 +6,13 @@ import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
 import TotalTime from "../MyPage/components/TotalTime/TotalTime";
 import SpentTime from "../MyPage/components/SpentTime/SpentTime";
+import { getIssueAssigned, getIssueReport, getIssueWatched } from "~/services/IssueService";
+import { IssueReport } from "~/types/Issue";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   LogTime: <LogTime />,
   Schedule: <Schedule />,
-  TableIssue: <TableIssue />,
+  TableIssue: <TableIssue data={[]} />,
   TotalTime: <TotalTime />,
   SpentTime: <SpentTime />,
 };
@@ -60,36 +62,63 @@ const MyPageLayoutPage = () => {
     setSelectedOption(selectedOption || null); // Lưu option được chọn vào trạng thái tạm thời
   };
 
-  const addOption = () => {
+  const addOption = async () => {
     if (selectedOption) {
       const selectedValue = selectedOption.value;
+      const fetchData = fetchDataForOption(selectedValue);
       const newComponent = componentMap[selectedOption.componentName || ""];
+      try {
+        const data = await fetchData;
+        if (newComponent) {
+          // Cập nhật trạng thái với dữ liệu mới
+          setItems((prevItems) => {
+            const updatedItems = {
+              A: [
+                ...prevItems.A,
+                {
+                  id: selectedValue,
+                  componentName: selectedOption.componentName || "",
+                  data: data, // Store the fetched data here
+                },
+              ],
+              B: prevItems.B,
+              C: prevItems.C,
+            };
 
-      if (newComponent) {
-        // Cập nhật trạng thái với dữ liệu mới
-        setItems((prevItems) => {
-          const updatedItems = {
-            A: [...prevItems.A, { id: selectedValue, componentName: selectedOption.componentName || "" }],
-            B: prevItems.B,
-            C: prevItems.C,
-          };
+            // Lưu dữ liệu vào localStorage
+            localStorage.setItem("items", JSON.stringify(updatedItems));
+            return updatedItems;
+          });
 
-          // Lưu dữ liệu vào localStorage
-          localStorage.setItem("items", JSON.stringify(updatedItems));
-          return updatedItems;
-        });
+          // Cập nhật danh sách options để loại bỏ option đã chọn
+          setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
 
-        // Cập nhật danh sách options để loại bỏ option đã chọn
-        setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
-
-        // Lưu danh sách options đã thêm vào localStorage
-        const addedOptions: string[] = JSON.parse(localStorage.getItem("addedOptions") || "[]");
-        localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
-
-        // Xóa trạng thái tạm thời và tải lại trang
-        setSelectedOption(null);
-        window.location.reload();
+          // Lưu danh sách options đã thêm vào localStorage
+          const addedOptions: string[] = JSON.parse(localStorage.getItem("addedOptions") || "[]");
+          localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
+          // Xóa trạng thái tạm thời và tải lại trang
+          setSelectedOption(null);
+          window.location.reload();
+        } else {
+          console.log("new component not found");
+        }
+      } catch (error) {
+        console.error("Error adding option:", error);
       }
+    }
+  };
+
+  // Helper function to fetch data based on the selected option
+  const fetchDataForOption = async (optionValue: string): Promise<IssueReport[]> => {
+    switch (optionValue) {
+      case "1":
+        return await getIssueAssigned();
+      case "2":
+        return await getIssueReport();
+      case "3":
+        return await getIssueWatched();
+      default:
+        return [];
     }
   };
 

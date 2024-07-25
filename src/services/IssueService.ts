@@ -46,7 +46,7 @@ export const getIssueSchedule = async (): Promise<GroupedIssues[]> => {
 };
 export const getIssueReport = async (): Promise<IssueReport[]> => {
   try {
-    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=2803");
+    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=me");
     return response.data.issues;
   } catch (error) {
     console.error("Error fetching issues:", error);
@@ -55,7 +55,7 @@ export const getIssueReport = async (): Promise<IssueReport[]> => {
 };
 export const getIssueWatched = async (): Promise<IssueReport[]> => {
   try {
-    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=2803");
+    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?watcher_id=me");
     return response.data.issues;
   } catch (error) {
     console.error("Error fetching issues:", error);
@@ -64,20 +64,8 @@ export const getIssueWatched = async (): Promise<IssueReport[]> => {
 };
 export const getIssueAssigned = async (): Promise<IssueReport[]> => {
   try {
-    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=2803");
-    const formattedIssues: IssueReport[] = response.data.issues.map((issue) => ({
-      id: issue.id,
-      project: {
-        id: issue.project.id,
-        name: issue.project.name,
-      },
-      tracker: {
-        id: issue.tracker.id,
-        name: issue.tracker.name,
-      },
-      subject: issue.subject,
-    }));
-    return formattedIssues;
+    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?assigned_to_id=me");
+    return response.data.issues;
   } catch (error) {
     console.error("Error fetching issues:", error);
     throw error;

@@ -6,18 +6,20 @@ import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
 import closeButton from "~/assets/img/close.png";
+import { IssueReport } from "~/types/Issue";
 
-const componentMap: { [key: string]: React.ReactNode } = {
-  LogTime: <LogTime />,
-  Schedule: <Schedule />,
-  TableIssue: <TableIssue />,
-  TotalTime: <TotalTime />,
-  SpentTime: <SpentTime />,
+const componentMap = {
+  LogTime,
+  Schedule,
+  TableIssue,
+  TotalTime,
+  SpentTime,
+  // Add more components as needed...
 };
 
 type Item = {
   id: string;
-  content?: string;
+  data: IssueReport[];
   componentName: string;
 };
 
@@ -248,29 +250,33 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   };
 
   const renderItems = (items: Item[], targetList: "A" | "B" | "C") => {
-    return items.map((item) => (
-      <div
-        key={item.id}
-        className="item"
-        onMouseDown={(e) => onDragStart(e, item, targetList)}
-        style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
-      >
-        <div className="flex justify-between items-center">
-          <p>{item.componentName}</p>
-          <a className="close-button" onClick={() => handleCloseItem(item.id, targetList)}>
-            <img className="close" alt="close" src={closeButton}></img>
-          </a>
+    return items.map((item) => {
+      const Component = componentMap[item.componentName as keyof typeof componentMap];
+
+      return (
+        <div
+          key={item.id}
+          className="item"
+          onMouseDown={(e) => onDragStart(e, item, targetList)}
+          style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
+        >
+          <div className="flex justify-between items-center">
+            <p>{item.componentName}</p>
+            <a className="close-button" onClick={() => handleCloseItem(item.id, targetList)}>
+              <img className="close" alt="close" src={closeButton}></img>
+            </a>
+          </div>
+          <Component data={item.data} />
         </div>
-        {componentMap[item.componentName]}
-      </div>
-    ));
+      );
+    });
   };
 
   return (
     <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative" }}>
       {isDragging && draggingItem && (
         <div style={draggingStyle} className="item dragging">
-          {componentMap[draggingItem.componentName]}
+          {componentMap[draggingItem.componentMap]}
         </div>
       )}
 

@@ -5,10 +5,10 @@ import Schedule from "~/pages/MyPage/components/Schedule/Schedule";
 import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
-
+import { IssueReport } from "~/types/Issue";
 type Item = {
   id: string;
-  content?: string;
+  data: IssueReport[];
   componentName: string;
 };
 
@@ -39,7 +39,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {
       const Component = componentsMap[item.componentName as keyof typeof componentsMap];
       return (
         <div key={item.id} className="item">
-          {Component ? <Component /> : null}
+          {Component ? <Component data={item.data} /> : null}
         </div>
       );
     });
