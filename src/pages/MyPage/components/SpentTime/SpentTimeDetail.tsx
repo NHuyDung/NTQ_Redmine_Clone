@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import images from "~/assets/img";
 import { getSpentTime } from "~/services/PageService";
-import { SpentTimeType } from "~/types/MyPage";
+import { TimeEntriesType } from "~/types/MyPage";
+import { OPTIONS_DATE, OPTIONS_USER_1, OPTIONS_USER_2, OPTIONS_FILTER } from "~/const/MyPage";
 
 import Select from "~/components/Select/Select";
 import Detail from "./Detail";
 import Report from "./Report";
 
 const SpentTimeDetail = () => {
-  const [spentTimeData, setSpentTimeData] = useState<SpentTimeType[]>([]);
+  const [spentTimeData, setSpentTimeData] = useState<TimeEntriesType[]>([]);
   const [tabPage, setTabPage] = useState<number>(0);
 
   useEffect(() => {
@@ -24,37 +25,13 @@ const SpentTimeDetail = () => {
     fetchProjects();
   }, []);
 
-  const OPTIONS_DATE = [
-    { value: "date1", label: "Date 1" },
-    { value: "date2", label: "Date 2" },
-    { value: "date3", label: "Date 3" },
-  ];
-
-  const OPTIONS_USER_1 = [
-    { value: "user1", label: "User 1" },
-    { value: "user2", label: "User 2" },
-    { value: "user3", label: "User 3" },
-  ];
-
-  const OPTIONS_USER_2 = [
-    { value: "user1", label: "User 1" },
-    { value: "user2", label: "User 2" },
-    { value: "user3", label: "User 3" },
-  ];
-
-  const OPTIONS_FILTER = [
-    { value: "filter1", label: "Filter 1" },
-    { value: "filter2", label: "Filter 2" },
-    { value: "filter3", label: "Filter 3" },
-  ];
-
   return (
     <div>
       <div className="flex justify-between my-1">
-        <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout">
+        <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout" rel="noreferrer noopener">
           All projects »
         </a>
-        <a href="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400">
+        <a href="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
           <img src={images.logtime} alt="add" />
           <span>Log time</span>
         </a>
@@ -62,7 +39,7 @@ const SpentTimeDetail = () => {
       <h1 className="text-[#555] text-xl font-semibold mb-3">Spent time</h1>
       <fieldset className="flex text-xs text-subText py-2 px-3 border-t">
         <legend className="flex items-center">
-          <img src={images.arrow_down} alt="" />
+          <img src={images.arrow_down} alt="arrow_down" />
           Filters
         </legend>
         <table className="max-w-[60%] w-full flex flex-col gap-1">
@@ -76,7 +53,7 @@ const SpentTimeDetail = () => {
               <td className="flex items-center gap-1 w-4/12">
                 <Select
                   value="selectedValue"
-                  className="h-6 text-xs text-black font-medium border border-[#d7d7d7] rounded-none"
+                  className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
                   onChange={() => {
                     return "selectedValue";
                   }}
@@ -94,7 +71,7 @@ const SpentTimeDetail = () => {
               <td className="flex items-center gap-1 w-3/12">
                 <Select
                   value="selectedValue"
-                  className="h-6 text-xs text-black font-medium border border-[#d7d7d7] rounded-none"
+                  className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
                   onChange={() => {
                     return "selectedValue";
                   }}
@@ -105,7 +82,7 @@ const SpentTimeDetail = () => {
               <td className="flex items-center gap-1 w-5/12">
                 <Select
                   value="selectedValue"
-                  className="h-6 text-xs text-black font-medium border border-[#d7d7d7] rounded-none w-full"
+                  className="h-6 text-xs text-black font-medium border border-primary-border rounded-none w-full"
                   onChange={() => {
                     return "selectedValue";
                   }}
@@ -121,19 +98,20 @@ const SpentTimeDetail = () => {
             <span className="text-nowrap">Add filter</span>
             <Select
               value="selectedValue"
-              className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-[#d7d7d7] rounded-none mr-2"
+              className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
               onChange={() => {
                 return "selectedValue";
               }}
               options={OPTIONS_FILTER}
               label="Select an option"
+              placeholder=" "
             />
           </div>
         </div>
       </fieldset>
       <fieldset className="flex text-xs text-subText py-2 px-3 border-t">
         <legend className="flex items-center">
-          <img src={images.arrow_down} alt="" />
+          <img src={images.arrow_down} alt="arrow_down" />
           Options
         </legend>
       </fieldset>
@@ -143,7 +121,7 @@ const SpentTimeDetail = () => {
           <span>Apply</span>
         </span>
         <span className="flex items-center gap-1 text-xs cursor-pointer text-primaryText hover:text-hoverText hover:underline">
-          <img src={images.reload} alt="check" />
+          <img src={images.reload} alt="reload" />
           <span>Clear</span>
         </span>
       </div>

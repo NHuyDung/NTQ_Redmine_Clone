@@ -13,4 +13,5 @@ export interface SelectProps {
   label?: string;
   className?: string;
   ariaLabel?: string;
+  placeholder?: string;
 }

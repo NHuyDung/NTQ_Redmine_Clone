@@ -3,29 +3,12 @@ import images from "~/assets/img";
 
 import { formatDate } from "~/utils/FormatDay";
 import { getTotalTime } from "~/services/PageService";
-import { TotalType } from "~/types/MyPage";
-
-interface GroupedIssues {
-  [date: string]: {
-    issues: TotalType[];
-    totalHours: number;
-  };
-}
-
-const groupIssuesByDate = (issues: TotalType[]): GroupedIssues => {
-  return issues.reduce((acc: GroupedIssues, issue: TotalType) => {
-    const date = issue.spent_on;
-    if (!acc[date]) {
-      acc[date] = { issues: [], totalHours: 0 };
-    }
-    acc[date].issues.push(issue);
-    acc[date].totalHours += issue.hours;
-    return acc;
-  }, {});
-};
+import { TimeEntriesType } from "~/types/MyPage";
+import { groupIssuesByDate } from "~/utils/GroupByDate";
+import { HeaderTotalData } from "~/const/MyPage";
 
 const TotalTime: React.FC = () => {
-  const [totalTimeData, setTotalTimeData] = useState<TotalType[]>([]);
+  const [totalTimeData, setTotalTimeData] = useState<TimeEntriesType[]>([]);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -52,55 +35,42 @@ const TotalTime: React.FC = () => {
         <h2 className="text-13">
           Total time:<span>{totalHours.toFixed(2)}</span>
         </h2>
-        <a href="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400">
+        <a href="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
           <img src={images.add} alt="add" />
           <span>Log time</span>
         </a>
       </div>
       <table className="min-w-full divide-gray-200 border border-gray-300">
-        <thead className="bg-[#eeeeee] h-7">
+        <thead className="bg-primary-sub_bg h-7">
           <tr>
-            <th scope="col" className="p-1 text-xs border border-[#dcdcdc]">
-              Date
-            </th>
-            <th scope="col" className="p-1 text-xs border border-[#dcdcdc]">
-              Activity
-            </th>
-            <th scope="col" className="p-1 text-xs border border-[#dcdcdc]">
-              Project
-            </th>
-            <th scope="col" className="p-1 text-xs border border-[#dcdcdc]">
-              Comment
-            </th>
-            <th scope="col" className="p-1 text-xs border border-[#dcdcdc]">
-              Hours
-            </th>
-            <th scope="col" className="p-1 text-xs border border-[#dcdcdc]"></th>
+            {HeaderTotalData.map((data) => (
+              <th key={data.id} className="p-1 text-xs border border-primary-border">
+                {data.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200 h-6">
           {Object.keys(groupedIssues).map((date) => {
-            // console.log(`Issues for date ${date}:`, groupedIssues[date]);
-
             return (
               <React.Fragment key={date}>
                 <tr className={"hover:bg-[#ffffdd] bg-[#f6f7f8]"}>
-                  <td className="p-1 text-center text-xs font-medium text-gray-900 border border-[#dcdcdc]">{formatDate(date)}</td>
-                  <td colSpan={2} className="col-span p-1 text-left text-xs border border-[#dcdcdc]"></td>
-                  <td className="p-1 text-center text-xs border border-[#dcdcdc]">{groupedIssues[date].totalHours.toFixed(2)}</td>
-                  <td className="p-1 text-center text-xs border border-[#dcdcdc]"></td>
+                  <td className="p-1 text-center text-xs font-medium text-gray-900 border border-primary-border">{formatDate(date)}</td>
+                  <td colSpan={2} className="col-span p-1 text-left text-xs border border-primary-border"></td>
+                  <td className="p-1 text-center text-xs border border-primary-border">{groupedIssues[date].totalHours.toFixed(2)}</td>
+                  <td className="p-1 text-center text-xs border border-primary-border"></td>
                 </tr>
                 {groupedIssues[date].issues.map((issue) => (
                   <tr key={issue.id} className={"hover:bg-[#ffffdd]"}>
-                    <td className="p-1 text-center text-xs font-medium text-gray-900 border border-[#dcdcdc]">{issue.activity.name}</td>
-                    <td className="p-1 text-left text-xs border border-[#dcdcdc]">{issue.project.name}</td>
-                    <td className="p-1 text-left text-xs border border-[#dcdcdc]">{issue.comments}</td>
-                    <td className="p-1 text-center text-xs border border-[#dcdcdc]">{issue.hours.toFixed(2)}</td>
-                    <td className="flex justify-center gap-1 p-1 text-xs border border-[#dcdcdc]">
-                      <a href="">
+                    <td className="p-1 text-center text-xs font-medium text-gray-900 border border-primary-border">{issue.activity.name}</td>
+                    <td className="p-1 text-left text-xs border border-primary-border">{issue.project.name}</td>
+                    <td className="p-1 text-left text-xs border border-primary-border">{issue.comments}</td>
+                    <td className="p-1 text-center text-xs border border-primary-border">{issue.hours.toFixed(2)}</td>
+                    <td className="flex justify-center gap-1 p-1 text-xs border border-primary-border">
+                      <a href="" rel="noreferrer noopener">
                         <img src={images.edit} alt="edit" />
                       </a>
-                      <a href="">
+                      <a href="" rel="noreferrer noopener">
                         <img src={images.remove} alt="delete" />
                       </a>
                     </td>

@@ -7,15 +7,16 @@ export default {
         // color Mainstream
         primary: {
           DEFAULT: "#628db7",
-          dark: "#3d5b75",
           light: "#507AAA",
-          border: "#bbb",
-          sub_bg: "#eeeeee",
-          borderLogin: "#fdbf3b",
-          bgLogin: "#ffebc1",
-          bgError: "#ffe3e3",
-          borderError: "#ee7878",
+          dark: "#3d5b75",
           blue: "#116699",
+          text: "#505050",
+          border: "#dcdcdc",
+          sub_bg: "#eeeeee",
+          bgError: "#ffe3e3",
+          bgLogin: "#ffebc1",
+          borderLogin: "#fdbf3b",
+          borderError: "#ee7878",
         },
       },
       borderWidth: {
@@ -25,6 +26,7 @@ export default {
       },
       minWidth: {
         900: "900px",
+        463: "463px",
       },
       minHeight: {
         615: "615px",

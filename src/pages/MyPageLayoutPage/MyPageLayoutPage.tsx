@@ -110,7 +110,7 @@ const MyPageLayoutPage = () => {
               ))}
           </select>
 
-          <a onClick={addOption} className="flex items-center mx-2 cursor-pointer">
+          <a onClick={addOption} className="flex items-center mx-2 cursor-pointer" rel="noreferrer noopener">
             <img src="https://redmine.ntq.solutions/images/add.png" className="w-4 h-4" alt="Add" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Add</p>
           </a>

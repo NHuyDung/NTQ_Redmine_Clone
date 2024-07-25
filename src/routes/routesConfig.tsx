@@ -1,10 +1,8 @@
 import React from "react";
 import ForgotPasswordPage from "~/pages/ForgotPasswordPage/ForgotPasswordPage";
-import Help from "~/pages/Help/Help";
 import HomePage from "~/pages/HomePage/HomePage";
 import IssuesPage from "~/pages/IssuesPage/IssuesPage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
-import MyAccount from "~/pages/MyAccount/MyAccount";
 import SpentTimeDetail from "~/pages/MyPage/components/SpentTime/SpentTimeDetail";
 import LogTime from "~/pages/MyPage/components/TotalTime/LogTime";
 import MyPage from "~/pages/MyPage/MyPage";
@@ -13,8 +11,6 @@ import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
 import Project from "~/pages/Project/Project";
 import ProjectDetail from "~/pages/ProjectDetail/ProjectDetail";
 import ProjectOverviewPage from "~/pages/ProjectOverviewPage/ProjectOverviewPage";
-import SignOut from "~/pages/SignOut/SignOut";
-import WorkTime from "~/pages/WorkTime/WorkTime";
 
 interface RouteConfig {
   path: string;
@@ -53,22 +49,6 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/issues",
     element: <IssuesPage />,
-  },
-  {
-    path: "/help",
-    element: <Help />,
-  },
-  {
-    path: "/work-time",
-    element: <WorkTime />,
-  },
-  {
-    path: "/my-account",
-    element: <MyAccount />,
-  },
-  {
-    path: "/sign-out",
-    element: <SignOut />,
   },
   {
     path: "/forgot-password",
