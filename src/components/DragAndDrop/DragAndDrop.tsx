@@ -185,6 +185,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
       }
 
       resetDragState();
+      // window.location.reload();
     }
   };
 
@@ -247,6 +248,12 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
     window.location.reload();
   };
 
+  const getLabelById = (itemId: string, targetList: "A" | "B" | "C") => {
+    const storedItems = JSON.parse(localStorage.getItem("items") || "{}");
+    const item = storedItems[targetList].find((item: { id: string }) => item.id === itemId);
+    return item ? item.label : "Unknown label";
+  };
+
   const renderItems = (items: Item[], targetList: "A" | "B" | "C") => {
     return items.map((item) => (
       <div
@@ -256,7 +263,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
       >
         <div className="flex justify-between items-center">
-          <p>{item.componentName}</p>
+          <p>{getLabelById(item.id, targetList)}</p>
           <a className="close-button" onClick={() => handleCloseItem(item.id, targetList)}>
             <img className="close" src={closeButton}></img>
           </a>

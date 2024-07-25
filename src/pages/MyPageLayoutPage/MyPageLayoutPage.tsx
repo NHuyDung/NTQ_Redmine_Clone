@@ -63,32 +63,44 @@ const MyPageLayoutPage = () => {
   const addOption = () => {
     if (selectedOption) {
       const selectedValue = selectedOption.value;
-      const newComponent = componentMap[selectedOption.componentName || ""];
+      const componentName = selectedOption.componentName || "";
+      const selectedLabel = selectedOption.label;
 
-      if (newComponent) {
-        // Cập nhật trạng thái với dữ liệu mới
-        setItems((prevItems) => {
-          const updatedItems = {
-            A: [...prevItems.A, { id: selectedValue, componentName: selectedOption.componentName || "" }],
-            B: prevItems.B,
-            C: prevItems.C,
-          };
+      if (selectedValue && componentName) {
+        const newComponent = componentMap[componentName];
 
-          // Lưu dữ liệu vào localStorage
-          localStorage.setItem("items", JSON.stringify(updatedItems));
-          return updatedItems;
-        });
+        if (newComponent) {
+          // Cập nhật trạng thái với dữ liệu mới
+          setItems((prevItems) => {
+            const updatedItems = {
+              A: [...prevItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel }],
+              B: prevItems.B,
+              C: prevItems.C,
+            };
 
-        // Cập nhật danh sách options để loại bỏ option đã chọn
-        setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
+            // Lưu dữ liệu vào localStorage
+            // eslint-disable-next-line quotes
+            const storedItems = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
+            const newStoredItems = {
+              A: [...storedItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel }],
+              B: storedItems.B,
+              C: storedItems.C,
+            };
+            localStorage.setItem("items", JSON.stringify(newStoredItems));
+            return updatedItems;
+          });
 
-        // Lưu danh sách options đã thêm vào localStorage
-        const addedOptions: string[] = JSON.parse(localStorage.getItem("addedOptions") || "[]");
-        localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
+          // Cập nhật danh sách options để loại bỏ option đã chọn
+          setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
 
-        // Xóa trạng thái tạm thời và tải lại trang
-        setSelectedOption(null);
-        window.location.reload();
+          // Lưu danh sách options đã thêm vào localStorage
+          const addedOptions = JSON.parse(localStorage.getItem("addedOptions") || "[]");
+          localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
+
+          // Xóa trạng thái tạm thời
+          setSelectedOption(null);
+          window.location.reload();
+        }
       }
     }
   };
