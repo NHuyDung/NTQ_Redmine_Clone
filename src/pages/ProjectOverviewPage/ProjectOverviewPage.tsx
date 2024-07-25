@@ -74,14 +74,14 @@ const ProjectOverviewPage = () => {
         <div className="mt-10 mr-2 border border-gray-300 border-solid min-h-[145px] min-w-[620px]">
           <div className="p-[10px]">
             <div className="flex pb-3">
-              <img className="pr-[6px]" src="https://redmine.ntq.solutions/images/group.png"></img>
+              <img className="pr-[6px]" src="https://redmine.ntq.solutions/images/group.png" alt="redmine_ntq_solutions"></img>
               <h3 className="bg-image font-medium">Members</h3>
             </div>
             <div>
               <p className="text-[14px] break-words w-auto">
                 Manager:
                 {managers.map((manager) => (
-                  <a className="text-primary" key={manager.id}>
+                  <a className="text-primary" key={manager.id} rel="noreferrer noopener">
                     {manager.user.name},{" "}
                   </a>
                 ))}
@@ -89,7 +89,7 @@ const ProjectOverviewPage = () => {
               <p className="text-[14px] break-words max-w-[550px]">
                 Developer:
                 {developers.map((developer) => (
-                  <a className="text-primary" key={developer.id}>
+                  <a className="text-primary" key={developer.id} rel="noreferrer noopener">
                     {developer.user.name},{" "}
                   </a>
                 ))}

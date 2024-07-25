@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import CustomTooltip from "./CustomTooltip";
+import images from "~/assets/img";
 import { Tooltip } from "react-tooltip";
 import { getIssueSchedule } from "~/services/IssueService";
 import { GroupedIssues } from "~/types/Issue";
-import images from "~/assets/img";
+import { DaysOfWeek } from "~/const/MyPage";
 
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+import CustomTooltip from "./CustomTooltip";
+
 const startOfWeek = moment().startOf("week").add(1, "day");
 const Schedule: React.FC = () => {
   const [issuesSchedule, setIssuesSchedule] = useState<GroupedIssues[]>([]);
@@ -26,9 +27,9 @@ const Schedule: React.FC = () => {
       <thead className="bg-[#eeeeee] h-7">
         <tr>
           <th className="w-7"></th>
-          {daysOfWeek.map((day, index) => (
-            <th key={index} scope="col" className="p-1 text-xs">
-              {day}
+          {DaysOfWeek.map((day) => (
+            <th key={day.id} scope="col" className="p-1 text-xs">
+              {day.label}
             </th>
           ))}
         </tr>
@@ -52,12 +53,12 @@ const Schedule: React.FC = () => {
                   <div className="text-xs">
                     {task.project.name} -
                     {task?.deadline ? (
-                      <img src={images.arrow_left} alt="" className="mx-1 inline align-middle" />
+                      <img src={images.arrow_left} alt="arrow_left" className="mx-1 inline align-middle" />
                     ) : (
-                      <img src={images.arrow_right} alt="" className="mx-1 inline align-middle" />
+                      <img src={images.arrow_right} alt="arrow_right" className="mx-1 inline align-middle" />
                     )}
                     {task?.tracker.name}
-                    <a href="#" className="text-primary-blue">
+                    <a href="#" className="text-primary-blue" rel="noreferrer noopener">
                       {" "}
                       #{task.id}: {task.subject}
                     </a>

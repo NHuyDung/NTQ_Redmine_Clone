@@ -48,7 +48,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   const [itemSources, setItemSources] = useState<{ [itemId: string]: "A" | "B" | "C" }>({});
   const [currentList, setCurrentList] = useState<"A" | "B" | "C">("A");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [targetList, setTargetList] = useState<"A" | "B" | "C" | "">("A");
+  // const [targetList, setTargetList] = useState<"A" | "B" | "C" | "">("A");
 
   useEffect(() => {
     const storedItems = localStorage.getItem("items");
@@ -265,7 +265,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         <div className="flex justify-between items-center">
           <p>{getLabelById(item.id, targetList)}</p>
           <a className="close-button" onClick={() => handleCloseItem(item.id, targetList)}>
-            <img className="close" src={closeButton}></img>
+            <img className="close" alt="close" src={closeButton}></img>
           </a>
         </div>
         {componentMap[item.componentName]}

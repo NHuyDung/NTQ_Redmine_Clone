@@ -15,9 +15,9 @@ const IssuesPage = () => {
           <fieldset>
             <legend onClick={handleToggleFilter} className="cursor-pointer pb-2 text-xs">
               {!isOpenFilter ? (
-                <img className="inline w-3" src="https://redmine.ntq.solutions/images/arrow_collapsed.png"></img>
+                <img className="inline w-3" alt="collapsed" src="https://redmine.ntq.solutions/images/arrow_collapsed.png"></img>
               ) : (
-                <img className="inline w-3" src="https://redmine.ntq.solutions/images/arrow_expanded.png"></img>
+                <img className="inline w-3" alt="expanded" src="https://redmine.ntq.solutions/images/arrow_expanded.png"></img>
               )}
               Filters
             </legend>
@@ -66,6 +66,7 @@ const IssuesPage = () => {
                   <label htmlFor="add_filter_select" className="pr-1">
                     Add filter
                   </label>
+                  ;
                   <select id="add_filter_select" className="border border-primary-border w-32 h-6 text-xs">
                     <option className="text-xs" value="">
                       All

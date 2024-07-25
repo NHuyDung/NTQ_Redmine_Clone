@@ -20,7 +20,7 @@ const Header = () => {
         <ul className="flex text-white gap-2 font-bold">
           <li className="font-normal">
             Logged in as
-            <a href="" className="ml-1 font-bold">
+            <a href="" className="ml-1 font-bold" rel="noreferrer noopener">
               duc.nguyen14@ntq-solution.com.vn
             </a>
           </li>
@@ -51,7 +51,7 @@ const Header = () => {
         </div>
 
         {isProjectOverviewPage && (
-          <div className="flex gap-[2px]">
+          <div className="flex gap-0.5">
             {Projects.map((project) => (
               <Link
                 key={project.id}
