@@ -36,60 +36,60 @@ const ProjectOverviewPage = () => {
   return (
     <div>
       <h2 className="text-[#555] text-lg text-5 font-semibold">Overview</h2>
-      <div className="flex justify-between">
-        <div className="mt-10 mr-2 border border-gray-300 border-solid min-h-[130px] min-w-[620px]">
-          <div className="p-[10px]">
+      <div className="flex justify-between items-center">
+        <div className="mr-2 border border-gray-300 border-solid w-1/2">
+          <div className="p-2.5">
             <div className="flex">
               <img className="pr-[6px]" src="https://redmine.ntq.solutions/images/ticket.png"></img>
               <h3 className="bg-image font-medium">Issue tracking</h3>
             </div>
-            <ul className="pl-[40px] pt-[10px] list-disc">
-              <li className="text-[14px]">
-                <a className="text-primary pr-[6px]" rel="noreferrer noopener">
+            <ul className="text-xs pl-10 pt-2.5 list-disc">
+              <li className="">
+                <a className=" text-primary cursor-pointer pr-1.5  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
                   Bug
                 </a>
                 4 open / 4
               </li>
-              <li className="text-[14px]">
-                <a className="text-primary pr-1" rel="noreferrer noopener">
+              <li className="">
+                <a className=" text-primary cursor-pointer pr-1  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
                   Task
                 </a>
                 3 open / 3
               </li>
             </ul>
-            <div className="flex pt-[10px]">
-              <a href="/issues" className="text-sm pl-1 text-primary" rel="noreferrer noopener">
+            <div className="text-xs flex pt-2.5">
+              <a href="/issues" className=" pl-1  text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
                 View all issues |
               </a>
-              <a className="text-sm pl-1 text-primary" rel="noreferrer noopener">
+              <a className=" pl-1  text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
                 Calendar |
               </a>
-              <a className="text-sm pl-1 text-primary" rel="noreferrer noopener">
+              <a className=" pl-1  text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
                 Gantt
               </a>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 mr-2 border border-gray-300 border-solid min-h-[145px] min-w-[620px]">
+        <div className="mr-2 border border-gray-300 border-solid w-1/2">
           <div className="p-[10px]">
             <div className="flex pb-3">
               <img className="pr-[6px]" src="https://redmine.ntq.solutions/images/group.png" alt="redmine_ntq_solutions"></img>
               <h3 className="bg-image font-medium">Members</h3>
             </div>
-            <div>
-              <p className="text-[14px] break-words w-auto">
+            <div className="text-xs">
+              <p className="break-words w-auto">
                 Manager:
                 {managers.map((manager) => (
-                  <a className="text-primary" key={manager.id} rel="noreferrer noopener">
+                  <a className="text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" key={manager.id} rel="noreferrer noopener">
                     {manager.user.name},{" "}
                   </a>
                 ))}
               </p>
-              <p className="text-[14px] break-words max-w-[550px]">
+              <p className="break-words max-w-[550px]">
                 Developer:
                 {developers.map((developer) => (
-                  <a className="text-primary" key={developer.id} rel="noreferrer noopener">
+                  <a className="text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" key={developer.id} rel="noreferrer noopener">
                     {developer.user.name},{" "}
                   </a>
                 ))}

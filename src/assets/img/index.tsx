@@ -12,6 +12,8 @@ import edit from "./mypage_edit.png";
 import remove from "./mypage_delete.png";
 import exclamation from "./logtime_exclamation.png";
 import feed from "./spenttime_feed.png";
+import cancel from "./mypagelayout_cancel.png";
+import homepage from "./homepage_projects.png";
 
 const images = {
   arrow_right,
@@ -27,6 +29,8 @@ const images = {
   arrow_left,
   exclamation,
   feed,
+  cancel,
+  homepage,
 };
 
 export default images;

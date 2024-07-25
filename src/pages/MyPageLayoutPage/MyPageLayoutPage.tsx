@@ -6,6 +6,7 @@ import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
 import TotalTime from "../MyPage/components/TotalTime/TotalTime";
 import SpentTime from "../MyPage/components/SpentTime/SpentTime";
+import images from "~/assets/img";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   LogTime: <LogTime />,
@@ -123,12 +124,12 @@ const MyPageLayoutPage = () => {
           </select>
 
           <a onClick={addOption} className="flex items-center mx-2 cursor-pointer" rel="noreferrer noopener">
-            <img src="https://redmine.ntq.solutions/images/add.png" className="w-4 h-4" alt="Add" />
+            <img src={images.add} className="w-4 h-4" alt="Add" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Add</p>
           </a>
 
           <a href="/my-page" rel="noreferrer noopener" className="flex items-center mx-2">
-            <img src="https://redmine.ntq.solutions/images/cancel.png" className="w-4 h-4" alt="Back" />
+            <img src={images.cancel} className="w-4 h-4" alt="Back" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Back</p>
           </a>
         </div>

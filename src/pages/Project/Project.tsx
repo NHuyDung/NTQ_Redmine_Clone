@@ -29,8 +29,17 @@ const Project = () => {
 
   return (
     <div>
-      <h2>Project List</h2>
-      <ul>{projects?.map((project) => <li key={project.id}>{project.name}</li>)}</ul>
+      <div className="mb-2.5">
+        <h2 className="text-xl font-semibold text-[#555]">Projects</h2>
+      </div>
+      {projects?.map((project) => (
+        <div key={project.id} className="mb-3">
+          <a href="/projects/overview" rel="noreferrer noopener" className="text-[#169] font-semibold hover:underline hover:text-[#b2290f]">
+            {project.name}
+          </a>
+          <div className="text-xs">{project.description}</div>
+        </div>
+      ))}
     </div>
   );
 };

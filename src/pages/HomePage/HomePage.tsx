@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getProjects } from "~/services/ProjectService";
+import images from "~/assets/img";
 
 interface Project {
   id: number;
@@ -34,13 +35,18 @@ const HomePage = () => {
       <div className="mt-10 mr-2 border border-gray-300 border-solid min-h-[120px] min-w-[820px]">
         <div className="p-3">
           <div className="flex">
-            <img className="pr-1" src="https://redmine.ntq.solutions/images/projects.png" alt="redmine_ntq_solutions"></img>
+            <img className="pr-1" src={images.homepage} alt="redmine_ntq_solutions"></img>
             <h3 className="bg-image font-medium">Latest projects</h3>
           </div>
           <ul className="pl-10 pt-3 list-disc">
             {projects.map((project) => (
-              <li className="text-[14px]" key={project.id}>
-                <a onClick={() => handleViewProject(project.id)} className="text-primary pr-1" href="/projects/overview" rel="noreferrer noopener">
+              <li className="text-sm" key={project.id}>
+                <a
+                  onClick={() => handleViewProject(project.id)}
+                  className="text-primary pr-1 hover:underline hover:text-[#b2290f]"
+                  href="/projects/overview"
+                  rel="noreferrer noopener"
+                >
                   {project.name}
                 </a>
                 ({project.created_on})<br></br>
