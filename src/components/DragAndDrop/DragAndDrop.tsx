@@ -47,8 +47,6 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   const isMouseDownRef = useRef(false);
   const [itemSources, setItemSources] = useState<{ [itemId: string]: "A" | "B" | "C" }>({});
   const [currentList, setCurrentList] = useState<"A" | "B" | "C">("A");
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [targetList, setTargetList] = useState<"A" | "B" | "C" | "">("A");
 
   useEffect(() => {
     const storedItems = localStorage.getItem("items");
@@ -120,16 +118,14 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
     }
   };
 
-  const getCurrentDropTarget = (x: number, y: number) => {
-    if (checkDropTarget(x, y, "A")) {
-      return "A";
-    } else if (checkDropTarget(x, y, "B")) {
-      return "B";
-    } else if (checkDropTarget(x, y, "C")) {
-      return "C";
+  const getCurrentDropTarget = (x: number, y: number): "A" | "B" | "C" | null => {
+    const targets: ("A" | "B" | "C")[] = ["A", "B", "C"];
+    for (const target of targets) {
+      if (checkDropTarget(x, y, target)) {
+        return target;
+      }
     }
-
-    return null; // Trường hợp không nằm trong bất kỳ bảng nào
+    return null;
   };
 
   const onDragEnd = (e: React.MouseEvent) => {
@@ -150,7 +146,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         if (itemsContainer) {
           const itemElements = itemsContainer.children;
           const currentIndex = items[currentDropTarget].findIndex((item) => item.id === draggingItem.id);
-          let newIndex = -1;
+          let newIndex = 1;
 
           for (let i = 0; i < itemElements.length; i++) {
             const itemRect = itemElements[i].getBoundingClientRect();
@@ -183,9 +179,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
           }
         }
       }
-
       resetDragState();
-      // window.location.reload();
     }
   };
 
@@ -197,12 +191,13 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   };
 
   const checkDropTarget = (x: number, y: number, targetList: "A" | "B" | "C") => {
-    const target =
-      targetList === "A"
-        ? containerRef.current!.querySelector("#table-A")
-        : targetList === "B"
-          ? containerRef.current!.querySelector("#table-B")
-          : containerRef.current!.querySelector("#table-C");
+    const targetMap: { [key: string]: HTMLElement | null } = {
+      A: containerRef.current!.querySelector("#table-A"),
+      B: containerRef.current!.querySelector("#table-B"),
+      C: containerRef.current!.querySelector("#table-C"),
+    };
+
+    const target = targetMap[targetList];
 
     if (target) {
       const rect = target.getBoundingClientRect();
@@ -262,8 +257,8 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         onMouseDown={(e) => onDragStart(e, item, targetList)}
         style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
       >
-        <div className="flex justify-between items-center">
-          <p>{getLabelById(item.id, targetList)}</p>
+        <div className="flex justify-between items-center mb-2">
+          <a className="text-primary">{getLabelById(item.id, targetList)}</a>
           <a className="close-button" onClick={() => handleCloseItem(item.id, targetList)}>
             <img className="close" alt="close" src={closeButton}></img>
           </a>
