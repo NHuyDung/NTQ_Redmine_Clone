@@ -6,9 +6,18 @@ import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
 import closeButton from "~/assets/img/close.png";
-import { IssueReport } from "~/types/Issue";
+import { GroupedIssues, IssueReport, IssueType } from "~/types/Issue";
 
-const componentMap = {
+type ComponentMap = {
+  LogTime: () => JSX.Element;
+  Schedule: React.FC<{ data: GroupedIssues[] | [] }>;
+  TableIssue: React.FC<{ data: IssueReport[] | [] }>;
+  TotalTime: React.FC;
+  SpentTime: () => JSX.Element;
+  // Thêm các component khác nếu cần...
+};
+
+const componentMap: ComponentMap = {
   LogTime,
   Schedule,
   TableIssue,
@@ -19,8 +28,8 @@ const componentMap = {
 
 type Item = {
   id: string;
-  data: IssueReport[];
-  componentName: string;
+  data: IssueType;
+  componentName: keyof ComponentMap;
 };
 
 type ItemsState = {
@@ -248,6 +257,11 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
 
     window.location.reload();
   };
+  const getLabelById = (itemId: string, targetList: "A" | "B" | "C") => {
+    const storedItems = JSON.parse(localStorage.getItem("items") || "{}");
+    const item = storedItems[targetList].find((item: { id: string }) => item.id === itemId);
+    return item ? item.label : "Unknown label";
+  };
 
   const renderItems = (items: Item[], targetList: "A" | "B" | "C") => {
     return items.map((item) => {
@@ -261,7 +275,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
           style={draggingItem?.id === item.id && isDragging ? { visibility: "hidden" } : {}}
         >
           <div className="flex justify-between items-center">
-            <p>{item.componentName}</p>
+            <p>{getLabelById(item.id, targetList)}</p>
             <a className="close-button" onClick={() => handleCloseItem(item.id, targetList)}>
               <img className="close" alt="close" src={closeButton}></img>
             </a>
@@ -272,11 +286,16 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const renderComponent = (Component: React.ElementType, props: any) => {
+    return <Component {...props} />;
+  };
+
   return (
     <div onMouseMove={onDrag} onMouseUp={onDragEnd} ref={containerRef} style={{ position: "relative" }}>
       {isDragging && draggingItem && (
         <div style={draggingStyle} className="item dragging">
-          {componentMap[draggingItem.componentMap]}
+          {renderComponent(componentMap[draggingItem.componentName], { data: draggingItem.data })}
         </div>
       )}
 

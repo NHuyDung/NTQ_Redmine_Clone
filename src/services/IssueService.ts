@@ -47,6 +47,8 @@ export const getIssueSchedule = async (): Promise<GroupedIssues[]> => {
 export const getIssueReport = async (): Promise<IssueReport[]> => {
   try {
     const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=me");
+    console.log("getIssueReport", response.data.issues);
+
     return response.data.issues;
   } catch (error) {
     console.error("Error fetching issues:", error);
@@ -56,6 +58,8 @@ export const getIssueReport = async (): Promise<IssueReport[]> => {
 export const getIssueWatched = async (): Promise<IssueReport[]> => {
   try {
     const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?watcher_id=me");
+    console.log("getIssueWatched", response.data.issues);
+
     return response.data.issues;
   } catch (error) {
     console.error("Error fetching issues:", error);
@@ -65,6 +69,8 @@ export const getIssueWatched = async (): Promise<IssueReport[]> => {
 export const getIssueAssigned = async (): Promise<IssueReport[]> => {
   try {
     const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?assigned_to_id=me");
+    console.log("getIssueAssigned", response.data.issues);
+
     return response.data.issues;
   } catch (error) {
     console.error("Error fetching issues:", error);

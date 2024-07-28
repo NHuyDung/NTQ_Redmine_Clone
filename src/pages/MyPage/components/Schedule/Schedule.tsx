@@ -1,25 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment";
 import images from "~/assets/img";
 import { Tooltip } from "react-tooltip";
-import { getIssueSchedule } from "~/services/IssueService";
 import { GroupedIssues } from "~/types/Issue";
 import { DaysOfWeek } from "~/const/MyPage";
 import CustomTooltip from "./CustomTooltip";
 const startOfWeek = moment().startOf("week").add(1, "day");
-const Schedule: React.FC = () => {
-  const [issuesSchedule, setIssuesSchedule] = useState<GroupedIssues[]>([]);
-  useEffect(() => {
-    const fetchIssues = async () => {
-      try {
-        const result = await getIssueSchedule();
-        setIssuesSchedule(result);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchIssues();
-  }, []);
+const Schedule: React.FC<{ data: GroupedIssues[] | [] }> = ({ data }) => {
+  console.log("Schedule: ", data);
   const isToday = (date: moment.Moment) => {
     return date.isSame(moment(), "day");
   };
@@ -38,7 +26,7 @@ const Schedule: React.FC = () => {
       <tbody className="bg-white divide-y divide-gray-200 ">
         <tr>
           <td className="bg-[#eeeeee] p-1 text-right align-top">{startOfWeek.week()}</td>
-          {issuesSchedule.map((data, index) => {
+          {data.map((data, index) => {
             const currentDay = startOfWeek.clone().add(index, "day");
             const dayClassName = isToday(currentDay) ? "bg-[#ffffdd]" : "";
 
@@ -48,7 +36,7 @@ const Schedule: React.FC = () => {
                 className={`border border-gray-300 p-1 text-right align-top w-full sm:w-[50px] md:w-[100px] lg:w-[130px] xl:w-[180px] ${dayClassName}`}
               >
                 {currentDay.format("DD")}
-                {data.tasks.map((task, taskIndex) => (
+                {data.tasks?.map((task, taskIndex) => (
                   <div
                     data-tooltip-id={`tooltip-${task.id}-${taskIndex}`}
                     data-tooltip-variant="light"
