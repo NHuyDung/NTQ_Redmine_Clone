@@ -5,10 +5,11 @@ import Schedule from "~/pages/MyPage/components/Schedule/Schedule";
 import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
+import { GroupedIssues, IssueReport } from "~/types/Issue";
 
 type Item = {
   id: string;
-  content?: string;
+  data: IssueReport[] | GroupedIssues[];
   componentName: string;
 };
 
@@ -40,7 +41,9 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const renderItems = (items: Item[], targetList: "A" | "B" | "C") => {
+  const renderItems = (items: Item[] | [], targetList: "A" | "B" | "C") => {
+    console.log("items: ", items);
+
     return items.map((item) => {
       const Component = componentsMap[item.componentName as keyof typeof componentsMap];
       return (
@@ -48,7 +51,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {
           <div className="flex flex-1 mb-2">
             <a className="text-primary">{getLabelById(item.id, targetList)}</a>
           </div>
-          {Component ? <Component /> : null}
+          {Component ? <Component data={item.data} /> : null}
         </div>
       );
     });
