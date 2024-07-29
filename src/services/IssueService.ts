@@ -49,6 +49,7 @@ export const getIssueReport = async (): Promise<IssueReport[]> => {
     const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=me");
 
     return response.data.issues;
+    console.log(response.data.issues);
   } catch (error) {
     console.error("Error fetching issues:", error);
     throw error;
