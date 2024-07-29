@@ -7,7 +7,6 @@ import { DaysOfWeek } from "~/const/MyPage";
 import CustomTooltip from "./CustomTooltip";
 const startOfWeek = moment().startOf("week").add(1, "day");
 const Schedule: React.FC<{ data: GroupedIssues[] | [] }> = ({ data }) => {
-  console.log("Schedule: ", data);
   const isToday = (date: moment.Moment) => {
     return date.isSame(moment(), "day");
   };

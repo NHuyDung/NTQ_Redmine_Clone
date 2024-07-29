@@ -1,7 +1,6 @@
 import React from "react";
 import { IssueReport } from "~/types/Issue";
 const TableIssue: React.FC<{ data: IssueReport[] | [] }> = ({ data }) => {
-  // console.log("data: ", data);
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-gray-200 border border-gray-300">
