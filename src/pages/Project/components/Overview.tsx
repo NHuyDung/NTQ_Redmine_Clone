@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getMembers } from "~/services/ProjectService";
+import { getMembers, getTrackerQuantity } from "~/services/ProjectService";
 
 interface Member {
   id: number;
@@ -7,31 +7,54 @@ interface Member {
   roles: { name: string }[];
   user: { name: string };
 }
-const ProjectOverviewPage = () => {
+
+interface TrackerItem {
+  id: number;
+  tracker: {
+    id: number;
+    name: string;
+  };
+}
+
+interface OverviewProps {
+  identifier: string;
+}
+
+const Overview: React.FC<OverviewProps> = ({ identifier }) => {
   const [members, setMembers] = useState<Member[]>([]);
+  const [trackerQuantity, setTrackerQuantity] = useState<TrackerItem[]>([]);
 
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchData = async () => {
       try {
-        const result = await getMembers();
-        setMembers(result);
+        const [membersResult, trackerResult] = await Promise.all([getMembers(identifier), getTrackerQuantity(identifier)]);
+        setMembers(membersResult);
+        setTrackerQuantity(trackerResult);
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
-    fetchProjects();
-  }, []);
-  console.log(members);
+    fetchData();
+  }, [identifier]);
 
   const managers = members.filter((member) => {
     return member.roles.some((role) => role.name === "Manager");
   });
-  console.log(managers);
 
   const developers = members.filter((member) => {
     return member.roles.some((role) => role.name === "Developer");
   });
+
+  const trackerCount = trackerQuantity.reduce<Record<string, number>>((acc, issue) => {
+    const trackerName = issue.tracker.name;
+    if (acc[trackerName]) {
+      acc[trackerName]++;
+    } else {
+      acc[trackerName] = 1;
+    }
+    return acc;
+  }, {});
 
   return (
     <div>
@@ -44,18 +67,14 @@ const ProjectOverviewPage = () => {
               <h3 className="bg-image font-medium">Issue tracking</h3>
             </div>
             <ul className="text-xs pl-10 pt-2.5 list-disc">
-              <li className="">
-                <a className=" text-primary cursor-pointer pr-1.5  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
-                  Bug
-                </a>
-                4 open / 4
-              </li>
-              <li className="">
-                <a className=" text-primary cursor-pointer pr-1  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
-                  Task
-                </a>
-                3 open / 3
-              </li>
+              {Object.entries(trackerCount).map(([trackerName, count]) => (
+                <li key={trackerName} className="">
+                  <a className="text-primary cursor-pointer pr-1.5 hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
+                    {trackerName}
+                  </a>
+                  {` ${count} open / ${count}`}
+                </li>
+              ))}
             </ul>
             <div className="text-xs flex pt-2.5">
               <a href="/issues" className=" pl-1  text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
@@ -102,4 +121,4 @@ const ProjectOverviewPage = () => {
   );
 };
 
-export default ProjectOverviewPage;
+export default Overview;

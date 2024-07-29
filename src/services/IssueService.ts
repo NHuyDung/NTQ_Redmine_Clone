@@ -39,7 +39,7 @@ export const getIssueSchedule = async (): Promise<GroupedIssues[]> => {
       tasks: groupedIssues[date],
     }));
 
-    console.log("groupedIssuesArray: ", groupedIssuesArray);
+    // console.log("groupedIssuesArray: ", groupedIssuesArray);
     return groupedIssuesArray;
   } catch (error) {
     console.error("Error fetching issues:", error);

@@ -7,6 +7,9 @@ const Header = () => {
   const location = useLocation();
   const isProjectOverviewPage = location.pathname.includes("/projects/");
 
+  const identifier = location.pathname;
+
+  console.log(identifier);
   return (
     <div className="">
       <div className=" flex items-center justify-between p-2 bg-primary-dark h-5 text-10">
@@ -55,7 +58,7 @@ const Header = () => {
             {Projects.map((project) => (
               <Link
                 key={project.id}
-                to={`/projects/${project.slug}`}
+                to={`/projects/${identifier}/${project.slug}`}
                 className="hover:underline bg-primary-light text-xs duration-150 list-none px-3 py-1 "
               >
                 {project.name}

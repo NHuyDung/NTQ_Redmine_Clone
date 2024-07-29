@@ -9,8 +9,8 @@ import MyPage from "~/pages/MyPage/MyPage";
 import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
 import Project from "~/pages/Project/Project";
-import ProjectDetail from "~/pages/ProjectDetail/ProjectDetail";
-import ProjectOverviewPage from "~/pages/ProjectOverviewPage/ProjectOverviewPage";
+import ProjectDetail from "~/pages/Project/ProjectDetail";
+// import Overview from "~/pages/Project/components/Overview";
 
 interface RouteConfig {
   path: string;
@@ -38,12 +38,12 @@ const routesConfig: RouteConfig[] = [
     path: "/projects",
     element: <Project />,
   },
+  // {
+  //   path: "/projects/:projectId/overview",
+  //   element: <Overview projectId={323} />,
+  // },
   {
-    path: "/projects/overview",
-    element: <ProjectOverviewPage />,
-  },
-  {
-    path: "/projects/:projectSlug",
+    path: "/projects/:identifier/:slug",
     element: <ProjectDetail />,
   },
   {

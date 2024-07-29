@@ -11,13 +11,22 @@ export const getProjects = async () => {
   }
 };
 
-export const getMembers = async () => {
-  const projectId = localStorage.getItem("project-id");
+export const getMembers = async (identifier: string) => {
   try {
-    const response = await axiosInstance.get(`/projects/${projectId}/memberships.json`);
+    const response = await axiosInstance.get(`/projects/${identifier}/memberships.json`);
     return response.data.memberships;
   } catch (error) {
     console.error("Error fetching projects:", error);
+    throw error;
+  }
+};
+
+export const getTrackerQuantity = async (identifier: string) => {
+  try {
+    const response = await axiosInstance.get(`/issues.json?project_id=${identifier}`);
+    return response.data.issues;
+  } catch (error) {
+    console.error("Error fetching tracker quantity:", error);
     throw error;
   }
 };

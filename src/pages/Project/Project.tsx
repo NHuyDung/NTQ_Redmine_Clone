@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from "~/services/api"; // Sử dụng axiosInstance
+import { getProjects } from "~/services/ProjectService";
 
 interface Project {
   id: number;
   name: string;
   description: string;
-}
-
-interface ProjectsResponse {
-  projects: Project[];
+  identifier: string;
 }
 
 const Project = () => {
@@ -17,8 +14,8 @@ const Project = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await axiosInstance.get<ProjectsResponse>("/projects.json"); // Sử dụng axiosInstance
-        setProjects(response.data.projects);
+        const response = await getProjects();
+        setProjects(response);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -26,7 +23,7 @@ const Project = () => {
 
     fetchProjects();
   }, []);
-
+  console.log(projects);
   return (
     <div>
       <div className="mb-2.5">
@@ -34,7 +31,11 @@ const Project = () => {
       </div>
       {projects?.map((project) => (
         <div key={project.id} className="mb-3">
-          <a href="/projects/overview" rel="noreferrer noopener" className="text-[#169] font-semibold hover:underline hover:text-[#b2290f]">
+          <a
+            href={`/projects/${project.identifier}`}
+            rel="noreferrer noopener"
+            className="text-[#169] font-semibold hover:underline hover:text-[#b2290f]"
+          >
             {project.name}
           </a>
           <div className="text-xs">{project.description}</div>

@@ -25,10 +25,6 @@ const HomePage = () => {
     fetchProjects();
   }, []);
 
-  const handleViewProject = (projectId: number) => {
-    localStorage.setItem("project-id", String(projectId));
-  };
-
   return (
     <div className="flex justify-between">
       <h2 className="text-xl font-semibold">Home</h2>
@@ -41,12 +37,7 @@ const HomePage = () => {
           <ul className="pl-10 pt-3 list-disc">
             {projects.map((project) => (
               <li className="text-sm" key={project.id}>
-                <a
-                  onClick={() => handleViewProject(project.id)}
-                  className="text-primary pr-1 hover:underline hover:text-[#b2290f]"
-                  href="/projects/overview"
-                  rel="noreferrer noopener"
-                >
+                <a className="text-primary pr-1 hover:underline hover:text-[#b2290f]" href={`/projects/${project.id}`} rel="noreferrer noopener">
                   {project.name}
                 </a>
                 ({project.created_on})<br></br>
