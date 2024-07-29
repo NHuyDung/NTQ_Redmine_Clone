@@ -1,15 +1,16 @@
 import React from "react";
 import moment from "moment";
-import images from "~/assets/img";
-import { Tooltip } from "react-tooltip";
-import { GroupedIssues } from "~/types/Issue";
+// import images from "~/assets/img";
+// import { Tooltip } from "react-tooltip";
 import { DaysOfWeek } from "~/const/MyPage";
-import CustomTooltip from "./CustomTooltip";
+// import CustomTooltip from "./CustomTooltip";
 const startOfWeek = moment().startOf("week").add(1, "day");
-const Schedule: React.FC<{ data: GroupedIssues[] | [] }> = ({ data }) => {
-  const isToday = (date: moment.Moment) => {
-    return date.isSame(moment(), "day");
-  };
+const Schedule: React.FC<{ id: string }> = ({ id }) => {
+  console.log(id);
+
+  // const isToday = (date: moment.Moment) => {
+  //   return date.isSame(moment(), "day");
+  // };
   return (
     <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-auto">
       <thead className="bg-[#eeeeee] h-7">
@@ -25,7 +26,7 @@ const Schedule: React.FC<{ data: GroupedIssues[] | [] }> = ({ data }) => {
       <tbody className="bg-white divide-y divide-gray-200 ">
         <tr>
           <td className="bg-[#eeeeee] p-1 text-right align-top">{startOfWeek.week()}</td>
-          {data.map((data, index) => {
+          {/* {data.map((data, index) => {
             const currentDay = startOfWeek.clone().add(index, "day");
             const dayClassName = isToday(currentDay) ? "bg-[#ffffdd]" : "";
 
@@ -61,7 +62,7 @@ const Schedule: React.FC<{ data: GroupedIssues[] | [] }> = ({ data }) => {
                 ))}
               </td>
             );
-          })}
+          })} */}
         </tr>
       </tbody>
     </table>

@@ -6,15 +6,14 @@ import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
 import closeButton from "~/assets/img/close.png";
-import { GroupedIssues, IssueReport, IssueType } from "~/types/Issue";
+import { IssueType } from "~/types/Issue";
 
 type ComponentMap = {
   LogTime: () => JSX.Element;
-  Schedule: React.FC<{ data: GroupedIssues[] | [] }>;
-  TableIssue: React.FC<{ data: IssueReport[] | [] }>;
+  Schedule: React.FC<{ id: string }>;
+  TableIssue: React.FC<{ id: string }>;
   TotalTime: React.FC;
   SpentTime: () => JSX.Element;
-  // Thêm các component khác nếu cần...
 };
 
 const componentMap: ComponentMap = {
@@ -23,7 +22,6 @@ const componentMap: ComponentMap = {
   TableIssue,
   TotalTime,
   SpentTime,
-  // Add more components as needed...
 };
 
 type Item = {
@@ -248,7 +246,6 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
 
     const addedItems = JSON.parse(localStorage.getItem("addedOptions") || "[]");
     const updatedAddedItems = addedItems.filter((item: string) => item !== itemId);
-    console.log(updatedAddedItems);
     localStorage.setItem("addedOptions", JSON.stringify(updatedAddedItems));
 
     window.location.reload();
@@ -276,7 +273,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
               <img className="close" alt="close" src={closeButton}></img>
             </a>
           </div>
-          <Component data={item.data} />
+          <Component {...item} />
         </div>
       );
     });

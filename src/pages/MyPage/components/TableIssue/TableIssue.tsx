@@ -1,13 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IssueReport } from "~/types/Issue";
 import DetailsDialog from "./DetailsDialog";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "~/app/store";
+import { fetchIssuesReport } from "~/features/issues/IssuesReportSlice";
+import { useDispatch } from "react-redux";
+import { fetchIssuesAssigned } from "~/features/issues/IssuesAssignedSlice";
+import { fetchIssuesWatched } from "~/features/issues/IssuesWatchedSlice";
 
-const TableIssue: React.FC<{ data: IssueReport[] | [] }> = ({ data }) => {
+const TableIssue: React.FC<{ id: string }> = ({ id }) => {
+  console.log("props", id);
+
+  const dispatch: AppDispatch = useDispatch();
+  const { issuesReport } = useSelector((state: RootState) => state.issuesReport);
+  const { issuesWatched } = useSelector((state: RootState) => state.issuesWatched);
+  const { issuesAssigned } = useSelector((state: RootState) => state.issuesAssigned);
+
+  useEffect(() => {
+    dispatch(fetchIssuesReport());
+    dispatch(fetchIssuesAssigned());
+    dispatch(fetchIssuesWatched());
+  }, [dispatch]);
+
   const [isDialogVisible, setIsDialogVisible] = useState(false);
 
   const toggleDialogVisibility = () => {
     setIsDialogVisible(!isDialogVisible);
   };
+
+  // Chọn dữ liệu dựa trên giá trị của id
+  let displayedData: IssueReport[] = [];
+
+  if (id === "1") {
+    displayedData = issuesAssigned;
+  } else if (id === "2") {
+    displayedData = issuesReport;
+  } else if (id === "3") {
+    displayedData = issuesWatched;
+  } else {
+    displayedData = [];
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -29,7 +61,7 @@ const TableIssue: React.FC<{ data: IssueReport[] | [] }> = ({ data }) => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200 h-6">
-          {data?.map((issue, index: number) => (
+          {displayedData?.map((issue, index: number) => (
             <tr
               key={issue.id}
               className={`hover:bg-[#ffffdd] ${index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#f6f7f8]"}`}

@@ -22,12 +22,10 @@ const ProjectOverviewPage = () => {
 
     fetchProjects();
   }, []);
-  console.log(members);
 
   const managers = members.filter((member) => {
     return member.roles.some((role) => role.name === "Manager");
   });
-  console.log(managers);
 
   const developers = members.filter((member) => {
     return member.roles.some((role) => role.name === "Developer");
