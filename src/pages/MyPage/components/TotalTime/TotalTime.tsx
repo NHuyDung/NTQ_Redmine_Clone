@@ -22,10 +22,8 @@ const TotalTime: React.FC = () => {
 
     fetchProjects();
   }, []);
-
   // data table
   const groupedIssues = groupIssuesByDate(totalTimeData);
-
   // total time
   const totalHours = Object.values(groupedIssues).reduce((sum, { totalHours }) => sum + totalHours, 0);
 

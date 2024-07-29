@@ -12,6 +12,7 @@ import edit from "./mypage_edit.png";
 import remove from "./mypage_delete.png";
 import exclamation from "./logtime_exclamation.png";
 import feed from "./spenttime_feed.png";
+import avatar from "./avatar.png";
 
 const images = {
   arrow_right,
@@ -27,6 +28,7 @@ const images = {
   arrow_left,
   exclamation,
   feed,
+  avatar,
 };
 
 export default images;

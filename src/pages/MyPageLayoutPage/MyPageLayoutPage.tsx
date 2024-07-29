@@ -47,7 +47,6 @@ const MyPageLayoutPage = () => {
     // Đọc danh sách options đã thêm từ localStorage
     const addedOptions: string[] = JSON.parse(localStorage.getItem("addedOptions") || "[]");
     setOptions((prevOptions) => prevOptions.map((option) => (addedOptions.includes(option.value) ? { ...option, isAdded: true } : option)));
-
     // Đọc dữ liệu items từ localStorage
     const storedItems = localStorage.getItem("items");
     if (storedItems) {
@@ -68,19 +67,10 @@ const MyPageLayoutPage = () => {
       const selectedLabel = selectedOption.label;
       const fetchData = fetchDataForOption(selectedValue);
       try {
-        console.log("here");
-
         const data = await fetchData;
-        console.log("data", data);
-        console.log("selectedValue && componentName: ", selectedValue && componentName);
-
         if (selectedValue && componentName) {
           const newComponent = componentMap[componentName];
-          console.log("newComponent: ", newComponent);
-
           if (newComponent) {
-            console.log("here newComponent");
-
             // Cập nhật trạng thái với dữ liệu mới
             setItems((prevItems) => {
               const updatedItems = {
