@@ -14,6 +14,9 @@ import exclamation from "./logtime_exclamation.png";
 import feed from "./spenttime_feed.png";
 import cancel from "./mypagelayout_cancel.png";
 import homepage from "./homepage_projects.png";
+import ticket from "./overview_ticket.png";
+import group from "./overview_group.png";
+import time from "./overview_time.png";
 
 const images = {
   arrow_right,
@@ -31,6 +34,9 @@ const images = {
   feed,
   cancel,
   homepage,
+  ticket,
+  group,
+  time,
 };
 
 export default images;

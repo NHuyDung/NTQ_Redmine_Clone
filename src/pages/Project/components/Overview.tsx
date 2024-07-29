@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getMembers, getTrackerQuantity } from "~/services/ProjectService";
+import images from "~/assets/img";
 
 interface Member {
   id: number;
@@ -62,9 +63,9 @@ const Overview: React.FC<OverviewProps> = ({ identifier }) => {
       <div className="flex justify-between items-center">
         <div className="mr-2 border border-gray-300 border-solid w-1/2">
           <div className="p-2.5">
-            <div className="flex">
-              <img className="pr-[6px]" src="https://redmine.ntq.solutions/images/ticket.png"></img>
-              <h3 className="bg-image font-medium">Issue tracking</h3>
+            <div className="flex items-center">
+              <img className="pr-1.5" src={images.ticket} alt="ticket" />
+              <h3 className="text-primary-text font-medium">Issue tracking</h3>
             </div>
             <ul className="text-xs pl-10 pt-2.5 list-disc">
               {Object.entries(trackerCount).map(([trackerName, count]) => (
@@ -91,10 +92,10 @@ const Overview: React.FC<OverviewProps> = ({ identifier }) => {
         </div>
 
         <div className="mr-2 border border-gray-300 border-solid w-1/2">
-          <div className="p-[10px]">
-            <div className="flex pb-3">
-              <img className="pr-[6px]" src="https://redmine.ntq.solutions/images/group.png" alt="redmine_ntq_solutions"></img>
-              <h3 className="bg-image font-medium">Members</h3>
+          <div className="p-2.5">
+            <div className="flex pb-3 items-center">
+              <img className="pr-1.5" src={images.group} alt="group" />
+              <h3 className="text-primary-text font-medium">Members</h3>
             </div>
             <div className="text-xs">
               <p className="break-words w-auto">

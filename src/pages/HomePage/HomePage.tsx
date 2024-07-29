@@ -7,6 +7,7 @@ interface Project {
   name: string;
   description: string;
   created_on: string;
+  identifier: string;
 }
 
 const HomePage = () => {
@@ -37,7 +38,11 @@ const HomePage = () => {
           <ul className="pl-10 pt-3 list-disc">
             {projects.map((project) => (
               <li className="text-sm" key={project.id}>
-                <a className="text-primary pr-1 hover:underline hover:text-[#b2290f]" href={`/projects/${project.id}`} rel="noreferrer noopener">
+                <a
+                  className="text-primary pr-1 hover:underline hover:text-[#b2290f]"
+                  href={`/projects/${project.identifier}/overview`}
+                  rel="noreferrer noopener"
+                >
                   {project.name}
                 </a>
                 ({project.created_on})<br></br>

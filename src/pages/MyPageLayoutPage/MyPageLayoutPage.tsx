@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import DragAndDrop from "~/components/DragAndDrop/DragAndDrop";
 import { ItemsState } from "~/types/ItemDragAndDrop";
-import LogTime from "../MyPage/components/TotalTime/LogTime";
+// import LogTime from "../MyPage/components/TotalTime/LogTime";
 import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
-import TotalTime from "../MyPage/components/TotalTime/TotalTime";
+// import TotalTime from "../MyPage/components/TotalTime/TotalTime";
 import SpentTime from "../MyPage/components/SpentTime/SpentTime";
 import images from "~/assets/img";
-
+import { getIssueAssigned, getIssueReport, getIssueSchedule, getIssueWatched } from "~/services/IssueService";
+// import { IssueType } from "~/types/Issue";
 const componentMap: { [key: string]: React.ReactNode } = {
-  LogTime: <LogTime />,
-  Schedule: <Schedule />,
-  TableIssue: <TableIssue />,
-  TotalTime: <TotalTime />,
+  // LogTime: <LogTime />,
+  Schedule: <Schedule data={[]} />,
+  TableIssue: <TableIssue data={[]} />,
+  // TotalTime: <TotalTime />,
   SpentTime: <SpentTime />,
 };
 
@@ -61,48 +62,83 @@ const MyPageLayoutPage = () => {
     setSelectedOption(selectedOption || null); // Lưu option được chọn vào trạng thái tạm thời
   };
 
-  const addOption = () => {
+  const addOption = async () => {
     if (selectedOption) {
       const selectedValue = selectedOption.value;
       const componentName = selectedOption.componentName || "";
       const selectedLabel = selectedOption.label;
+      const fetchData = fetchDataForOption(selectedValue);
+      try {
+        console.log("here");
 
-      if (selectedValue && componentName) {
-        const newComponent = componentMap[componentName];
+        const data = await fetchData;
+        console.log("data", data);
+        console.log("selectedValue && componentName: ", selectedValue && componentName);
 
-        if (newComponent) {
-          // Cập nhật trạng thái với dữ liệu mới
-          setItems((prevItems) => {
-            const updatedItems = {
-              A: [...prevItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel }],
-              B: prevItems.B,
-              C: prevItems.C,
-            };
+        if (selectedValue && componentName) {
+          const newComponent = componentMap[componentName];
+          console.log("newComponent: ", newComponent);
 
-            // Lưu dữ liệu vào localStorage
-            // eslint-disable-next-line quotes
-            const storedItems = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
-            const newStoredItems = {
-              A: [...storedItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel }],
-              B: storedItems.B,
-              C: storedItems.C,
-            };
-            localStorage.setItem("items", JSON.stringify(newStoredItems));
-            return updatedItems;
-          });
+          if (newComponent) {
+            console.log("here newComponent");
 
-          // Cập nhật danh sách options để loại bỏ option đã chọn
-          setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
+            // Cập nhật trạng thái với dữ liệu mới
+            setItems((prevItems) => {
+              const updatedItems = {
+                A: [
+                  ...prevItems.A,
+                  {
+                    id: selectedValue,
+                    componentName: componentName,
+                    label: selectedLabel,
+                    data: data,
+                  },
+                ],
+                B: prevItems.B,
+                C: prevItems.C,
+              };
 
-          // Lưu danh sách options đã thêm vào localStorage
-          const addedOptions = JSON.parse(localStorage.getItem("addedOptions") || "[]");
-          localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
+              // Lưu dữ liệu vào localStorage
+              // eslint-disable-next-line quotes
+              const storedItems = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
+              const newStoredItems = {
+                A: [...storedItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel, data: data }],
+                B: storedItems.B,
+                C: storedItems.C,
+              };
+              localStorage.setItem("items", JSON.stringify(newStoredItems));
+              return updatedItems;
+            });
 
-          // Xóa trạng thái tạm thời
-          setSelectedOption(null);
-          window.location.reload();
+            // Cập nhật danh sách options để loại bỏ option đã chọn
+            setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
+
+            // Lưu danh sách options đã thêm vào localStorage
+            const addedOptions = JSON.parse(localStorage.getItem("addedOptions") || "[]");
+            localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
+
+            // Xóa trạng thái tạm thời
+            setSelectedOption(null);
+            window.location.reload();
+          }
         }
+      } catch (error) {
+        console.log("Error:", error);
       }
+    }
+  };
+  const fetchDataForOption = async (optionValue: string) => {
+    switch (optionValue) {
+      case "1":
+        return await getIssueAssigned();
+      case "2":
+        return await getIssueReport();
+      case "3":
+        return await getIssueWatched();
+      case "5":
+        return await getIssueSchedule();
+      default:
+        return [];
     }
   };
 

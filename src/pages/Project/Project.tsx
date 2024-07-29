@@ -23,7 +23,6 @@ const Project = () => {
 
     fetchProjects();
   }, []);
-  console.log(projects);
   return (
     <div>
       <div className="mb-2.5">
@@ -32,7 +31,7 @@ const Project = () => {
       {projects?.map((project) => (
         <div key={project.id} className="mb-3">
           <a
-            href={`/projects/${project.identifier}`}
+            href={`/projects/${project.identifier}/overview`}
             rel="noreferrer noopener"
             className="text-[#169] font-semibold hover:underline hover:text-[#b2290f]"
           >

@@ -3,7 +3,6 @@ import images from "~/assets/img";
 import { Issue } from "~/types/Issue";
 
 const CustomTooltip: React.FC<Issue> = (issue) => {
-  console.log("issue", issue);
   return (
     <div>
       <div className="flex pb-5 items-center">

@@ -1,16 +1,31 @@
 import React from "react";
+import { useLocation, useParams } from "react-router-dom";
+
+import SubProject from "./SubProject/SubProject";
+import SubOverview from "./components/SubOverview";
+import SubActivity from "./components/SubActivity";
 
 const SubMain = () => {
-  return (
-    <form className="flex flex-col bg-primary-sub_bg w-1/4 pl-3">
-      <h3 className="text-[#666666] font-semibold text-sm mt-3.5 mb-2.5">Projects</h3>
-      <label className="text-[#484848] text-xs" htmlFor="view">
-        <input id="view" type="checkbox" className="mr-2" />
-        View closed projects
-      </label>
-      <input type="submit" value="Apply" className="w-max my-3 text-xs border border-[#ccc] bg-[#f2f2f2] text-[#222] py-0.5 px-1.5" />
-    </form>
-  );
+  const { slug } = useParams<{ slug: string }>();
+  const location = useLocation();
+
+  const renderContent = () => {
+    if (location.pathname === "/projects") {
+      return <SubProject />;
+    }
+
+    // check slug
+    switch (slug) {
+      case "overview":
+        return <SubOverview />;
+      case "activity":
+        return <SubActivity />;
+      default:
+        return <div>Unknown section</div>;
+    }
+  };
+
+  return <div className="w-1/4 pl-3">{renderContent()}</div>;
 };
 
 export default SubMain;

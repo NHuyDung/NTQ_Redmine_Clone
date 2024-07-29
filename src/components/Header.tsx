@@ -7,9 +7,8 @@ const Header = () => {
   const location = useLocation();
   const isProjectOverviewPage = location.pathname.includes("/projects/");
 
-  const identifier = location.pathname;
+  const identifier = location.pathname.split("/")[2];
 
-  console.log(identifier);
   return (
     <div className="">
       <div className=" flex items-center justify-between p-2 bg-primary-dark h-5 text-10">
