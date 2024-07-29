@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import IssuesAssignedSlice from "~/features/issues/IssuesAssignedSlice";
 import IssuesReportSlice from "~/features/issues/IssuesReportSlice";
+import IssuesScheduleSlice from "~/features/issues/IssuesScheduleSlice";
 import IssuesWatchedSlice from "~/features/issues/IssuesWatchedSlice";
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
     issuesReport: IssuesReportSlice,
     issuesWatched: IssuesWatchedSlice,
     issuesAssigned: IssuesAssignedSlice,
+    issuesShedule: IssuesScheduleSlice,
   },
 });
 
