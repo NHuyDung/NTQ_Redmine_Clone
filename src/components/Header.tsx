@@ -1,13 +1,23 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MenuItems, MenuItems2 } from "~/const/Menu";
 import { Projects } from "~/const/Project";
 
-const Header = () => {
+interface HeaderProps {
+  title: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ title }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isProjectOverviewPage = location.pathname.includes("/projects/");
 
   const identifier = location.pathname.split("/")[2];
+  const slug = location.pathname.split("/")[3];
+
+  const handleNavigation = (slug: string) => {
+    navigate(`/projects/${identifier}/${slug}`, { state: { projectName: title } });
+  };
 
   return (
     <div className="">
@@ -34,9 +44,9 @@ const Header = () => {
         </ul>
       </div>
 
-      <div className="h-88  text-white bg-primary ">
+      <div className="flex flex-col justify-between h-88  text-white bg-primary ">
         <div className="flex justify-between items-start pt-1 px-2 pb-5 ">
-          <h1 className="text-2xl font-bold">NTQ Redmine</h1>
+          <h1 className="text-2xl font-bold">{title || "NTQ Redmine"}</h1>
           <div className="flex gap-2 text-black text-sm">
             <label className="text-white pr-2" htmlFor="search">
               Search:
@@ -55,13 +65,13 @@ const Header = () => {
         {isProjectOverviewPage && (
           <div className="flex gap-0.5 ml-2">
             {Projects.map((project) => (
-              <Link
+              <button
                 key={project.id}
-                to={`/projects/${identifier}/${project.slug}`}
-                className="hover:underline bg-primary-light text-xs duration-150 list-none px-3 py-1 "
+                onClick={() => handleNavigation(project.slug)}
+                className={`hover:underline text-xs duration-150 list-none px-3 py-1 font-bold ${slug === project.slug ? "bg-primary-sub_bg text-[#555]" : "bg-primary-light"}`}
               >
                 {project.name}
-              </Link>
+              </button>
             ))}
           </div>
         )}
