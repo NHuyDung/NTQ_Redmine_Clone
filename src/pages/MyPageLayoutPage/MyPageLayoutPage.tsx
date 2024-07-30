@@ -4,12 +4,11 @@ import { ItemsState } from "~/types/ItemDragAndDrop";
 import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
 import SpentTime from "../MyPage/components/SpentTime/SpentTime";
-import { getIssueAssigned, getIssueReport, getIssueSchedule, getIssueWatched } from "~/services/IssueService";
 import addButton from "~/assets/img/mypage_add.png";
 import backButton from "~/assets/img/mypage_back.png";
 
 const componentMap: { [key: string]: React.ReactNode } = {
-  Schedule: <Schedule id="" />,
+  Schedule: <Schedule />,
   TableIssue: <TableIssue id="" />,
   SpentTime: <SpentTime />,
 };
@@ -58,14 +57,12 @@ const MyPageLayoutPage = () => {
     setSelectedOption(selectedOption || null); // Lưu option được chọn vào trạng thái tạm thời
   };
 
-  const addOption = async () => {
+  const addOption = () => {
     if (selectedOption) {
       const selectedValue = selectedOption.value;
       const componentName = selectedOption.componentName || "";
       const selectedLabel = selectedOption.label;
-      const fetchData = fetchDataForOption(selectedValue);
       try {
-        const data = await fetchData;
         if (selectedValue && componentName) {
           const newComponent = componentMap[componentName];
           if (newComponent) {
@@ -78,7 +75,6 @@ const MyPageLayoutPage = () => {
                     id: selectedValue,
                     componentName: componentName,
                     label: selectedLabel,
-                    data: data,
                   },
                 ],
                 B: prevItems.B,
@@ -88,21 +84,19 @@ const MyPageLayoutPage = () => {
               // eslint-disable-next-line quotes
               const storedItems = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
               const newStoredItems = {
-                A: [...storedItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel, data: data }],
+                A: [...storedItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel }],
                 B: storedItems.B,
                 C: storedItems.C,
               };
               localStorage.setItem("items", JSON.stringify(newStoredItems));
               return updatedItems;
             });
-
             // Cập nhật danh sách options để loại bỏ option đã chọn
             setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
 
             // Lưu danh sách options đã thêm vào localStorage
             const addedOptions = JSON.parse(localStorage.getItem("addedOptions") || "[]");
             localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
-
             // Xóa trạng thái tạm thời
             setSelectedOption(null);
             window.location.reload();
@@ -113,21 +107,6 @@ const MyPageLayoutPage = () => {
       }
     }
   };
-  const fetchDataForOption = async (optionValue: string) => {
-    switch (optionValue) {
-      case "1":
-        return await getIssueAssigned();
-      case "2":
-        return await getIssueReport();
-      case "3":
-        return await getIssueWatched();
-      case "5":
-        return await getIssueSchedule();
-      default:
-        return [];
-    }
-  };
-
   return (
     <div>
       <div className="flex justify-between items-center">

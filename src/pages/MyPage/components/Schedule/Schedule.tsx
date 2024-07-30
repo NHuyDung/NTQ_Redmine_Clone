@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
-// import images from "~/assets/img";
-// import { Tooltip } from "react-tooltip";
+import images from "~/assets/img";
+import { Tooltip } from "react-tooltip";
 import { DaysOfWeek } from "~/const/MyPage";
-// import CustomTooltip from "./CustomTooltip";
+import CustomTooltip from "./CustomTooltip";
+import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "~/app/store";
+import { useSelector } from "react-redux";
+import { fetchIssuesSchedule } from "~/features/issues/IssuesScheduleSlice";
 const startOfWeek = moment().startOf("week").add(1, "day");
-const Schedule: React.FC<{ id: string }> = ({ id }) => {
-  console.log(id);
+const Schedule: React.FC = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const { issuesSchedule } = useSelector((state: RootState) => state.issuesSchedule);
 
-  // const isToday = (date: moment.Moment) => {
-  //   return date.isSame(moment(), "day");
-  // };
+  useEffect(() => {
+    dispatch(fetchIssuesSchedule());
+  }, [dispatch]);
+
+  const isToday = (date: moment.Moment) => {
+    return date.isSame(moment(), "day");
+  };
   return (
     <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-auto">
       <thead className="bg-[#eeeeee] h-7">
@@ -26,7 +35,7 @@ const Schedule: React.FC<{ id: string }> = ({ id }) => {
       <tbody className="bg-white divide-y divide-gray-200 ">
         <tr>
           <td className="bg-[#eeeeee] p-1 text-right align-top">{startOfWeek.week()}</td>
-          {/* {data.map((data, index) => {
+          {issuesSchedule.map((data, index) => {
             const currentDay = startOfWeek.clone().add(index, "day");
             const dayClassName = isToday(currentDay) ? "bg-[#ffffdd]" : "";
 
@@ -55,14 +64,14 @@ const Schedule: React.FC<{ id: string }> = ({ id }) => {
                       </a>
                       : {task.subject}
                     </div>
-                    <Tooltip id={`tooltip-${task.id}-${taskIndex}`}>
+                    <Tooltip id={`tooltip-${task.id}-${taskIndex}`} clickable={true}>
                       <CustomTooltip {...task} />
                     </Tooltip>
                   </div>
                 ))}
               </td>
             );
-          })} */}
+          })}
         </tr>
       </tbody>
     </table>

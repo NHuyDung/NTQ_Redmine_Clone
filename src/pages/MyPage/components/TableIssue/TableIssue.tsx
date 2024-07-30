@@ -9,27 +9,22 @@ import { fetchIssuesAssigned } from "~/features/issues/IssuesAssignedSlice";
 import { fetchIssuesWatched } from "~/features/issues/IssuesWatchedSlice";
 
 const TableIssue: React.FC<{ id: string }> = ({ id }) => {
-  console.log("props", id);
-
+  let displayedData: IssueReport[] = [];
   const dispatch: AppDispatch = useDispatch();
   const { issuesReport } = useSelector((state: RootState) => state.issuesReport);
   const { issuesWatched } = useSelector((state: RootState) => state.issuesWatched);
   const { issuesAssigned } = useSelector((state: RootState) => state.issuesAssigned);
-
   useEffect(() => {
     dispatch(fetchIssuesReport());
     dispatch(fetchIssuesAssigned());
     dispatch(fetchIssuesWatched());
-  }, [dispatch]);
+  }, []);
 
   const [isDialogVisible, setIsDialogVisible] = useState(false);
 
   const toggleDialogVisibility = () => {
     setIsDialogVisible(!isDialogVisible);
   };
-
-  // Chọn dữ liệu dựa trên giá trị của id
-  let displayedData: IssueReport[] = [];
 
   if (id === "1") {
     displayedData = issuesAssigned;
@@ -67,10 +62,10 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
               className={`hover:bg-[#ffffdd] ${index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#f6f7f8]"}`}
               onDoubleClick={toggleDialogVisibility} // Thêm sự kiện nhấp đúp chuột
             >
-              <td className="p-1 text-center text-xs font-medium text-gray-900 border border-primary-border">{issue.id}</td>
-              <td className="p-1 text-center text-xs border border-primary-border">{issue?.project?.name}</td>
+              <td className="p-1 text-center text-xs font-medium text-gray-900 border border-primary-border hover:underline">{issue.id}</td>
+              <td className="p-1 text-center text-xs border border-primary-border hover:underline">{issue?.project?.name}</td>
               <td className="p-1 text-center text-xs border border-primary-border">{issue?.tracker?.name}</td>
-              <td className="p-1 text-left text-xs border border-primary-border">{issue?.subject}</td>
+              <td className="p-1 text-left text-xs border border-primary-border hover:underline">{issue?.subject}</td>
             </tr>
           ))}
         </tbody>
