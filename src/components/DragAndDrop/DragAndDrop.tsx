@@ -14,7 +14,6 @@ type ComponentMap = {
   TableIssue: React.FC<{ data: IssueReport[] | [] }>;
   TotalTime: React.FC;
   SpentTime: () => JSX.Element;
-  // Thêm các component khác nếu cần...
 };
 
 const componentMap: ComponentMap = {
@@ -23,7 +22,6 @@ const componentMap: ComponentMap = {
   TableIssue,
   TotalTime,
   SpentTime,
-  // Add more components as needed...
 };
 
 type Item = {

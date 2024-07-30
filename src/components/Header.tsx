@@ -53,7 +53,7 @@ const Header = () => {
         </div>
 
         {isProjectOverviewPage && (
-          <div className="flex gap-0.5">
+          <div className="flex gap-0.5 ml-2">
             {Projects.map((project) => (
               <Link
                 key={project.id}

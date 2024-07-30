@@ -15,6 +15,8 @@ export interface Issue {
   due_date: string;
   assigned_to: { id: number; name: string };
   deadline: boolean;
+  loading: boolean;
+  error: string | null;
 }
 export interface GroupedIssues {
   day?: string;

@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
 import DragAndDrop from "~/components/DragAndDrop/DragAndDrop";
 import { ItemsState } from "~/types/ItemDragAndDrop";
-// import LogTime from "../MyPage/components/TotalTime/LogTime";
 import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
-// import TotalTime from "../MyPage/components/TotalTime/TotalTime";
 import SpentTime from "../MyPage/components/SpentTime/SpentTime";
-import images from "~/assets/img";
 import { getIssueAssigned, getIssueReport, getIssueSchedule, getIssueWatched } from "~/services/IssueService";
-// import { IssueType } from "~/types/Issue";
+import addButton from "~/assets/img/mypage_add.png";
+import backButton from "~/assets/img/mypage_back.png";
+
 const componentMap: { [key: string]: React.ReactNode } = {
-  // LogTime: <LogTime />,
   Schedule: <Schedule data={[]} />,
   TableIssue: <TableIssue data={[]} />,
-  // TotalTime: <TotalTime />,
   SpentTime: <SpentTime />,
 };
 
@@ -98,7 +95,6 @@ const MyPageLayoutPage = () => {
                 C: prevItems.C,
               };
 
-              // Lưu dữ liệu vào localStorage
               // eslint-disable-next-line quotes
               const storedItems = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
               const newStoredItems = {
@@ -160,12 +156,12 @@ const MyPageLayoutPage = () => {
           </select>
 
           <a onClick={addOption} className="flex items-center mx-2 cursor-pointer" rel="noreferrer noopener">
-            <img src={images.add} className="w-4 h-4" alt="Add" />
+            <img src={addButton} className="w-4 h-4" alt="Add" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Add</p>
           </a>
 
           <a href="/my-page" rel="noreferrer noopener" className="flex items-center mx-2">
-            <img src={images.cancel} className="w-4 h-4" alt="Back" />
+            <img src={backButton} className="w-4 h-4" alt="Back" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Back</p>
           </a>
         </div>
