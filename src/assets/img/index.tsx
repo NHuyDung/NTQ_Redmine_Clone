@@ -19,6 +19,9 @@ import group from "./overview_group.png";
 import time from "./overview_time.png";
 import fav from "./project_fav.png";
 import feedproject from "./project_feed.png";
+import attachment from "./activity_attachment.png";
+import ticket_overview from "./activity_ticket.png";
+import avatar from "./activity_avatar.png";
 
 const images = {
   arrow_right,
@@ -41,6 +44,9 @@ const images = {
   time,
   fav,
   feedproject,
+  attachment,
+  ticket_overview,
+  avatar,
 };
 
 export default images;
