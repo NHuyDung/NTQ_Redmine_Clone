@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
 import DragAndDrop from "~/components/DragAndDrop/DragAndDrop";
-import { ItemsState } from "~/types/ItemDragAndDrop";
+import { ComponentMap, Item, ItemsState, Option } from "~/types/ItemDragAndDrop";
 import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
 import SpentTime from "../MyPage/components/SpentTime/SpentTime";
 import addButton from "~/assets/img/mypage_add.png";
 import backButton from "~/assets/img/mypage_back.png";
+import { Link } from "react-router-dom";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   Schedule: <Schedule />,
   TableIssue: <TableIssue id="" />,
   SpentTime: <SpentTime />,
 };
-
-interface Option {
-  label: string;
-  value: string;
-  componentName?: string;
-  isAdded?: boolean;
-}
 
 const MyPageLayoutPage = () => {
   const initialOptions: Option[] = [
@@ -32,6 +26,7 @@ const MyPageLayoutPage = () => {
   ];
 
   const [options, setOptions] = useState<Option[]>(initialOptions);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [items, setItems] = useState<ItemsState>({
     A: [],
@@ -60,46 +55,50 @@ const MyPageLayoutPage = () => {
   const addOption = () => {
     if (selectedOption) {
       const selectedValue = selectedOption.value;
-      const componentName = selectedOption.componentName || "";
+      const componentName = selectedOption.componentName as keyof ComponentMap; // Ensure correct type
       const selectedLabel = selectedOption.label;
+
       try {
         if (selectedValue && componentName) {
           const newComponent = componentMap[componentName];
+
           if (newComponent) {
             // Cập nhật trạng thái với dữ liệu mới
             setItems((prevItems) => {
-              const updatedItems = {
-                A: [
-                  ...prevItems.A,
-                  {
-                    id: selectedValue,
-                    componentName: componentName,
-                    label: selectedLabel,
-                  },
-                ],
+              const newItem: Item = {
+                id: selectedValue,
+                componentName: componentName,
+                label: selectedLabel,
+              };
+
+              const updatedItems: ItemsState = {
+                A: [...prevItems.A, newItem],
                 B: prevItems.B,
                 C: prevItems.C,
               };
 
               // eslint-disable-next-line quotes
-              const storedItems = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
-              const newStoredItems = {
-                A: [...storedItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel }],
+              const storedItems: ItemsState = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
+              const newStoredItems: ItemsState = {
+                A: [...storedItems.A, newItem],
                 B: storedItems.B,
                 C: storedItems.C,
               };
+
               localStorage.setItem("items", JSON.stringify(newStoredItems));
+
               return updatedItems;
             });
+
             // Cập nhật danh sách options để loại bỏ option đã chọn
             setOptions((prevOptions) => prevOptions.map((option) => (option.value === selectedValue ? { ...option, isAdded: true } : option)));
 
             // Lưu danh sách options đã thêm vào localStorage
             const addedOptions = JSON.parse(localStorage.getItem("addedOptions") || "[]");
             localStorage.setItem("addedOptions", JSON.stringify([...addedOptions, selectedValue]));
+
             // Xóa trạng thái tạm thời
             setSelectedOption(null);
-            window.location.reload();
           }
         }
       } catch (error) {
@@ -107,6 +106,7 @@ const MyPageLayoutPage = () => {
       }
     }
   };
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -124,18 +124,18 @@ const MyPageLayoutPage = () => {
               ))}
           </select>
 
-          <a onClick={addOption} className="flex items-center mx-2 cursor-pointer" rel="noreferrer noopener">
+          <button onClick={addOption} className="flex items-center mx-2 cursor-pointer" aria-label="Add Option">
             <img src={addButton} className="w-4 h-4" alt="Add" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Add</p>
-          </a>
+          </button>
 
-          <a href="/my-page" rel="noreferrer noopener" className="flex items-center mx-2">
+          <Link to="/my-page" className="flex items-center mx-2" rel="noreferrer noopener">
             <img src={backButton} className="w-4 h-4" alt="Back" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Back</p>
-          </a>
+          </Link>
         </div>
       </div>
-      <DragAndDrop hasBorder={true} />
+      <DragAndDrop hasBorder={true} items={items} setItems={setItems} setOptions={setOptions} />
     </div>
   );
 };

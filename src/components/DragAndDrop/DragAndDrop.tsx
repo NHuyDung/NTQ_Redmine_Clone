@@ -1,53 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./DragAndDrop.css";
-import LogTime from "~/pages/MyPage/components/TotalTime/LogTime";
-import Schedule from "~/pages/MyPage/components/Schedule/Schedule";
-import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
-import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
-import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
 import closeButton from "~/assets/img/close.png";
-import { IssueType } from "~/types/Issue";
-
-type ComponentMap = {
-  LogTime: () => JSX.Element;
-  Schedule: React.FC<{ id: string }>;
-  TableIssue: React.FC<{ id: string }>;
-  TotalTime: React.FC;
-  SpentTime: () => JSX.Element;
-};
-
-const componentMap: ComponentMap = {
-  LogTime,
-  Schedule,
-  TableIssue,
-  TotalTime,
-  SpentTime,
-};
-
-type Item = {
-  id: string;
-  data: IssueType;
-  componentName: keyof ComponentMap;
-};
-
-type ItemsState = {
-  A: Item[];
-  B: Item[];
-  C: Item[];
-};
-
-const initialItems: ItemsState = {
-  A: [],
-  B: [],
-  C: [],
-};
+import { componentMap, Item, ItemsState, Option } from "~/types/ItemDragAndDrop";
 
 interface DragAndDropProps {
   hasBorder: boolean;
+  items: ItemsState;
+  setItems: React.Dispatch<React.SetStateAction<ItemsState>>;
+  setOptions: React.Dispatch<React.SetStateAction<Option[]>>;
 }
-
-const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
-  const [items, setItems] = useState<ItemsState>(initialItems);
+const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder, items, setItems, setOptions }) => {
+  // const [items, setItems] = useState<ItemsState>(initialItems);
   const [draggingItem, setDraggingItem] = useState<Item | null>(null);
   const [draggingStyle, setDraggingStyle] = useState<React.CSSProperties>({});
   const [isDragging, setIsDragging] = useState(false);
@@ -57,6 +20,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   const [itemSources, setItemSources] = useState<{ [itemId: string]: "A" | "B" | "C" }>({});
   const [currentList, setCurrentList] = useState<"A" | "B" | "C">("A");
 
+  // Sử dụng useEffect để load dữ liệu từ localStorage khi component mount
   useEffect(() => {
     const storedItems = localStorage.getItem("items");
     if (storedItems) {
@@ -66,7 +30,6 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
 
   const onDrop = (item: Item, targetList: "A" | "B" | "C") => {
     const sourceList = itemSources[item.id];
-
     if (sourceList === targetList) {
       setDraggingItem(null);
       setDraggingStyle({});
@@ -80,6 +43,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
         [sourceList]: prevItems[sourceList].filter((i) => i.id !== item.id),
         [targetList]: [...prevItems[targetList], item],
       };
+      // Lưu vào localStorage ngay sau khi cập nhật
       localStorage.setItem("items", JSON.stringify(updatedItems));
       return updatedItems;
     });
@@ -178,6 +142,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
               [currentDropTarget]: newItems,
             }));
 
+            // Cập nhật localStorage
             localStorage.setItem(
               "items",
               JSON.stringify({
@@ -240,16 +205,22 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
 
   const handleCloseItem = (itemId: string, targetList: "A" | "B" | "C") => {
     const storedItems = JSON.parse(localStorage.getItem("items") || "{}");
+
     const updatedList = storedItems[targetList].filter((item: { id: string }) => item.id !== itemId);
     storedItems[targetList] = updatedList;
     localStorage.setItem("items", JSON.stringify(storedItems));
-
     const addedItems = JSON.parse(localStorage.getItem("addedOptions") || "[]");
     const updatedAddedItems = addedItems.filter((item: string) => item !== itemId);
     localStorage.setItem("addedOptions", JSON.stringify(updatedAddedItems));
+    setOptions((prevOptions) => prevOptions.map((option) => (updatedAddedItems.includes(option.value) ? option : { ...option, isAdded: false })));
 
-    window.location.reload();
+    // Cập nhật lại trạng thái items thay vì reload
+    setItems((prevItems) => ({
+      ...prevItems,
+      [targetList]: updatedList,
+    }));
   };
+
   const getLabelById = (itemId: string, targetList: "A" | "B" | "C") => {
     const storedItems = JSON.parse(localStorage.getItem("items") || "{}");
     const item = storedItems[targetList].find((item: { id: string }) => item.id === itemId);
@@ -259,7 +230,6 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
   const renderItems = (items: Item[], targetList: "A" | "B" | "C") => {
     return items.map((item) => {
       const Component = componentMap[item.componentName as keyof typeof componentMap];
-
       return (
         <div
           key={item.id}
@@ -278,6 +248,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder }) => {
       );
     });
   };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderComponent = (Component: React.ElementType, props: React.PropsWithChildren<any>) => {
     return <Component {...props} />;

@@ -9,29 +9,33 @@ import { fetchIssuesAssigned } from "~/features/issues/IssuesAssignedSlice";
 import { fetchIssuesWatched } from "~/features/issues/IssuesWatchedSlice";
 
 const TableIssue: React.FC<{ id: string }> = ({ id }) => {
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
   let displayedData: IssueReport[] = [];
   const dispatch: AppDispatch = useDispatch();
   const { issuesReport } = useSelector((state: RootState) => state.issuesReport);
   const { issuesWatched } = useSelector((state: RootState) => state.issuesWatched);
   const { issuesAssigned } = useSelector((state: RootState) => state.issuesAssigned);
   useEffect(() => {
-    dispatch(fetchIssuesReport());
-    dispatch(fetchIssuesAssigned());
-    dispatch(fetchIssuesWatched());
-  }, []);
-
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
-
+    if (issuesReport?.length === 0) {
+      dispatch(fetchIssuesReport());
+    }
+    if (issuesAssigned?.length === 0) {
+      dispatch(fetchIssuesAssigned());
+    }
+    if (issuesWatched?.length === 0) {
+      dispatch(fetchIssuesWatched());
+    }
+  }, [dispatch, issuesReport?.length, issuesAssigned?.length, issuesWatched?.length]);
   const toggleDialogVisibility = () => {
     setIsDialogVisible(!isDialogVisible);
   };
 
   if (id === "1") {
-    displayedData = issuesAssigned;
+    displayedData = issuesAssigned || [];
   } else if (id === "2") {
-    displayedData = issuesReport;
+    displayedData = issuesReport || [];
   } else if (id === "3") {
-    displayedData = issuesWatched;
+    displayedData = issuesWatched || [];
   } else {
     displayedData = [];
   }
@@ -60,7 +64,7 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
             <tr
               key={issue.id}
               className={`hover:bg-[#ffffdd] ${index % 2 === 0 ? "bg-[#ffffff]" : "bg-[#f6f7f8]"}`}
-              onDoubleClick={toggleDialogVisibility} // Thêm sự kiện nhấp đúp chuột
+              onDoubleClick={toggleDialogVisibility}
             >
               <td className="p-1 text-center text-xs font-medium text-gray-900 border border-primary-border hover:underline">{issue.id}</td>
               <td className="p-1 text-center text-xs border border-primary-border hover:underline">{issue?.project?.name}</td>

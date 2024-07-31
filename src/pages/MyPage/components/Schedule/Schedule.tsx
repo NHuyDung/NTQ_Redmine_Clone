@@ -8,18 +8,23 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "~/app/store";
 import { useSelector } from "react-redux";
 import { fetchIssuesSchedule } from "~/features/issues/IssuesScheduleSlice";
+
 const startOfWeek = moment().startOf("week").add(1, "day");
+
 const Schedule: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { issuesSchedule } = useSelector((state: RootState) => state.issuesSchedule);
 
   useEffect(() => {
-    dispatch(fetchIssuesSchedule());
-  }, [dispatch]);
+    if (issuesSchedule?.length === 0) {
+      dispatch(fetchIssuesSchedule());
+    }
+  }, [dispatch, issuesSchedule?.length]);
 
   const isToday = (date: moment.Moment) => {
     return date.isSame(moment(), "day");
   };
+
   return (
     <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-auto">
       <thead className="bg-[#eeeeee] h-7">
@@ -35,7 +40,7 @@ const Schedule: React.FC = () => {
       <tbody className="bg-white divide-y divide-gray-200 ">
         <tr>
           <td className="bg-[#eeeeee] p-1 text-right align-top">{startOfWeek.week()}</td>
-          {issuesSchedule.map((data, index) => {
+          {issuesSchedule?.map((data, index) => {
             const currentDay = startOfWeek.clone().add(index, "day");
             const dayClassName = isToday(currentDay) ? "bg-[#ffffdd]" : "";
 

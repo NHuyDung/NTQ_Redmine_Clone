@@ -1,7 +1,7 @@
 import React from "react";
 import images from "~/assets/img";
 import { formatDate } from "~/utils/FormatDay";
-import { TimeEntriesType } from "~/types/MyPage";
+import { TimeEntriesType } from "~/types/spentTime";
 import { groupIssuesByDate } from "~/utils/GroupByDate";
 import { HeaderDetailData } from "~/const/MyPage";
 

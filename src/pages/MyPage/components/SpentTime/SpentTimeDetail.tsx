@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import images from "~/assets/img";
 import { getSpentTime } from "~/services/PageService";
-import { TimeEntriesType } from "~/types/MyPage";
+import { TimeEntriesType } from "~/types/spentTime";
 import { OPTIONS_DATE, OPTIONS_USER_1, OPTIONS_USER_2, OPTIONS_FILTER } from "~/const/MyPage";
 
 import Select from "~/components/Select/Select";
 import Detail from "./Detail";
 import Report from "./Report";
+import { Link } from "react-router-dom";
 
 const SpentTimeDetail = () => {
   const [spentTimeData, setSpentTimeData] = useState<TimeEntriesType[]>([]);
@@ -31,10 +32,10 @@ const SpentTimeDetail = () => {
         <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout" rel="noreferrer noopener">
           All projects »
         </a>
-        <a href="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
+        <Link to="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
           <img src={images.logtime} alt="add" />
           <span>Log time</span>
-        </a>
+        </Link>
       </div>
       <h1 className="text-[#555] text-xl font-semibold mb-3">Spent time</h1>
       <fieldset className="flex text-xs text-subText py-2 px-3 border-t">

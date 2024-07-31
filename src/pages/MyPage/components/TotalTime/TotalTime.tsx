@@ -1,29 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import images from "~/assets/img";
 
 import { formatDate } from "~/utils/FormatDay";
-import { getTotalTime } from "~/services/PageService";
-import { TimeEntriesType } from "~/types/MyPage";
 import { groupIssuesByDate } from "~/utils/GroupByDate";
 import { HeaderTotalData } from "~/const/MyPage";
+import { Link } from "react-router-dom";
+import { AppDispatch, RootState } from "~/app/store";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { fetchSpentTime } from "~/features/issues/SpentTimeSlice";
 
 const TotalTime: React.FC = () => {
-  const [totalTimeData, setTotalTimeData] = useState<TimeEntriesType[]>([]);
-
+  const dispatch: AppDispatch = useDispatch();
+  const { SpentTime } = useSelector((state: RootState) => state.SpentTime);
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const result = await getTotalTime();
-        setTotalTimeData(result);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+    if (SpentTime?.length === 0) {
+      dispatch(fetchSpentTime());
+    }
+  }, [dispatch, SpentTime?.length]);
 
-    fetchProjects();
-  }, []);
   // data table
-  const groupedIssues = groupIssuesByDate(totalTimeData);
+  const groupedIssues = groupIssuesByDate(SpentTime);
   // total time
   const totalHours = Object.values(groupedIssues).reduce((sum, { totalHours }) => sum + totalHours, 0);
 
@@ -33,10 +30,10 @@ const TotalTime: React.FC = () => {
         <h2 className="text-13">
           Total time:<span>{totalHours.toFixed(2)}</span>
         </h2>
-        <a href="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
+        <Link to="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
           <img src={images.add} alt="add" />
           <span>Log time</span>
-        </a>
+        </Link>
       </div>
       <table className="min-w-full divide-gray-200 border border-gray-300">
         <thead className="bg-primary-sub_bg h-7">

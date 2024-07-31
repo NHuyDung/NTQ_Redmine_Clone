@@ -1,13 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "~/services/api";
-import { Issue } from "~/types/Issue";
-
-interface IssuesState {
-  issuesWatched: Issue[];
-  loading: boolean;
-  error: string | null;
-}
-
+import { Issue, IssuesState } from "~/types/Issue";
 const initialState: IssuesState = {
   issuesWatched: [],
   loading: false,
