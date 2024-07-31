@@ -12,6 +12,7 @@ import edit from "./mypage_edit.png";
 import remove from "./mypage_delete.png";
 import exclamation from "./logtime_exclamation.png";
 import feed from "./spenttime_feed.png";
+import avatar from "./avatar.png";
 import cancel from "./mypagelayout_cancel.png";
 import homepage from "./homepage_projects.png";
 import ticket from "./overview_ticket.png";
@@ -34,6 +35,7 @@ const images = {
   arrow_left,
   exclamation,
   feed,
+  avatar,
   cancel,
   homepage,
   ticket,

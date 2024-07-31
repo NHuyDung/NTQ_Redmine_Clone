@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import DragAndDropMyPage from "~/components/DragAndDrop/DragAndDropMyPage";
 
 const MyPage = () => {
@@ -12,18 +13,18 @@ const MyPage = () => {
         <div>
           <div className="flex justify-between">
             <h2 className="text-[#555] text-xl text-5 font-semibold">My page</h2>
-            <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout" rel="noreferrer noopener">
+            <Link to={"/my/page_layout"} className="text-primary text-11 hover:underline hover:text-red-400">
               Personalize this page
-            </a>
+            </Link>
           </div>
           <DragAndDropMyPage items={items} hasBorder={false} />
         </div>
       ) : (
         <div className="flex justify-between">
           <h2 className="text-[#555] text-xl text-5 font-semibold">My page</h2>
-          <a className="text-primary text-11 hover:underline hover:text-red-400" href="my/page_layout" rel="noreferrer noopener">
+          <Link to={"/my/page_layout"} className="text-primary text-11 hover:underline hover:text-red-400">
             Personalize this page
-          </a>
+          </Link>
         </div>
       )}
     </div>
