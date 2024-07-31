@@ -13,7 +13,7 @@ const ProjectDetail = () => {
       case "overview":
         return <Overview identifier={identifier} />;
       case "activity":
-        return <Activity />;
+        return <Activity identifier={identifier} />;
       default:
         return <div>Unknown section</div>;
     }

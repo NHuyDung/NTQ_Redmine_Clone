@@ -11,10 +11,11 @@ interface DefaultLayoutProps {
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const location = useLocation();
   const isProjectPath = location.pathname.startsWith("/projects");
+  const projectName = location.state?.projectName;
 
   return (
     <div className="mx-3 min-w-max w-[calc(100%-24px)]">
-      <Header />
+      <Header title={projectName} />
       <div className="flex justify-between mt-2">
         <main className={`${isProjectPath ? "w-3/4" : "w-full"} p-2  border-1 border-solid border-primary-border bg-white h-full min-h-615`}>
           {children}

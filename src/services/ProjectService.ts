@@ -23,10 +23,22 @@ export const getMembers = async (identifier: string) => {
 
 export const getTrackerQuantity = async (identifier: string) => {
   try {
-    const response = await axiosInstance.get(`/issues.json?project_id=${identifier}`);
+    const response = await axiosInstance.get(`/issues.json?identifier=${identifier}`);
     return response.data.issues;
   } catch (error) {
     console.error("Error fetching tracker quantity:", error);
+    throw error;
+  }
+};
+
+// activity
+
+export const timeEntries = async (identifier: string) => {
+  try {
+    const response = await axiosInstance.get(`/time_entries.json?identifier=${identifier}`);
+    return response.data.time_entries;
+  } catch (error) {
+    console.error("Error fetching projects:", error);
     throw error;
   }
 };
