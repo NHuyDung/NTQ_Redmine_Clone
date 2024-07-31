@@ -26,3 +26,8 @@ export interface TimeEntriesType {
     id: number;
   };
 }
+export interface SpentTimeState {
+  SpentTime: TimeEntriesType[];
+  loading: boolean;
+  error: string | null;
+}

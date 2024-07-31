@@ -1,5 +1,3 @@
-// import { TimeEntriesType } from "~/types/MyPage";
-
 interface GroupedIssues<T> {
   [date: string]: {
     issues: T[];

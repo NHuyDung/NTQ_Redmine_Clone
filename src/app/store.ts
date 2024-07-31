@@ -2,15 +2,17 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import IssuesAssignedSlice from "~/features/issues/IssuesAssignedSlice";
 import IssuesReportSlice from "~/features/issues/IssuesReportSlice";
+import IssuesScheduleSlice from "~/features/issues/IssuesScheduleSlice";
 import IssuesWatchedSlice from "~/features/issues/IssuesWatchedSlice";
-import timeEntriesSlice from "~/features/MyPage/timeEntriesSlice";
+import SpentTimeSlice from "~/features/issues/SpentTimeSlice";
 
 const store = configureStore({
   reducer: {
     issuesReport: IssuesReportSlice,
     issuesWatched: IssuesWatchedSlice,
     issuesAssigned: IssuesAssignedSlice,
-    timeEntries: timeEntriesSlice,
+    issuesSchedule: IssuesScheduleSlice,
+    SpentTime: SpentTimeSlice,
   },
 });
 
