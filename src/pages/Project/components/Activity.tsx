@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { getIssueSchedule } from "~/services/IssueService";
 import { timeEntries } from "~/services/ProjectService";
 import { Issue } from "~/types/Issue";
-import { formatDate } from "~/utils/FormatDay";
-import moment from "moment";
+import { formatDate, formatTime } from "~/utils/FormatDay";
 import images from "~/assets/img";
+import { Link } from "react-router-dom";
 
 interface Time {
   activity: { id: number; name: string };
@@ -14,8 +14,9 @@ interface Time {
   created_on: string;
   user: { id: number; name: string };
   hours: number;
-  issue: { id: number };
+  issue?: { id: number };
 }
+
 interface OverviewProps {
   identifier: string;
 }
@@ -34,7 +35,7 @@ interface DataSample {
 }
 
 const groupByDate = (data: DataSample[]) => {
-  return data.reduce(
+  const groupedData = data.reduce(
     (acc, item) => {
       const date = item.created_on.split("T")[0];
       if (!acc[date]) {
@@ -45,6 +46,13 @@ const groupByDate = (data: DataSample[]) => {
     },
     {} as Record<string, DataSample[]>,
   );
+
+  // Sort items in each date group by time (created_on)
+  Object.keys(groupedData).forEach((date) => {
+    groupedData[date].sort((a, b) => new Date(b.created_on).getTime() - new Date(a.created_on).getTime());
+  });
+
+  return groupedData;
 };
 
 const Activity: React.FC<OverviewProps> = ({ identifier }) => {
@@ -65,12 +73,6 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
     fetchProjects();
   }, [identifier]);
 
-  // format VN time
-  const formatTime = (date: string) => {
-    const vietnamTime = moment.utc(date).add(7, "hours").format("h:mm A");
-    return vietnamTime;
-  };
-
   useEffect(() => {
     const issuesDataSample = issues.map((issue) => ({
       title: issue.subject,
@@ -87,17 +89,24 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
       id: issue.id,
     }));
 
-    const timeEntriesDataSample = time.map((entry) => ({
-      title: entry.activity.name,
-      type: "timeEntries",
-      description: entry.comments,
-      author: {
-        id: entry.user.id,
-        name: entry.user.name,
-      },
-      created_on: entry.created_on,
-      hours: entry.hours,
-    }));
+    const timeEntriesDataSample = time.map((entry) => {
+      const relatedIssue = entry.issue ? issues.find((issue) => issue.id === entry.issue?.id) : undefined;
+      return {
+        title: entry.activity.name,
+        type: "timeEntries",
+        description: entry.comments,
+        author: {
+          id: entry.user.id,
+          name: entry.user.name,
+        },
+        created_on: entry.created_on,
+        hours: entry.hours,
+        trackerName: relatedIssue?.tracker.name,
+        statusName: relatedIssue?.status.name,
+        subject: relatedIssue?.subject,
+        id: entry.issue?.id,
+      };
+    });
 
     setData([...issuesDataSample, ...timeEntriesDataSample]);
   }, [issues, time]);
@@ -105,6 +114,7 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
   const groupedData = groupByDate(data);
 
   const sortedDates = Object.keys(groupedData).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+
   return (
     <div>
       <h2 className="text-lg font-semibold mb-1 text-[#555]">Activity</h2>
@@ -112,28 +122,29 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
 
       {sortedDates.map((date) => (
         <div key={date} className="mb-4">
-          <h2 className=" font-semibold mb-2 text-[#555]">{formatDate(date)}</h2>
+          <h2 className="font-semibold mb-2 text-[#555]">{formatDate(date)}</h2>
           <div className="ml-6 my-3">
             {groupedData[date].map((item, index) => (
               <div key={index} className="flex items-start mb-2.5">
                 <img src={item.type === "issue" ? images.ticket_overview : images.time} alt={item.type === "issue" ? "ticket" : "time"} />
-                {/* <img src={images.ticket_overview} alt="ticket" /> */}
                 <img className="border border-primary-border mr-3 ml-1.5 p-0.5" src={images.avatar} alt="avatar" />
                 <div className="flex flex-col justify-center items-start">
                   <div className="flex items-end gap-1">
                     <span className="text-10 text-[#777]">{formatTime(item.created_on)}</span>
                     {item.type === "issue" ? (
-                      <a className="text-xs text-[#169] font-medium cursor-pointer hover:underline hover:text-[#b2290f]" href={`/issues/${item.id}`}>
+                      <Link className="text-xs text-[#169] font-medium cursor-pointer hover:underline hover:text-[#b2290f]" to={`/issues/${item.id}`}>
                         {item.trackerName} #{item.id} ({item.statusName}): {item.subject}
-                      </a>
+                      </Link>
                     ) : (
-                      <span className="text-xs text-[#169] font-medium">{(item.hours ?? 0).toFixed(2)} hours</span>
+                      <span className="text-xs text-[#169] font-medium">
+                        {(item.hours ?? 0).toFixed(2)} hours ({item.trackerName} #{item.id} ({item.statusName}): {item.subject} )
+                      </span>
                     )}
                   </div>
                   <span className="text-11 italic text-[#808080]">{item.description}</span>
-                  <a href={`/users/${item.author.id}`} className="text-11 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+                  <Link to={`/users/${item.author.id}`} className="text-11 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
                     {item.author.name}
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -141,52 +152,22 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
         </div>
       ))}
 
-      {/* {Object.keys(startDateMap).map((startDate) => (
-        <div key={startDate}>
-          <h3 className="text-[#555] font-bold mb-2.5">{formatDate(startDate)}</h3>
-          <div className="ml-6 my-3">
-            {startDateMap[startDate].map((issue, index) => (
-              <div key={index} className="flex items-start mb-3">
-                <img src={images.ticket_overview} alt="ticket" />
-                <img className="border border-primary-border mr-3 ml-1.5 p-0.5" src={images.avatar} alt="avatar" />
-                <div className="flex flex-col justify-center items-start">
-                  <div className="flex items-center gap-1">
-                    <span className="text-10 text-[#777]">{formatTime(issue.createdOn)}</span>
-                    <a className="text-xs text-[#169] font-medium cursor-pointer  hover:underline hover:text-[#b2290f]" href="/issues/122966">
-                      {issue.trackerName} #{issue.id} ({issue.statusName}): {issue.subject}
-                    </a>
-                  </div>
-                  <span className="text-11 italic text-[#808080]">{issue.description}</span>
-                  <a href="/users/2805" className="text-11 text-[#169] cursor-pointer  hover:underline hover:text-[#b2290f]">
-                    {issue.authorName}
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))} */}
+      <Link
+        className="text-xs text-primary hover:underline hover:text-red-400"
+        to="/projects/fresher-_-reactjs-fresher/activity?from=2024-07-02"
+        title="From 06/03/2024 to 07/02/2024"
+      >
+        « Previous
+      </Link>
+      <div className="flex items-center gap-1 justify-end text-11 mb-2">
+        <span>Also available in:</span>
+        <Link className="flex items-center gap-1 text-primary hover:underline hover:text-red-400" to="" rel="noreferrer noopener">
+          <img src={images.feed} alt="feed" />
+          Atom
+        </Link>
+      </div>
     </div>
   );
 };
 
 export default Activity;
-
-// // Create a obj to save start_date not duplicate
-// const startDateMap: { [key: string]: IssueData[] } = {};
-// // for issues and Sort by hi start_date
-// issues.forEach((issue) => {
-//   const startDate = issue.start_date;
-//   const id = issue.id;
-//   const trackerName = issue.tracker.name;
-//   const createdOn = issue.created_on;
-//   const authorName = issue.author.name;
-//   const statusName = issue.status.name;
-//   const description = issue.description;
-//   const subject = issue.subject;
-
-//   if (!startDateMap[startDate]) {
-//     startDateMap[startDate] = [];
-//   }
-//   startDateMap[startDate].push({ id, trackerName, createdOn, authorName, statusName, description, subject });
-// });
