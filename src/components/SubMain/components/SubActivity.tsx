@@ -1,51 +1,71 @@
-import React from "react";
+// src/components/SubActivity.tsx
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "~/app/store";
+import { setFilters, FilterState } from "~/features/issues/filterSlice";
 
-const SubActivity = () => {
+const SubActivity: React.FC = () => {
+  const dispatch = useDispatch();
+  const filters = useSelector((state: RootState) => state.filter as FilterState);
+
+  // Local state to manage checkbox values
+  const [localFilters, setLocalFilters] = useState<FilterState>(filters);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setLocalFilters((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    // Update Redux store with local state when "Apply" is clicked
+    dispatch(setFilters(localFilters));
+  };
+
   return (
-    <form acceptCharset="UTF-8" action="/projects/fresher-_-reactjs-fresher/activity" method="get">
-      <div style={{ margin: 0, padding: 0, display: "inline" }}>
-        <input name="utf8" type="hidden" value="✓" />
-      </div>
+    <form onSubmit={handleSubmit}>
       <h3 className="text-[#666] text-sm mt-3.5 mb-2.5">Activity</h3>
-      <ul className="text-xs ">
-        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer  hover:underline hover:text-[#b2290f]">
-          <input defaultChecked={true} id="show_issues" name="show_issues" type="checkbox" value="1" />
+      <ul className="text-xs">
+        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+          <input type="checkbox" id="show_issues" name="showIssues" checked={localFilters.showIssues} onChange={handleChange} />
           <label htmlFor="show_issues">
-            <a href="/projects/fresher-_-reactjs-fresher/activity?show_issues=1">Issues</a>
+            <a href="#">Issues</a>
           </label>
         </li>
-        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer  hover:underline hover:text-[#b2290f]">
-          <input defaultChecked={true} id="show_changesets" name="show_changesets" type="checkbox" value="1" />
+        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+          <input type="checkbox" id="show_changesets" name="showChangesets" checked={localFilters.showChangesets} onChange={handleChange} />
           <label htmlFor="show_changesets">
-            <a href="/projects/fresher-_-reactjs-fresher/activity?show_changesets=1">Changesets</a>
+            <a href="#">Changesets</a>
           </label>
         </li>
-        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer  hover:underline hover:text-[#b2290f]">
-          <input defaultChecked={true} id="show_documents" name="show_documents" type="checkbox" value="1" />
+        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+          <input type="checkbox" id="show_documents" name="showDocuments" checked={localFilters.showDocuments} onChange={handleChange} />
           <label htmlFor="show_documents">
-            <a href="/projects/fresher-_-reactjs-fresher/activity?show_documents=1">Documents</a>
+            <a href="#">Documents</a>
           </label>
         </li>
-        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer  hover:underline hover:text-[#b2290f]">
-          <input defaultChecked={true} id="show_files" name="show_files" type="checkbox" value="1" />
+        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+          <input type="checkbox" id="show_files" name="showFiles" checked={localFilters.showFiles} onChange={handleChange} />
           <label htmlFor="show_files">
-            <a href="/projects/fresher-_-reactjs-fresher/activity?show_files=1">Files</a>
+            <a href="#">Files</a>
           </label>
         </li>
-        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer  hover:underline hover:text-[#b2290f]">
-          <input id="show_wiki_edits" name="show_wiki_edits" type="checkbox" value="1" />
+        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+          <input type="checkbox" id="show_wiki_edits" name="showWikiEdits" checked={localFilters.showWikiEdits} onChange={handleChange} />
           <label htmlFor="show_wiki_edits">
-            <a href="/projects/fresher-_-reactjs-fresher/activity?show_wiki_edits=1">Wiki edits</a>
+            <a href="#">Wiki edits</a>
           </label>
         </li>
-        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer  hover:underline hover:text-[#b2290f]">
-          <input id="show_time_entries" name="show_time_entries" type="checkbox" value="1" />
+        <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+          <input type="checkbox" id="show_time_entries" name="showTimeEntries" checked={localFilters.showTimeEntries} onChange={handleChange} />
           <label htmlFor="show_time_entries">
-            <a href="/projects/fresher-_-reactjs-fresher/activity?show_time_entries=1">Spent time</a>
+            <a href="#">Spent time</a>
           </label>
         </li>
       </ul>
-
       <input className="text-xs text-[#222222] bg-[#f2f2f2] border border-[#cccccc] py-0.5 px-1.5 my-3" type="submit" value="Apply" />
     </form>
   );

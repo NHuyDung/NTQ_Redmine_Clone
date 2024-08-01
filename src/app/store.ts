@@ -5,6 +5,7 @@ import IssuesReportSlice from "~/features/issues/IssuesReportSlice";
 import IssuesScheduleSlice from "~/features/issues/IssuesScheduleSlice";
 import IssuesWatchedSlice from "~/features/issues/IssuesWatchedSlice";
 import SpentTimeSlice from "~/features/issues/SpentTimeSlice";
+import filterReducer from "~/features/issues/filterSlice";
 
 const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
     issuesAssigned: IssuesAssignedSlice,
     issuesSchedule: IssuesScheduleSlice,
     SpentTime: SpentTimeSlice,
+    filter: filterReducer,
   },
 });
 

@@ -1,7 +1,9 @@
 // src/assets/images/images.js
 import arrow_right from "./mypage_bullet_go.png";
 import arrow_left from "./mypage_bullet_end.png";
-import arrow_down from "./spenttime_arrow_expanded.png";
+import arrow_expanded from "./spenttime_arrow_expanded.png";
+import arrow_up from "./spenttime_arrow-up.png";
+import arrow_down from "./spenttime_arrow_down.png";
 import logtime from "./spenttime_time_add.png";
 import magnifier from "./logtime_magnifier.png";
 import calendar from "./logtime_calendar.png";
@@ -25,6 +27,8 @@ import avatar from "./activity_avatar.png";
 
 const images = {
   arrow_right,
+  arrow_expanded,
+  arrow_up,
   arrow_down,
   logtime,
   magnifier,

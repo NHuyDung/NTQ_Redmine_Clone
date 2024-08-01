@@ -1,9 +1,14 @@
 import moment from "moment";
 
-export const formatDate = (date: string): string => {
+export const formatDate = (date: string, showTodayAsDate: boolean = false): string => {
   const formattedDate = moment(date).format("MM/DD/YYYY");
   const today = moment().format("YYYY-MM-DD");
-  return today === date ? "Today" : formattedDate;
+
+  if (today === moment(date).format("YYYY-MM-DD")) {
+    return showTodayAsDate ? formattedDate : "Today";
+  }
+
+  return formattedDate;
 };
 
 // format VN time

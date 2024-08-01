@@ -1,10 +1,13 @@
+// src/components/Activity.tsx
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "~/app/store";
 import { getIssueSchedule } from "~/services/IssueService";
 import { timeEntries } from "~/services/ProjectService";
 import { Issue } from "~/types/Issue";
 import { formatDate, formatTime } from "~/utils/FormatDay";
 import images from "~/assets/img";
-import { Link } from "react-router-dom";
+// import SubActivity from "./SubActivity";
 
 interface Time {
   activity: { id: number; name: string };
@@ -59,6 +62,7 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
   const [time, setTime] = useState<Time[]>([]);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [data, setData] = useState<DataSample[]>([]);
+  const filters = useSelector((state: RootState) => state.filter);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -111,12 +115,22 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
     setData([...issuesDataSample, ...timeEntriesDataSample]);
   }, [issues, time]);
 
-  const groupedData = groupByDate(data);
+  const filteredData = data.filter((item) => {
+    if (item.type === "issue" && filters.showIssues) {
+      return true;
+    }
+    if (item.type === "timeEntries" && filters.showTimeEntries) {
+      return true;
+    }
+    return false;
+  });
 
+  const groupedData = groupByDate(filteredData);
   const sortedDates = Object.keys(groupedData).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 
   return (
     <div>
+      {/* <SubActivity /> */}
       <h2 className="text-lg font-semibold mb-1 text-[#555]">Activity</h2>
       <div className="text-xs italic mb-3">From 06/30/2024 to 07/30/2024</div>
 
@@ -132,40 +146,25 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
                   <div className="flex items-end gap-1">
                     <span className="text-10 text-[#777]">{formatTime(item.created_on)}</span>
                     {item.type === "issue" ? (
-                      <Link className="text-xs text-[#169] font-medium cursor-pointer hover:underline hover:text-[#b2290f]" to={`/issues/${item.id}`}>
+                      <a className="text-xs text-[#169] font-medium cursor-pointer hover:underline hover:text-[#b2290f]" href={`/issues/${item.id}`}>
                         {item.trackerName} #{item.id} ({item.statusName}): {item.subject}
-                      </Link>
+                      </a>
                     ) : (
                       <span className="text-xs text-[#169] font-medium">
-                        {(item.hours ?? 0).toFixed(2)} hours ({item.trackerName} #{item.id} ({item.statusName}): {item.subject} )
+                        {(item.hours ?? 0).toFixed(2)} hours - {item.statusName}: {item.subject}
                       </span>
                     )}
                   </div>
                   <span className="text-11 italic text-[#808080]">{item.description}</span>
-                  <Link to={`/users/${item.author.id}`} className="text-11 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
+                  <a href={`/users/${item.author.id}`} className="text-11 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
                     {item.author.name}
-                  </Link>
+                  </a>
                 </div>
               </div>
             ))}
           </div>
         </div>
       ))}
-
-      <Link
-        className="text-xs text-primary hover:underline hover:text-red-400"
-        to="/projects/fresher-_-reactjs-fresher/activity?from=2024-07-02"
-        title="From 06/03/2024 to 07/02/2024"
-      >
-        « Previous
-      </Link>
-      <div className="flex items-center gap-1 justify-end text-11 mb-2">
-        <span>Also available in:</span>
-        <Link className="flex items-center gap-1 text-primary hover:underline hover:text-red-400" to="" rel="noreferrer noopener">
-          <img src={images.feed} alt="feed" />
-          Atom
-        </Link>
-      </div>
     </div>
   );
 };
