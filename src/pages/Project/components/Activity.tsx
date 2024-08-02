@@ -160,14 +160,13 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
   const groupedData = groupByDate(filteredData);
   const sortedDates = Object.keys(groupedData).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 
-  console.log(sortedDates);
   const minDate = sortedDates[sortedDates.length - 1];
   const maxDate = new Date().toISOString().split("T")[0];
   return (
     <div>
       <h2 className="text-lg font-semibold mb-1 text-[#555]">Activity</h2>
       <div className="text-xs italic mb-3">
-        From {formatDate(minDate)} to {formatDate(maxDate)}
+        From {formatDate(minDate)} to {maxDate}
       </div>
 
       {sortedDates.map((date) => (

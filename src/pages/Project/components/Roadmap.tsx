@@ -118,28 +118,30 @@ const Roadmap = () => {
                 <img className="w-4 h-4" src={images.imagePackage} alt="Package" />
                 <p className="text-[#169] hover:underline hover:text-[#b2290f] block text-base ml-1">{projectVersion.name}</p>
               </h3>
-              <p className="text-sm mt-3 mb-2 flex items-center">
+              <div className="text-sm mt-3 mb-2 flex items-center">
                 <strong className="text-[#484848] text-5 font-bold pr-1.5">days late</strong>
                 <p className="text-[#484848] text-xs">{projectVersion.due_date}</p>
-              </p>
+              </div>
               <p className="mb-3 text-xs text-[#484848]">{projectVersion.description}</p>
               {versionData && versionData.issues.length > 0 ? (
                 <div>
                   <div className="items-center">
-                    <table className="flex w-full">
-                      <tbody className="w-5/12">
-                        <tr className="flex">
-                          <td className="border border-[#cccccc] bg-[#d3edd3] h-4" style={{ width: `${percentCompleted}%` }}></td>
-                          <td className="border border-[#cccccc] bg-[#eeeeee] h-4" style={{ width: `${100 - percentCompleted}%` }}></td>
-                        </tr>
-                      </tbody>
-                      <p className="text-xs text-[#484848] pl-1">{Math.round(percentCompleted)}%</p>
-                    </table>
-                    <p className="flex items-center text-xs text-primary">
+                    <div className="flex items-center">
+                      <table className="flex w-1/2">
+                        <tbody className="w-full">
+                          <tr className="flex">
+                            <td className="border border-[#cccccc] bg-[#d3edd3] h-4" style={{ width: `${percentCompleted}%` }}></td>
+                            <td className="border border-[#cccccc] bg-[#eeeeee] h-4" style={{ width: `${100 - percentCompleted}%` }}></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div className="text-xs text-[#484848] pl-1">{Math.round(percentCompleted)}%</div>
+                    </div>
+                    <div className="flex items-center text-xs text-primary">
                       <a>{versionCount[projectVersion.id] || 0} issues</a>
                       <p className="pr-1.5 pl-1.5">(0 closed -</p>
                       <a>{versionCount[projectVersion.id] || 0} open)</a>
-                    </p>
+                    </div>
                   </div>
                   <table className="mt-3 w-full">
                     <caption className="text-xs text-left text-[#484848] mb-2">Related issues</caption>
@@ -149,11 +151,11 @@ const Roadmap = () => {
                         .filter((issue) => showTask || issue.tracker.name !== "Task")
                         .map((issue) => (
                           <tr key={issue.id}>
-                            <td className="flex items-center border border-[#cccccc] border-[1px] max-w-full">
+                            <td className="flex items-center border border-[#cccccc] max-w-full">
                               <a className="text-primary hover:underline hover:text-[#b2290f] text-xs">
                                 {issue.tracker.name} #{issue.id}
                               </a>
-                              <p className="text-xs text-[#484848]">: {issue.subject}</p>
+                              <div className="text-xs text-[#484848]">: {issue.subject}</div>
                             </td>
                           </tr>
                         ))}
