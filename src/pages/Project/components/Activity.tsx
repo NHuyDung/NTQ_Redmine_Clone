@@ -95,49 +95,49 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
   }, [identifier]);
 
   useEffect(() => {
-    const issuesDataSample = issues.map((issue) => ({
-      title: issue.subject,
+    const issuesDataSample: DataSample[] = issues.map((issue) => ({
+      title: issue.subject || "",
       type: "issue",
-      description: issue.description,
+      description: issue.description || "",
       author: {
-        id: issue.author.id,
-        name: issue.author.name,
+        id: issue.author?.id ?? 0,
+        name: issue.author?.name || "",
       },
-      created_on: issue.created_on,
-      trackerName: issue.tracker.name,
-      statusName: issue.status.name,
-      subject: issue.subject,
-      id: issue.id,
+      created_on: issue.created_on || "",
+      trackerName: issue.tracker.name || "",
+      statusName: issue.status?.name || "",
+      subject: issue.subject || "",
+      id: issue.id ?? 0,
     }));
 
-    const timeEntriesDataSample = time.map((entry) => {
+    const timeEntriesDataSample: DataSample[] = time.map((entry) => {
       const relatedIssue = entry.issue ? issues.find((issue) => issue.id === entry.issue?.id) : undefined;
       return {
-        title: entry.activity.name,
+        title: entry.activity.name || "",
         type: "timeEntries",
-        description: entry.comments,
+        description: entry.comments || "",
         author: {
           id: entry.user.id,
           name: entry.user.name,
         },
-        created_on: entry.created_on,
+        created_on: entry.created_on || "",
         hours: entry.hours,
-        trackerName: relatedIssue?.tracker.name,
-        statusName: relatedIssue?.status.name,
-        subject: relatedIssue?.subject,
-        id: entry.issue?.id,
+        trackerName: relatedIssue?.tracker.name || "",
+        statusName: relatedIssue?.status?.name || "",
+        subject: relatedIssue?.subject || "",
+        id: entry.issue?.id ?? 0,
       };
     });
 
-    const wikiDataSample = wikis.map((wiki) => ({
-      title: wiki.title,
+    const wikiDataSample: DataSample[] = wikis.map((wiki) => ({
+      title: wiki.title || "",
       type: "wiki",
       description: "",
       author: {
         id: wiki.author.id,
         name: wiki.author.name,
       },
-      created_on: wiki.created_on,
+      created_on: wiki.created_on || "",
       version: wiki.version,
     }));
 
@@ -166,7 +166,7 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
     <div>
       <h2 className="text-lg font-semibold mb-1 text-[#555]">Activity</h2>
       <div className="text-xs italic mb-3">
-        From {formatDate(minDate)} to {maxDate}
+        From {formatDate(minDate)} to {formatDate(maxDate)}
       </div>
 
       {sortedDates.map((date) => (
@@ -189,7 +189,10 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
                       </a>
                     ) : item.type === "timeEntries" ? (
                       <span className="text-xs text-[#169] font-medium">
-                        {(item.hours ?? 0).toFixed(2)} hours - {item.statusName}: {item.subject}
+                        {/* {(item.hours ?? 0).toFixed(2)} hours - {item.statusName}: {item.subject} */}
+                        <span className="text-xs text-[#169] font-medium">
+                          {(item.hours ?? 0).toFixed(2)} hours ({item.trackerName} #{item.id} ({item.statusName}): {item.subject} )
+                        </span>
                       </span>
                     ) : (
                       <span className="text-xs text-[#169] font-medium">
