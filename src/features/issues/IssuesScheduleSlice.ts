@@ -1,16 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import moment from "moment";
 import axiosInstance from "~/services/api";
-import { GroupedIssues, Issue } from "~/types/Issue";
-
-interface IssuesState {
-  issues: GroupedIssues[];
-  loading: boolean;
-  error: string | null;
-}
-
+import { GroupedIssues, Issue, IssuesState } from "~/types/Issue";
 const initialState: IssuesState = {
-  issues: [],
+  issuesSchedule: [],
   loading: false,
   error: null,
 };
@@ -21,6 +14,7 @@ export const fetchIssuesSchedule = createAsyncThunk("issues/IssuesSchedule", asy
     const issues: Issue[] = response.data.issues;
     const startOfWeek = moment().startOf("week").add(1, "day");
     const endOfWeek = moment().endOf("week");
+
     const filteredIssues = issues.filter((issue) => {
       const issueStartDate = moment(issue.start_date);
       const issueDueDate = issue.due_date ? moment(issue.due_date) : null;
@@ -39,11 +33,17 @@ export const fetchIssuesSchedule = createAsyncThunk("issues/IssuesSchedule", asy
       const dueDate = issue.due_date ? moment(issue.due_date).format("YYYY-MM-DD") : null;
 
       if (groupedIssues[startDate]) {
-        groupedIssues[startDate].push({ ...issue, deadline: issue.due_date === issue.start_date });
+        groupedIssues[startDate].push({
+          ...issue,
+          deadline: issue.due_date === issue.start_date,
+        });
       }
 
       if (dueDate && groupedIssues[dueDate]) {
-        groupedIssues[dueDate].push({ ...issue, deadline: issue.due_date === issue.due_date });
+        groupedIssues[dueDate].push({
+          ...issue,
+          deadline: issue.due_date === issue.due_date,
+        });
       }
     });
 
@@ -70,7 +70,7 @@ const issuesScheduleSlice = createSlice({
       })
       .addCase(fetchIssuesSchedule.fulfilled, (state, action) => {
         state.loading = false;
-        state.issues = action.payload;
+        state.issuesSchedule = action.payload;
       })
       .addCase(fetchIssuesSchedule.rejected, (state, action) => {
         state.loading = false;

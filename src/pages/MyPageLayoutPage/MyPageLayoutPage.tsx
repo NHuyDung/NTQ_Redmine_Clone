@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
 import DragAndDrop from "~/components/DragAndDrop/DragAndDrop";
-import { ItemsState } from "~/types/ItemDragAndDrop";
+import { ComponentMap, Item, ItemsState, Option } from "~/types/ItemDragAndDrop";
 import Schedule from "../MyPage/components/Schedule/Schedule";
 import TableIssue from "../MyPage/components/TableIssue/TableIssue";
 import SpentTime from "../MyPage/components/SpentTime/SpentTime";
-import { getIssueAssigned, getIssueReport, getIssueSchedule, getIssueWatched } from "~/services/IssueService";
 import addButton from "~/assets/img/mypage_add.png";
 import backButton from "~/assets/img/mypage_back.png";
+import { Link } from "react-router-dom";
 
 const componentMap: { [key: string]: React.ReactNode } = {
-  Schedule: <Schedule data={[]} />,
-  TableIssue: <TableIssue data={[]} />,
+  Schedule: <Schedule />,
+  TableIssue: <TableIssue id="" />,
   SpentTime: <SpentTime />,
 };
-
-interface Option {
-  label: string;
-  value: string;
-  componentName?: string;
-  isAdded?: boolean;
-}
 
 const MyPageLayoutPage = () => {
   const initialOptions: Option[] = [
@@ -33,7 +26,7 @@ const MyPageLayoutPage = () => {
   ];
 
   const [options, setOptions] = useState<Option[]>(initialOptions);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [items, setItems] = useState<ItemsState>({
     A: [],
     B: [],
@@ -45,7 +38,6 @@ const MyPageLayoutPage = () => {
     // Đọc danh sách options đã thêm từ localStorage
     const addedOptions: string[] = JSON.parse(localStorage.getItem("addedOptions") || "[]");
     setOptions((prevOptions) => prevOptions.map((option) => (addedOptions.includes(option.value) ? { ...option, isAdded: true } : option)));
-
     // Đọc dữ liệu items từ localStorage
     const storedItems = localStorage.getItem("items");
     if (storedItems) {
@@ -59,50 +51,41 @@ const MyPageLayoutPage = () => {
     setSelectedOption(selectedOption || null); // Lưu option được chọn vào trạng thái tạm thời
   };
 
-  const addOption = async () => {
+  const addOption = () => {
     if (selectedOption) {
       const selectedValue = selectedOption.value;
-      const componentName = selectedOption.componentName || "";
+      const componentName = selectedOption.componentName as keyof ComponentMap; // Ensure correct type
       const selectedLabel = selectedOption.label;
-      const fetchData = fetchDataForOption(selectedValue);
+
       try {
-        console.log("here");
-
-        const data = await fetchData;
-        console.log("data", data);
-        console.log("selectedValue && componentName: ", selectedValue && componentName);
-
         if (selectedValue && componentName) {
           const newComponent = componentMap[componentName];
-          console.log("newComponent: ", newComponent);
 
           if (newComponent) {
-            console.log("here newComponent");
-
             // Cập nhật trạng thái với dữ liệu mới
             setItems((prevItems) => {
-              const updatedItems = {
-                A: [
-                  ...prevItems.A,
-                  {
-                    id: selectedValue,
-                    componentName: componentName,
-                    label: selectedLabel,
-                    data: data,
-                  },
-                ],
+              const newItem: Item = {
+                id: selectedValue,
+                componentName: componentName,
+                label: selectedLabel,
+              };
+
+              const updatedItems: ItemsState = {
+                A: [...prevItems.A, newItem],
                 B: prevItems.B,
                 C: prevItems.C,
               };
 
               // eslint-disable-next-line quotes
-              const storedItems = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
-              const newStoredItems = {
-                A: [...storedItems.A, { id: selectedValue, componentName: componentName, label: selectedLabel, data: data }],
+              const storedItems: ItemsState = JSON.parse(localStorage.getItem("items") || '{"A": [], "B": [], "C": []}');
+              const newStoredItems: ItemsState = {
+                A: [...storedItems.A, newItem],
                 B: storedItems.B,
                 C: storedItems.C,
               };
+
               localStorage.setItem("items", JSON.stringify(newStoredItems));
+
               return updatedItems;
             });
 
@@ -115,26 +98,11 @@ const MyPageLayoutPage = () => {
 
             // Xóa trạng thái tạm thời
             setSelectedOption(null);
-            window.location.reload();
           }
         }
       } catch (error) {
         console.log("Error:", error);
       }
-    }
-  };
-  const fetchDataForOption = async (optionValue: string) => {
-    switch (optionValue) {
-      case "1":
-        return await getIssueAssigned();
-      case "2":
-        return await getIssueReport();
-      case "3":
-        return await getIssueWatched();
-      case "5":
-        return await getIssueSchedule();
-      default:
-        return [];
     }
   };
 
@@ -155,18 +123,18 @@ const MyPageLayoutPage = () => {
               ))}
           </select>
 
-          <a onClick={addOption} className="flex items-center mx-2 cursor-pointer" rel="noreferrer noopener">
+          <button onClick={addOption} className="flex items-center mx-2 cursor-pointer" aria-label="Add Option">
             <img src={addButton} className="w-4 h-4" alt="Add" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Add</p>
-          </a>
+          </button>
 
-          <a href="/my-page" rel="noreferrer noopener" className="flex items-center mx-2">
+          <Link to="/my-page" className="flex items-center mx-2" rel="noreferrer noopener">
             <img src={backButton} className="w-4 h-4" alt="Back" />
             <p className="text-xs hover:underline hover:text-red-400 ml-1">Back</p>
-          </a>
+          </Link>
         </div>
       </div>
-      <DragAndDrop hasBorder={true} />
+      <DragAndDrop hasBorder={true} items={items} setItems={setItems} setOptions={setOptions} />
     </div>
   );
 };

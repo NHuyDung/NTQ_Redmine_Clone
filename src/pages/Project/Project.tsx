@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getProjects } from "~/services/ProjectService";
 import images from "~/assets/img";
+import { useNavigate } from "react-router-dom";
 
 interface Project {
   id: number;
@@ -11,6 +12,7 @@ interface Project {
 
 const Project = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -24,6 +26,11 @@ const Project = () => {
 
     fetchProjects();
   }, []);
+
+  const handleNavigate = (identifier: string, name: string) => {
+    navigate(`/projects/${identifier}/overview`, { state: { projectName: name } });
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-2.5">
@@ -44,13 +51,12 @@ const Project = () => {
       </div>
       {projects?.map((project) => (
         <div key={project.id} className="mb-3">
-          <a
-            href={`/projects/${project.identifier}/overview`}
-            rel="noreferrer noopener"
+          <button
+            onClick={() => handleNavigate(project.identifier, project.name)}
             className="text-[#169] font-semibold hover:underline hover:text-[#b2290f]"
           >
             {project.name}
-          </a>
+          </button>
           <div className="text-xs">{project.description}</div>
         </div>
       ))}

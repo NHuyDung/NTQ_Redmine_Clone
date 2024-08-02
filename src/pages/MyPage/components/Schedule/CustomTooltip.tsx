@@ -7,7 +7,7 @@ const CustomTooltip: React.FC<Issue> = (issue) => {
     <div>
       <div className="flex pb-5 items-center">
         {issue?.deadline ? <img src={images.arrow_left} alt="" /> : <img src={images.arrow_right} alt="" />}
-        <a href="#!" className="text-primary-blue" rel="noreferrer noopener">
+        <a href="#" className="text-primary-blue hover:text-red-500 hover:underline" rel="noreferrer noopener">
           {issue?.tracker.name} #{issue.id}
         </a>
         : {issue?.subject}
@@ -15,7 +15,7 @@ const CustomTooltip: React.FC<Issue> = (issue) => {
       <div className="flex items-center gap-1">
         <span className="font-bold">Project:</span>
         {issue?.deadline ? <img src={images.arrow_left} alt="" /> : <img src={images.arrow_right} alt="" />}
-        <a href="" className="text-primary-blue" rel="noreferrer noopener">
+        <a href="#" className="text-primary-blue hover:text-red-500 hover:underline" rel="noreferrer noopener">
           {issue?.project.name}
         </a>
       </div>

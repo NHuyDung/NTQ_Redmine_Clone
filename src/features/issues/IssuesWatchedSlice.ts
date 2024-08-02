@@ -1,15 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "~/services/api";
-import { Issue } from "~/types/Issue";
-
-interface IssuesState {
-  issues: Issue[];
-  loading: boolean;
-  error: string | null;
-}
-
+import { Issue, IssuesState } from "~/types/Issue";
 const initialState: IssuesState = {
-  issues: [],
+  issuesWatched: [],
   loading: false,
   error: null,
 };
@@ -36,7 +29,7 @@ const issuesWatchedSlice = createSlice({
       })
       .addCase(fetchIssuesWatched.fulfilled, (state, action) => {
         state.loading = false;
-        state.issues = action.payload;
+        state.issuesWatched = action.payload;
       })
       .addCase(fetchIssuesWatched.rejected, (state, action) => {
         state.loading = false;

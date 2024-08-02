@@ -12,6 +12,7 @@ import edit from "./mypage_edit.png";
 import remove from "./mypage_delete.png";
 import exclamation from "./logtime_exclamation.png";
 import feed from "./spenttime_feed.png";
+import avatar from "./avatar.png";
 import cancel from "./mypagelayout_cancel.png";
 import homepage from "./homepage_projects.png";
 import ticket from "./overview_ticket.png";
@@ -19,6 +20,9 @@ import group from "./overview_group.png";
 import time from "./overview_time.png";
 import fav from "./project_fav.png";
 import feedproject from "./project_feed.png";
+import arrow_rightgrey from "./roadmap_arrow_collapsed.png";
+import arrow_downgrey from "./roadmap_arrow_expanded.png";
+import imagePackage from "./roadmap_package.png";
 
 const images = {
   arrow_right,
@@ -34,6 +38,7 @@ const images = {
   arrow_left,
   exclamation,
   feed,
+  avatar,
   cancel,
   homepage,
   ticket,
@@ -41,6 +46,9 @@ const images = {
   time,
   fav,
   feedproject,
+  arrow_rightgrey,
+  arrow_downgrey,
+  imagePackage,
 };
 
 export default images;

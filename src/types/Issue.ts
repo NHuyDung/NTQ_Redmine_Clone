@@ -22,6 +22,14 @@ export interface GroupedIssues {
   day?: string;
   tasks?: Issue[];
 }
+export interface IssuesState {
+  issuesReport?: Issue[];
+  issuesAssigned?: Issue[];
+  issuesWatched?: Issue[];
+  issuesSchedule?: GroupedIssues[];
+  loading: boolean;
+  error: string | null;
+}
 
 export interface IssueReport {
   id?: number;

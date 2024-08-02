@@ -1,7 +1,7 @@
 import React from "react";
 import images from "~/assets/img";
 import { formatDate } from "~/utils/FormatDay";
-import { TimeEntriesType } from "~/types/MyPage";
+import { TimeEntriesType } from "~/types/spentTime";
 import { groupIssuesByDate } from "~/utils/GroupByDate";
 import { HeaderDetailData } from "~/const/MyPage";
 
@@ -10,6 +10,7 @@ interface DetailProps {
 }
 
 const Detail: React.FC<DetailProps> = ({ data }) => {
+  console.log(data);
   const groupedIssues = groupIssuesByDate(data);
 
   const totalHours = Object.values(groupedIssues).reduce((sum, { totalHours }) => sum + totalHours, 0);
