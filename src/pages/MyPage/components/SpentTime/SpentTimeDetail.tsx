@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import images from "~/assets/img";
+import { Link } from "react-router-dom";
 import { getSpentTime } from "~/services/PageService";
 import { TimeEntriesType } from "~/types/spentTime";
 import { OPTIONS_DATE, OPTIONS_USER_1, OPTIONS_USER_2, OPTIONS_FILTER } from "~/const/MyPage";
@@ -7,7 +8,6 @@ import { OPTIONS_DATE, OPTIONS_USER_1, OPTIONS_USER_2, OPTIONS_FILTER } from "~/
 import Select from "~/components/Select/Select";
 import Detail from "./Detail";
 import Report from "./Report";
-import { Link } from "react-router-dom";
 
 const SpentTimeDetail = () => {
   const [spentTimeData, setSpentTimeData] = useState<TimeEntriesType[]>([]);
@@ -40,7 +40,7 @@ const SpentTimeDetail = () => {
       <h1 className="text-[#555] text-xl font-semibold mb-3">Spent time</h1>
       <fieldset className="flex text-xs text-subText py-2 px-3 border-t">
         <legend className="flex items-center">
-          <img src={images.arrow_down} alt="arrow_down" />
+          <img src={images.arrow_expanded} alt="arrow_expanded" />
           Filters
         </legend>
         <table className="max-w-[60%] w-full flex flex-col gap-1">

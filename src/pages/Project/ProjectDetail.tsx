@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Overview from "./components/Overview";
 import Activity from "./components/Activity";
+import Roadmap from "./components/Roadmap";
 
 const ProjectDetail = () => {
   const { identifier, slug } = useParams<{ identifier: string; slug: string }>();
@@ -14,6 +15,8 @@ const ProjectDetail = () => {
         return <Overview identifier={identifier} />;
       case "activity":
         return <Activity identifier={identifier} />;
+      case "roadmap":
+        return <Roadmap />;
       default:
         return <div>Unknown section</div>;
     }

@@ -28,7 +28,6 @@ const componentsMap = {
   TableIssue,
   TotalTime,
   SpentTime,
-  // Add more components as needed...
 };
 
 const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {
