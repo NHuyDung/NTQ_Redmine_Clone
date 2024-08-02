@@ -9,6 +9,7 @@ import showBugSlice from "~/features/Roadmap/showBugSlice";
 import showClosedSlice from "~/features/Roadmap/showClosedSlice";
 import showTaskSlice from "~/features/Roadmap/showTaskSlice";
 import tempSettingsSlice from "~/features/Roadmap/tempSettingsSlice";
+import filterReducer from "~/features/issues/filterSlice";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     showTask: showTaskSlice,
     tempSettings: tempSettingsSlice,
     projectVersion: projectVersionSlice,
+    filter: filterReducer,
   },
 });
 
