@@ -24,6 +24,7 @@ import feedproject from "./project_feed.png";
 import attachment from "./activity_attachment.png";
 import ticket_overview from "./activity_ticket.png";
 import avatar from "./activity_avatar.png";
+import wiki from "./activity_wiki_edit.png";
 
 const images = {
   arrow_right,
@@ -51,6 +52,7 @@ const images = {
   attachment,
   ticket_overview,
   avatar,
+  wiki,
 };
 
 export default images;

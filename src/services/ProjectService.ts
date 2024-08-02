@@ -42,3 +42,13 @@ export const timeEntries = async (identifier: string) => {
     throw error;
   }
 };
+
+export const getWiki = async (identifier: string) => {
+  try {
+    const response = await axiosInstance.get(`projects/${identifier}/wiki/Wiki.json`);
+    return response.data.wiki_page;
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    throw error;
+  }
+};

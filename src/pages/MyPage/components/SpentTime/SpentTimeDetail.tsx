@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "~/app/store";
 import images from "~/assets/img";
 import { Link } from "react-router-dom";
-import { getSpentTime } from "~/services/PageService";
-import { TimeEntriesType } from "~/types/spentTime";
+// import { getSpentTime } from "~/services/PageService";
+// import { TimeEntriesType } from "~/types/spentTime";
 import { OPTIONS_DATE, OPTIONS_USER_1, OPTIONS_USER_2, OPTIONS_FILTER } from "~/const/MyPage";
 
 import Select from "~/components/Select/Select";
 import Detail from "./Detail";
 import Report from "./Report";
+import { fetchTimeSpent } from "~/features/issues/TimeSpentSlice";
 
 const SpentTimeDetail = () => {
-  const [spentTimeData, setSpentTimeData] = useState<TimeEntriesType[]>([]);
+  const dispatch: AppDispatch = useDispatch();
+  const { timeSpent } = useSelector((state: RootState) => state.timeSpent); // Update state slice name
   const [tabPage, setTabPage] = useState<number>(0);
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const result = await getSpentTime();
-        setSpentTimeData(result);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
+    if (timeSpent?.length === 0) {
+      dispatch(fetchTimeSpent()); // Update action
+    }
+  }, [dispatch]);
   return (
     <div>
       <div className="flex justify-between my-1">
@@ -140,7 +136,7 @@ const SpentTimeDetail = () => {
           Report
         </li>
       </ul>
-      <div>{tabPage === 0 ? <Detail data={spentTimeData} /> : <Report />}</div>
+      <div>{tabPage === 0 ? <Detail data={timeSpent} /> : <Report />}</div>
     </div>
   );
 };

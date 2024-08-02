@@ -38,7 +38,7 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
     return data.slice().sort((a, b) => {
       const dateA = new Date(a.spent_on);
       const dateB = new Date(b.spent_on);
-      return order === "up" ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
+      return order === "up" ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime();
     });
   };
 
@@ -60,11 +60,13 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>
-            <th className="p-1 text-xs border border-primary-border"></th>
+            <th className=" p-1 text-xs border border-primary-border">
+              <img src={images.check} alt="check" />
+            </th>
             {HeaderDetailData.map((header) => (
               <th
                 key={header.id}
-                className="p-1 text-xs border border-primary-border cursor-pointer"
+                className="text-[#169] hover:underline hover:text-[#c61a1a] p-1 text-xs border border-primary-border cursor-pointer"
                 onClick={header.label === "Date" ? handleSort : undefined}
               >
                 {header.label}
