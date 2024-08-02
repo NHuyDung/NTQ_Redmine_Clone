@@ -4,6 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import SubProject from "./SubProject/SubProject";
 import SubOverview from "./components/SubOverview";
 import SubActivity from "./components/SubActivity";
+import SubRoadmap from "./components/SubRoadmap";
 
 const SubMain = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -20,6 +21,8 @@ const SubMain = () => {
         return <SubOverview />;
       case "activity":
         return <SubActivity />;
+      case "roadmap":
+        return <SubRoadmap />;
       default:
         return <div>Unknown section</div>;
     }

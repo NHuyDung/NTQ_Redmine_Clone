@@ -28,7 +28,6 @@ const componentsMap = {
   TableIssue,
   TotalTime,
   SpentTime,
-  // Add more components as needed...
 };
 
 const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {
@@ -38,7 +37,6 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {
     return item ? item.label : "Unknown label";
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderItems = (items: Item[] | [], targetList: "A" | "B" | "C") => {
     return items.map((item) => {
       const Component = componentsMap[item.componentName as keyof typeof componentsMap];

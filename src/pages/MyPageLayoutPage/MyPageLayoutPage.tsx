@@ -27,7 +27,6 @@ const MyPageLayoutPage = () => {
 
   const [options, setOptions] = useState<Option[]>(initialOptions);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [items, setItems] = useState<ItemsState>({
     A: [],
     B: [],
