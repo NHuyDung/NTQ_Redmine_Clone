@@ -25,7 +25,7 @@ const Schedule: React.FC = () => {
 
   return (
     <>
-      <p className="text-start mb-2">Calendar</p>
+      <p className="text-start text-[#555] font-semibold mb-2.5">Calendar</p>
       <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-auto">
         <thead className="bg-[#eeeeee] h-7">
           <tr>

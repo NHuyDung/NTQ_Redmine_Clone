@@ -7,6 +7,8 @@ import { getWiki, timeEntries } from "~/services/ProjectService";
 import { Issue } from "~/types/Issue";
 import { formatDate, formatTime } from "~/utils/FormatDay";
 import images from "~/assets/img";
+import Nodata from "~/components/NoData/Nodata";
+import { Link } from "react-router-dom";
 // import SubActivity from "./SubActivity";
 
 interface Time {
@@ -160,16 +162,17 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
   const groupedData = groupByDate(filteredData);
   const sortedDates = Object.keys(groupedData).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 
-  const minDate = sortedDates[sortedDates.length - 1];
-  const maxDate = new Date().toISOString().split("T")[0];
-  console.log(sortedDates);
+  const minDate = data.length > 0 ? data[data.length - 1].created_on : "";
+  const maxDate = new Date().toLocaleDateString("en-CA");
 
   return (
     <div>
       <h2 className="text-lg font-semibold mb-1 text-[#555]">Activity</h2>
-      <div className="text-xs italic mb-3">
-        From {formatDate(minDate, true)} to {formatDate(maxDate, true)}
-      </div>
+      {minDate && (
+        <div className="text-xs italic mb-3">
+          From {formatDate(minDate, true)} to {formatDate(maxDate, true)}
+        </div>
+      )}
       {sortedDates.length > 0 ? (
         <>
           {sortedDates.map((date) => (
@@ -230,8 +233,23 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
           ))}
         </>
       ) : (
-        <>heelo</>
+        <Nodata />
       )}
+
+      <Link
+        className="text-xs text-[#169] hover:underline hover:text-red-400 mt-3"
+        to="/projects/fresher-_-reactjs-fresher/activity?from=2024-07-02"
+        title="From 06/03/2024 to 07/02/2024"
+      >
+        « Previous
+      </Link>
+      <div className="flex items-center gap-1 justify-end text-11 mb-2">
+        <span>Also available in:</span>
+        <Link className="flex items-center gap-1 text-[#169] hover:underline hover:text-red-400" to="" rel="noreferrer noopener">
+          <img src={images.feed} alt="feed" />
+          Atom
+        </Link>
+      </div>
     </div>
   );
 };

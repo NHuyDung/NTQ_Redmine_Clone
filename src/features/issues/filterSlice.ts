@@ -15,14 +15,7 @@ const loadInitialState = (): FilterState => {
   const storedFilters = localStorage.getItem("filters");
   return storedFilters
     ? JSON.parse(storedFilters)
-    : {
-      showIssues: true,
-      showChangesets: true,
-      showDocuments: true,
-      showFiles: true,
-      showWikiEdits: false,
-      showTimeEntries: false,
-    };
+    : { showIssues: true, showChangesets: true, showDocuments: true, showFiles: true, showWikiEdits: false, howTimeEntries: false };
 };
 
 const initialState: FilterState = loadInitialState();
