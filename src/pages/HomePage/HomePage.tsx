@@ -18,11 +18,8 @@ const HomePage = () => {
     }
   }, [dispatch, project?.length]);
 
-  const handleNavigate = (identifier: string | undefined, name: string | undefined) => {
-    if (identifier && name) {
-      navigate(`/projects/${identifier}/overview`, { state: { projectName: name } });
-    }
-    // navigate(`/projects/${identifier}/overview`, { state: { projectName: name } });
+  const handleNavigate = (identifier: string, name: string) => {
+    navigate(`/projects/${identifier}/overview`, { state: { projectName: name } });
   };
 
   return (
