@@ -11,6 +11,7 @@ import showTaskSlice from "~/features/Roadmap/showTaskSlice";
 import tempSettingsSlice from "~/features/Roadmap/tempSettingsSlice";
 import filterReducer from "~/features/issues/filterSlice";
 import timeSpentReducer from "~/features/issues/TimeSpentSlice";
+import ProjectSlice from "~/features/issues/ProjectSlice ";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     projectVersion: projectVersionSlice,
     filter: filterReducer,
     timeSpent: timeSpentReducer,
+    project: ProjectSlice,
   },
 });
 

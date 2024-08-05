@@ -1,10 +1,11 @@
 import axiosInstance from "./api";
 import { Issue, IssueReport } from "../types/Issue";
+import { fetchAPIGet } from "~/utils/helperAPI";
 
 export const getIssueSchedule = async () => {
   try {
-    const response = await axiosInstance.get("/issues.json");
-    return response.data.issues;
+    const data = await fetchAPIGet("/issues.json");
+    return data.issues;
   } catch (error) {
     console.error("Error fetching issues:", error);
     throw error;

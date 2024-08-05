@@ -1,29 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import axiosInstance from "~/services/api";
-import { getSpentTime } from "~/services/PageService";
 import { TimeEntriesType } from "~/types/spentTime";
+import { fetchAPIGet } from "~/utils/helperAPI";
 
 interface SpentTimeState {
-  timeSpent: TimeEntriesType[]; // Rename this field
+  timeSpent: TimeEntriesType[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: SpentTimeState = {
-  timeSpent: [], // Rename this field
+  timeSpent: [],
   loading: false,
   error: null,
 };
 
 export const fetchTimeSpent = createAsyncThunk("timeSpent", async (): Promise<TimeEntriesType[]> => {
-  // Rename the action
-  try {
-    const response = await getSpentTime(); // Gọi hàm getSpentTime
-    return response; // Giả sử hàm getSpentTime trả về dữ liệu theo kiểu TimeEntriesType[]
-  } catch (error) {
-    console.error("Error fetching spent time:", error);
-    throw error;
-  }
+  const data = await fetchAPIGet("/time_entries.json");
+  return data.time_entries;
 });
 
 const timeSpentSlice = createSlice({
