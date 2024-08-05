@@ -39,7 +39,6 @@ const SubActivity: React.FC = () => {
     dispatch(setFilters(updatedFilters));
 
     const projectName = location.state?.projectName;
-    console.log(projectName);
     navigate(location.pathname, { state: { projectName } });
   };
 
@@ -48,8 +47,6 @@ const SubActivity: React.FC = () => {
     // Update Redux store with local state when "Apply" is clicked
     dispatch(setFilters(localFilters));
   };
-
-  // console.log(projectName, "ho");
 
   return (
     <form onSubmit={handleSubmit}>

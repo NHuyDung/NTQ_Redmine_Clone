@@ -194,7 +194,7 @@ const Detail: React.FC<DetailProps> = ({ selectedColumns, data }) => {
           Atom
         </a>
         <span>|</span>
-        <a href="" className="text-primary  text-11 hover:underline hover:text-red-400">
+        <a href="" className="text-primary  text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
           CSV
         </a>
       </div>

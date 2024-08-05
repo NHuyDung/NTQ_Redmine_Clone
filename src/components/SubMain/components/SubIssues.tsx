@@ -6,23 +6,39 @@ const SubIssues = () => {
       <h3 className="text-sm text-[#666] font-medium mt-3.5 mb-2.5">Issues</h3>
       <ul className="text-xs">
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues?set_filter=1">
+          <a
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            href="/projects/fresher-_-reactjs-fresher/issues?set_filter=1"
+          >
             View all issues
           </a>
         </li>
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues/report">
+          <a
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            href="/projects/fresher-_-reactjs-fresher/issues/report"
+          >
             Summary
           </a>
         </li>
 
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues/calendar">
+          <a
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            href="/projects/fresher-_-reactjs-fresher/issues/calendar"
+          >
             Calendar
           </a>
         </li>
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues/gantt">
+          <a
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            href="/projects/fresher-_-reactjs-fresher/issues/gantt"
+          >
             Gantt
           </a>
         </li>

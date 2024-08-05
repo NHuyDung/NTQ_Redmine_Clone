@@ -1,12 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <div className="text-xs text-center p-1">
       Powered by
-      <a className="text-primary mx-1" href="https://bitnami.com/stack/redmine" rel="noreferrer noopener">
+      <Link className="text-primary mx-1" to="https://bitnami.com/stack/redmine" rel="noreferrer noopener">
         Bitnami Redmine Stack
-      </a>
+      </Link>
       © 2006-2015 Jean-Philippe Lang
     </div>
   );

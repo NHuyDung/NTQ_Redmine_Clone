@@ -49,27 +49,6 @@ interface DataSample {
   version?: number;
 }
 
-const groupByDate = (data: DataSample[]) => {
-  const groupedData = data.reduce(
-    (acc, item) => {
-      const date = item.created_on.split("T")[0];
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(item);
-      return acc;
-    },
-    {} as Record<string, DataSample[]>,
-  );
-
-  // Sort items in each date group by time (created_on)
-  Object.keys(groupedData).forEach((date) => {
-    groupedData[date].sort((a, b) => new Date(b.created_on).getTime() - new Date(a.created_on).getTime());
-  });
-
-  return groupedData;
-};
-
 const Activity: React.FC<OverviewProps> = ({ identifier }) => {
   const [time, setTime] = useState<Time[]>([]);
   const [issues, setIssues] = useState<Issue[]>([]);
@@ -96,6 +75,27 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
     };
     fetchProjects();
   }, [identifier]);
+
+  const groupByDate = (data: DataSample[]) => {
+    const groupedData = data.reduce(
+      (acc, item) => {
+        const date = item.created_on.split("T")[0];
+        if (!acc[date]) {
+          acc[date] = [];
+        }
+        acc[date].push(item);
+        return acc;
+      },
+      {} as Record<string, DataSample[]>,
+    );
+
+    // Sort items in each date group by time (created_on)
+    Object.keys(groupedData).forEach((date) => {
+      groupedData[date].sort((a, b) => new Date(b.created_on).getTime() - new Date(a.created_on).getTime());
+    });
+
+    return groupedData;
+  };
 
   useEffect(() => {
     const issuesDataSample: DataSample[] = issues.map((issue) => ({

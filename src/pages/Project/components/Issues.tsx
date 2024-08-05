@@ -206,6 +206,8 @@ const Issues = () => {
 
   const renderCellContent = (item: Issue, column: string) => {
     switch (column) {
+      case "#":
+        return item.id;
       case "Status":
         return item.status?.name;
       case "Priority":
@@ -295,9 +297,8 @@ const Issues = () => {
                   <Select
                     size={10}
                     className="h-full w-[150px] text-13 border border-[#d7d7d7]"
-                    defaultValue={[]}
                     multiple
-                    value={selectedValue}
+                    value={Array.isArray(selectedValue) ? selectedValue : []}
                     onChange={handleMultiSelect}
                     options={availableColumns.map((option) => ({ value: option, label: option }))}
                   />
@@ -312,8 +313,7 @@ const Issues = () => {
                     size={10}
                     className="h-full w-[150px] text-13 border border-[#d7d7d7]"
                     multiple
-                    value={selectedValue}
-                    defaultValue={[]}
+                    value={Array.isArray(selectedValue) ? selectedValue : []}
                     onChange={handleMultiSelect}
                     options={selectedColumns.map((option) => ({ value: option, label: option }))}
                   />

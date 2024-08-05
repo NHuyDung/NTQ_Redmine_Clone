@@ -30,17 +30,17 @@ const SubRoadmap = () => {
       <ApplyButton />
       <h3 className="text-xs text-[#666] font-semibold mt-3.5 mb-2.5">Versions</h3>
       {openVersions.map((version) => (
-        <a key={version.id} className="text-primary hover:underline hover:text-[#b2290f] block text-xs">
+        <a key={version.id} rel="noreferrer noopener" className="text-primary hover:underline hover:text-[#b2290f] block text-xs">
           {version.name}
         </a>
       ))}
       {showClosed &&
         closedVersions.map((version) => (
-          <a key={version.id} className="text-primary hover:underline hover:text-[#b2290f] block text-xs">
+          <a key={version.id} rel="noreferrer noopener" className="text-primary hover:underline hover:text-[#b2290f] block text-xs">
             {version.name}
           </a>
         ))}
-      <a className="flex cursor-pointer mt-2.5" onClick={handleToggleArrow}>
+      <a className="flex cursor-pointer mt-2.5" onClick={handleToggleArrow} rel="noreferrer noopener">
         {!isOpenArrow ? <img src={images.arrow_rightgrey} alt="Arrow right" /> : <img src={images.arrow_downgrey} alt="Arrow down" />}
         <p className="text-xs text-[#999]">Completed versions</p>
       </a>

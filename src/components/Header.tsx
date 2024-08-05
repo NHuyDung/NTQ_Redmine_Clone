@@ -32,9 +32,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <ul className="flex text-white gap-2 font-bold">
           <li className="font-normal">
             Logged in as
-            <a href="" className="ml-1 font-bold" rel="noreferrer noopener">
+            <Link to="" className="ml-1 font-bold" rel="noreferrer noopener">
               duc.nguyen14@ntq-solution.com.vn
-            </a>
+            </Link>
           </li>
           {MenuItems2.map((item) => (
             <Link key={item.id} to={item.href} className="hover:underline duration-150 list-none">

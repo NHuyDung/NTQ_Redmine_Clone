@@ -11,6 +11,7 @@ import Select from "~/components/Select/Select";
 import { OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
 import { getLastWeekOfPreviousMonth, isToday } from "~/utils/FormatDay";
 import images from "~/assets/img";
+import { Link } from "react-router-dom";
 
 const Calendar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -93,6 +94,60 @@ const Calendar: React.FC = () => {
                 </>
               )}
             </fieldset>
+            <div className="flex items-center justify-between text-11 mt-3 mb-4 ">
+              <div className="flex item-center gap-1">
+                <div className="flex items-center gap-1">
+                  <label htmlFor="month">Month</label>
+                  <Select
+                    value="selectedValue"
+                    className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
+                    onChange={() => {
+                      return "selectedValue";
+                    }}
+                    options={OPTIONS_STATUS_1}
+                    label="Select an option"
+                  />
+                </div>
+                <div className="flex items-center gap-1">
+                  <label htmlFor="Year">Year</label>
+                  <Select
+                    value="selectedValue"
+                    className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
+                    onChange={() => {
+                      return "selectedValue";
+                    }}
+                    options={OPTIONS_STATUS_1}
+                    label="Select an option"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1 ">
+                  <span className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText ">
+                    <img src={images.check} alt="check" />
+                    <span>Apply</span>
+                  </span>
+                  <span className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText ">
+                    <img src={images.reload} alt="reload" />
+                    <span>Clear</span>
+                  </span>
+                </div>
+              </div>
+              <div className="">
+                <Link
+                  to="/projects/fresher-_-reactjs-fresher/issues/calendar?month=7&year=2024"
+                  className="text-[#169] hover:underline hover:text-[#c61a1a]"
+                >
+                  « July
+                </Link>
+                <span>|</span>
+                <Link
+                  to="/projects/fresher-_-reactjs-fresher/issues/calendar?month=9&year=2024"
+                  className="text-[#169] hover:underline hover:text-[#c61a1a]"
+                >
+                  September »
+                </Link>
+              </div>
+            </div>
           </div>
           <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-auto">
             <thead className="bg-[#eeeeee] h-7">
@@ -132,10 +187,9 @@ const Calendar: React.FC = () => {
                               data-tooltip-variant="light"
                               key={taskIndex}
                               data-tooltip-offset={-100}
-                              className="min-h-16 p-4 bg-[#ffffdd] border border-gray-300 text-left mb-2 cursor-pointer"
+                              className="min-h-16 p-1.5 bg-[#ffffdd] border border-gray-300 text-left mb-2 cursor-pointer"
                             >
-                              <div className="text-xs">
-                                {task.project.name} -
+                              <div className=" text-11">
                                 <img src={task.img} alt="" className="mx-1 inline align-middle" />
                                 <a href="#" className="text-primary-blue" rel="noreferrer noopener">
                                   {task?.tracker.name} #{task.id}
@@ -154,15 +208,17 @@ const Calendar: React.FC = () => {
                 ))}
             </tbody>
           </table>
-          <span className="flex">
-            <img src={images.arrow_right}></img>issue beginning this day
-          </span>
-          <span className="flex">
-            <img src={images.arrow_left}></img>issue ending this day
-          </span>
-          <span className="flex">
-            <img src={images.diamond}></img>issue beginning and ending this day
-          </span>
+          <div className="text-xs my-3">
+            <span className="flex ">
+              <img src={images.arrow_right}></img>issue beginning this day
+            </span>
+            <span className="flex">
+              <img src={images.arrow_left}></img>issue ending this day
+            </span>
+            <span className="flex">
+              <img src={images.diamond}></img>issue beginning and ending this day
+            </span>
+          </div>
         </>
       )}
     </>

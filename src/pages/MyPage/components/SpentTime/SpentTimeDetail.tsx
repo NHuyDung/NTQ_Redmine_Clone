@@ -246,7 +246,9 @@ const SpentTimeDetail = () => {
                       label="Select an option"
                     />
                   </td>
-                  <img src={images.bullet} alt="bullet" />
+                  <td className="">
+                    <img src={images.bullet} alt="bullet" />
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -281,9 +283,8 @@ const SpentTimeDetail = () => {
               <Select
                 size={10}
                 className="h-full w-[150px] text-13 border border-[#d7d7d7]"
-                defaultValue={[]}
                 multiple
-                value={selectedValue}
+                value={Array.isArray(selectedValue) ? selectedValue : []}
                 onChange={handleMultiSelect}
                 options={availableColumns.map((option) => ({ value: option, label: option }))}
               />
@@ -298,8 +299,7 @@ const SpentTimeDetail = () => {
                 size={10}
                 className="h-full w-[150px] text-13 border border-[#d7d7d7]"
                 multiple
-                value={selectedValue}
-                defaultValue={[]}
+                value={Array.isArray(selectedValue) ? selectedValue : []}
                 onChange={handleMultiSelect}
                 options={selectedColumns.map((option) => ({ value: option, label: option }))}
               />

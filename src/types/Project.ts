@@ -2,7 +2,7 @@ export interface Project {
   id: number;
   name: string;
   description?: string;
-  created_on?: string;
+  created_on?: string | undefined;
   identifier: string;
 }
 export interface ProjectState {

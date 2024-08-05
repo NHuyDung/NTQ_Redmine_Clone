@@ -79,5 +79,3 @@ export const formatDateTime = (datetime: string) => {
 
 // const originalDateTime = '2024-08-04T10:03:31Z';
 // const formattedDateTime = formatDateTime(originalDateTime);
-
-// console.log(formattedDateTime);
