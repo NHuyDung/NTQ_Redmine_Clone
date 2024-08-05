@@ -86,7 +86,8 @@ const SpentTimeDetail = () => {
     "service offering",
     "release ok",
   ]);
-  const [selectedColumns, setSelectedColumns] = useState(["project", "date", "user", "activity", "issues", "comment", "hours"]);
+  const [selectedColumns, setSelectedColumns] = useState(["Project", "Date", "User", "Activity", "Issues", "Comment", "Hours"]);
+  const [columnsDetail, setColumnsDetail] = useState<string[]>(selectedColumns);
   const [selectedValue, setSelectedValue] = useState<string | string[]>("");
 
   useEffect(() => {
@@ -173,6 +174,11 @@ const SpentTimeDetail = () => {
     }
     setSelectedColumns(newSelectedColumns);
   };
+
+  const handleApply = () => {
+    setColumnsDetail(selectedColumns);
+  };
+  console.log(selectedColumns);
 
   return (
     <div>
@@ -311,13 +317,13 @@ const SpentTimeDetail = () => {
       </fieldset>
 
       <div className="flex items-center gap-1 my-4">
-        <span className="flex items-center gap-1 text-xs cursor-pointer text-primaryText hover:text-hoverText hover:underline">
+        <span onClick={handleApply} className="flex items-center gap-1 text-xs cursor-pointer text-primaryText hover:text-hoverText hover:underline">
           <img src={images.check} alt="check" />
-          <span>Apply</span>
+          <span className="text-[#169] hover:underline hover:text-[#c61a1a]">Apply</span>
         </span>
         <span className="flex items-center gap-1 text-xs cursor-pointer text-primaryText hover:text-hoverText hover:underline">
           <img src={images.reload} alt="reload" />
-          <span>Clear</span>
+          <span className="text-[#169] hover:underline hover:text-[#c61a1a]">Clear</span>
         </span>
       </div>
       <ul className="flex items-center gap-2 text-xs font-semibold text-[#484848] px-2 border-b">
@@ -334,7 +340,7 @@ const SpentTimeDetail = () => {
           Report
         </li>
       </ul>
-      <div>{tabPage === 0 ? <Detail data={timeSpent} /> : <Report />}</div>
+      <div>{tabPage === 0 ? <Detail selectedColumns={columnsDetail} data={timeSpent} /> : <Report />}</div>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import Files from "./components/Files";
 import Settings from "./components/Settings";
 import Wiki from "./components/Wiki";
 import Gantt from "./components/Gantt";
+import Calendar from "./components/Canlendar";
 
 const ProjectDetail = () => {
   const { identifier, slug } = useParams<{ identifier: string; slug: string }>();
@@ -30,6 +31,8 @@ const ProjectDetail = () => {
         return <Issues />;
       case "gantt":
         return <Gantt />;
+      case "calendar":
+        return <Calendar />;
       case "documents":
         return <Documents />;
       case "wiki":

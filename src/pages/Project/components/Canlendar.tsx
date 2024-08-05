@@ -10,7 +10,7 @@ import { RingLoader } from "react-spinners";
 import { getLastWeekOfPreviousMonth, isToday } from "~/utils/FormatDay";
 import images from "~/assets/img";
 
-const MonthlySchedule: React.FC = () => {
+const Calendar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const { issuesSchedule, loading: loadingSchedule } = useSelector((state: RootState) => state.issuesSchedule);
@@ -175,4 +175,4 @@ const MonthlySchedule: React.FC = () => {
   );
 };
 
-export default MonthlySchedule;
+export default Calendar;
