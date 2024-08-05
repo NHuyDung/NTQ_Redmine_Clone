@@ -87,12 +87,12 @@ const NewIssue = () => {
         <p className="mb-2">
           <label className="text-[#555] text-xs font-semibold mb-2">Tracker</label>
           <span className="text-[#bb0000]">*</span>
-          <select className="border border-primary-border w-56 h-6">
+          <select className="border border-primary-border w-16 h-6 text-xs">
             <option>Bug</option>
             <option>Task</option>
           </select>
         </p>
-        <p className="mb-2">
+        <p className="mb-2 flex items-center">
           <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Subject</label>
           <input type="text" className="border border-primary-border w-full h-6"></input>
         </p>
@@ -120,7 +120,7 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items1.map((item, index) => (
                   <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
                     <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
@@ -130,7 +130,7 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items2.map((item, index) => (
                   <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
                     <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
@@ -142,7 +142,7 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items3.map((item, index) => (
                   <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
                     <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
@@ -152,7 +152,7 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items4.map((item, index) => (
                   <div key={index} className="mb-3 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
                     <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
