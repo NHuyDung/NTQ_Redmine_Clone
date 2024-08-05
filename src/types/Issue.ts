@@ -19,6 +19,7 @@ export interface Issue {
   deadline?: boolean;
   loading?: boolean;
   error?: string | null;
+  img?: string;
 }
 export interface GroupedIssues {
   day?: string;
@@ -28,7 +29,7 @@ export interface IssuesState {
   issuesReport?: Issue[];
   issuesAssigned?: Issue[];
   issuesWatched?: Issue[];
-  issuesSchedule?: GroupedIssues[];
+  issuesSchedule?: { week: GroupedIssues[]; month: GroupedIssues[] };
   loading: boolean;
   error: string | null;
 }

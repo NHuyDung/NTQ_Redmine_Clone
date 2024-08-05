@@ -9,8 +9,10 @@ interface IDragProps {
   modal: (issue: Issue) => void;
   issue: Issue;
   mousePosition: { x: number; y: number };
+  zIndex: number;
+  onClick: () => void;
 }
-const ModalDetail: React.FC<IDragProps> = ({ modal, issue, mousePosition }) => {
+const ModalDetail: React.FC<IDragProps & { zIndex: number; onClick: () => void }> = ({ modal, issue, mousePosition, zIndex, onClick }) => {
   const modalWidth = 600;
   const modalHeight = 650;
   const calculatePosition = () => {
@@ -34,6 +36,7 @@ const ModalDetail: React.FC<IDragProps> = ({ modal, issue, mousePosition }) => {
     top: `${top}px`,
     width: `${modalWidth}px`,
     height: `${modalHeight}px`,
+    zIndex: zIndex,
   };
 
   const createdTimeAgo = moment(issue.created_on).fromNow();
@@ -45,7 +48,7 @@ const ModalDetail: React.FC<IDragProps> = ({ modal, issue, mousePosition }) => {
 
   return (
     <Draggable>
-      <div className="bg-white fixed border rounded" style={modalStyle}>
+      <div className="bg-white fixed border rounded" style={modalStyle} onClick={onClick}>
         <div className="flex justify-between items-center bg-header m-1 bg-[#8db0d8]">
           <h2 style={{ marginRight: "auto" }} className="text-xs p-2 text-white font-bold">
             Quick View - #{issue.id} {issue.subject}

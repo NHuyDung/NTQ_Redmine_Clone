@@ -46,6 +46,7 @@ import newissue_link from "./newissue_link.png";
 import newissue_img from "./newissue_img.png";
 import newissue_help from "./newissue_help.png";
 import wiki from "./activity_wiki_edit.png";
+import diamond from "./bullet_diamond.png";
 import favowiki from "./wiki_fav_off.png";
 import history from "./wiki_history.png";
 import iconswiki from "./wiki_ui-icons.png";
@@ -99,6 +100,7 @@ const images = {
   newissue_img,
   newissue_help,
   wiki,
+  diamond,
   save,
   favowiki,
   history,
