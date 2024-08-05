@@ -6,7 +6,7 @@ import { fetchIssuesReport } from "~/features/issues/IssuesReportSlice";
 import { fetchIssuesAssigned } from "~/features/issues/IssuesAssignedSlice";
 import { fetchIssuesWatched } from "~/features/issues/IssuesWatchedSlice";
 import ModalDetail from "./ModalDetail";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ZIndexContext } from "./ModalContext";
 import { RingLoader } from "react-spinners";
 const getTableName = (id: string): string => {
@@ -33,18 +33,20 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
   const { issuesWatched, loading: loadingWatched } = useSelector((state: RootState) => state.issuesWatched);
   const { issuesAssigned, loading: loadingAssigned } = useSelector((state: RootState) => state.issuesAssigned);
 
+  const location = useLocation();
+
   useEffect(() => {
-    if (id === "1" && issuesReport?.length === 0) {
+    if (id === "1" && issuesAssigned?.length === 0) {
       dispatch(fetchIssuesAssigned());
     } else if (id === "2" && issuesReport?.length === 0) {
       dispatch(fetchIssuesReport());
     } else if (id === "3" && issuesWatched?.length === 0) {
       dispatch(fetchIssuesWatched());
     }
-  }, []);
+  }, [id, dispatch]);
 
   const onDoubleClick = (issue: Issue, event?: React.MouseEvent<HTMLTableRowElement>) => {
-    if (event) {
+    if (event && location.pathname !== "/my/page_layout") {
       const { clientX, clientY } = event;
       const isIssueAlreadyOpen = modals.some((modal) => modal.issue.id === issue.id);
       if (!isIssueAlreadyOpen) {
@@ -86,7 +88,7 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
     <>
       <div className="text-start mb-2.5">
         <Link to="#" className="font-semibold  text-[#159]  hover:underline hover:text-[#c61a1a]" rel="noreferrer noopener">
-          {tableName}
+          {tableName} <span>{`(${displayedData?.length})`}</span>
         </Link>
       </div>
       <div className="overflow-x-auto">
@@ -114,7 +116,6 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 h-6">
               {displayedData?.map((issue, index: number) => {
-                // Xác định màu nền của hàng dựa trên priority.name
                 const rowBgColor =
                   issue.priority?.name === "Urgent" || issue.priority?.name === "Immediate"
                     ? "bg-[#ffc4c4]"

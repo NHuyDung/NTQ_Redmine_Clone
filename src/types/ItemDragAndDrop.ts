@@ -4,14 +4,17 @@ import Schedule from "~/pages/MyPage/components/Schedule/Schedule";
 import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
-
-export type ComponentName = "LogTime" | "Schedule" | "TableIssue" | "TotalTime" | "SpentTime";
+import LatestNews from "~/pages/MyPage/components/LatestNews/LatestNews";
+import Documents from "~/pages/MyPage/components/Document/Documents";
+export type ComponentName = "LogTime" | "Schedule" | "TableIssue" | "TotalTime" | "SpentTime" | "LatestNews" | "Documents";
 export const componentMap: ComponentMap = {
   LogTime,
   Schedule,
   TableIssue,
   TotalTime,
   SpentTime,
+  LatestNews,
+  Documents,
 };
 export interface Item {
   id: string;
@@ -39,4 +42,6 @@ export type ComponentMap = {
   TableIssue: React.FC<{ id: string }>;
   TotalTime: React.FC;
   SpentTime: () => JSX.Element;
+  LatestNews: React.FC;
+  Documents: React.FC;
 };
