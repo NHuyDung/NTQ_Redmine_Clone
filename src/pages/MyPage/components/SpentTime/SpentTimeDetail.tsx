@@ -178,7 +178,6 @@ const SpentTimeDetail = () => {
   const handleApply = () => {
     setColumnsDetail(selectedColumns);
   };
-  console.log(selectedColumns);
 
   return (
     <div>

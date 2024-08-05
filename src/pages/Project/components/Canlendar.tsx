@@ -7,12 +7,14 @@ import { AppDispatch, RootState } from "~/app/store";
 import { useSelector } from "react-redux";
 import { fetchIssuesSchedule } from "~/features/issues/IssuesScheduleSlice";
 import { RingLoader } from "react-spinners";
+import Select from "~/components/Select/Select";
+import { OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
 import { getLastWeekOfPreviousMonth, isToday } from "~/utils/FormatDay";
 import images from "~/assets/img";
 
 const Calendar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [isFilters, setIsFilters] = useState(false);
   const { issuesSchedule, loading: loadingSchedule } = useSelector((state: RootState) => state.issuesSchedule);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ const Calendar: React.FC = () => {
     currentDay.add(1, "day");
   }
   const handleToggleFilter = () => {
-    setIsOpenFilter(!isOpenFilter);
+    setIsFilters(!isFilters);
   };
   return (
     <>
@@ -43,60 +45,52 @@ const Calendar: React.FC = () => {
       ) : (
         <>
           <div>
-            <fieldset className="mb-4">
-              <legend onClick={handleToggleFilter} className="cursor-pointer pb-2 text-xs">
-                {!isOpenFilter ? (
-                  <img className="inline w-3" alt="collapsed" src="https://redmine.ntq.solutions/images/arrow_collapsed.png"></img>
-                ) : (
-                  <img className="inline w-3" alt="expanded" src="https://redmine.ntq.solutions/images/arrow_expanded.png"></img>
-                )}
+            <fieldset className="flex text-xs text-[#484848] py-2 px-3 border-t">
+              <legend className="flex items-center cursor-pointer" onClick={handleToggleFilter}>
+                <img src={isFilters ? images.arrow_rightgrey : images.arrow_expanded} alt="arrow_down" className="" />
                 Filters
               </legend>
-              {!isOpenFilter ? null : (
-                <div className="flex justify-between">
-                  <div className="flex items-center">
-                    <input type="checkbox" id="cb_status_id"></input>
-                    <label htmlFor="cb_status_id" className="pl-1 text-xs">
-                      Status
-                    </label>
+              {!isFilters && (
+                <>
+                  <table className="max-w-[60%] w-full flex flex-col gap-1">
+                    <thead></thead>
+                    <tbody>
+                      <tr className="flex items-center mb-1">
+                        <td className="flex items-center gap-1 w-4/12">
+                          <input type="checkbox" id="date" />
+                          <label htmlFor="date">Status</label>
+                        </td>
+                        <td className="flex items-center gap-1 w-4/12">
+                          <Select
+                            value="selectedValue"
+                            className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
+                            onChange={() => {
+                              return "selectedValue";
+                            }}
+                            options={OPTIONS_STATUS_1}
+                            label="Select an option"
+                          />
+                        </td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="max-w-[40%] w-full flex justify-end items-start">
+                    <div className="flex items-center gap-1">
+                      <span className="text-nowrap">Add filter</span>
+                      <Select
+                        value="selectedValue"
+                        className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
+                        onChange={() => {
+                          return "selectedValue";
+                        }}
+                        options={OPTIONS_FILTER_ISSUES}
+                        label="Select an option"
+                        placeholder=" "
+                      />
+                    </div>
                   </div>
-                  <select id="operators_status_id" className="border border-primary-border w-16 h-6 text-xs">
-                    <option className="text-xs" value="">
-                      All
-                    </option>
-                    <option className="text-xs" value="open">
-                      Open
-                    </option>
-                    <option className="text-xs" value="resolved">
-                      Resolved
-                    </option>
-                    <option className="text-xs" value="closed">
-                      Closed
-                    </option>
-                  </select>
-
-                  <span></span>
-
-                  <div>
-                    <label htmlFor="add_filter_select" className="pr-1">
-                      Add filter
-                    </label>
-                    <select id="add_filter_select" className="border border-primary-border w-32 h-6 text-xs">
-                      <option className="text-xs" value="">
-                        All
-                      </option>
-                      <option className="text-xs" value="created_on">
-                        Created on
-                      </option>
-                      <option className="text-xs" value="updated_on">
-                        Updated on
-                      </option>
-                      <option className="text-xs" value="due_date">
-                        Due date
-                      </option>
-                    </select>
-                  </div>
-                </div>
+                </>
               )}
             </fieldset>
           </div>

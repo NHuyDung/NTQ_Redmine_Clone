@@ -51,13 +51,13 @@ export const OPTIONS_FILTER_ISSUES = [
   { value: "rrelease", label: "Issue's Release OK " },
 ];
 
-export const HeaderIssuesData = [
-  { id: 1, label: "#" },
-  { id: 2, label: "Tracker" },
-  { id: 3, label: "Status" },
-  { id: 4, label: "Priority" },
-  { id: 5, label: "Subject" },
-  { id: 6, label: "Assignee" },
-  { id: 7, label: "Updated" },
-  { id: 8, label: "author" },
-];
+// export const HeaderIssuesData = [
+//   { id: 1, label: "#" },
+//   { id: 2, label: "Tracker" },
+//   { id: 3, label: "Status" },
+//   { id: 4, label: "Priority" },
+//   { id: 5, label: "Subject" },
+//   { id: 6, label: "Assignee" },
+//   { id: 7, label: "Updated" },
+//   { id: 8, label: "author" },
+// ];

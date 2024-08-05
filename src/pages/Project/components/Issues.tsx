@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RingLoader } from "react-spinners";
 import images from "~/assets/img";
 import Select from "~/components/Select/Select";
-import { HeaderIssuesData, OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
+import { OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
 import { getIssueSchedule } from "~/services/IssueService";
 import { Issue } from "~/types/Issue";
 import { formatDateTime } from "~/utils/FormatDay";
@@ -79,7 +79,8 @@ const Issues = () => {
     "service offering",
     "release ok",
   ]);
-  const [selectedColumns, setSelectedColumns] = useState(["Status", "Priority", "Tracker", "Subject", "issues", "comment", "hours"]);
+  const [selectedColumns, setSelectedColumns] = useState(["#", "Status", "Priority", "Tracker", "Subject", "Assignee", "Updated", "author"]);
+  const [columnsDetail, setColumnsDetail] = useState<string[]>(selectedColumns);
   const [selectedValue, setSelectedValue] = useState<string | string[]>("");
   const [loading, setLoading] = useState<boolean>(true); // Trạng thái loading
 
@@ -190,9 +191,43 @@ const Issues = () => {
     setSelectedColumns(newSelectedColumns);
   };
 
+  const handleApply = () => {
+    setColumnsDetail(selectedColumns);
+  };
+
+  const convertColumn = (list: string[]) => {
+    return list.map((item, index) => ({
+      id: index + 1,
+      label: item,
+    }));
+  };
+
+  const MENU_HEADER_TABLE = convertColumn(columnsDetail);
+
+  const renderCellContent = (item: Issue, column: string) => {
+    switch (column) {
+      case "Status":
+        return item.status?.name;
+      case "Priority":
+        return item.priority?.name;
+      case "Tracker":
+        return item.tracker.name;
+      case "Subject":
+        return item.subject;
+      case "Assignee":
+        return item.assigned_to?.name;
+      case "Updated":
+        return formatDateTime(item.updated_on ?? "");
+      case "author":
+        return item.author?.name;
+      default:
+        return "";
+    }
+  };
+
   return (
     <div>
-      <h1 className="text-[#555] text-xl font-semibold mb-3">Spent time</h1>
+      <h1 className="text-[#555] text-xl font-semibold mb-3">Issues</h1>
       {loading ? (
         <div className="flex justify-center items-center my-4">
           <RingLoader color="#34d2c8" />
@@ -299,7 +334,10 @@ const Issues = () => {
             )}
           </fieldset>
           <div className="flex items-center gap-1 my-4 ">
-            <span className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText ">
+            <span
+              onClick={handleApply}
+              className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText "
+            >
               <img src={images.check} alt="check" />
               <span>Apply</span>
             </span>
@@ -319,7 +357,7 @@ const Issues = () => {
                 <th className=" p-1 text-xs border border-primary-border">
                   <img src={images.check} alt="check" />
                 </th>
-                {HeaderIssuesData.map((header) => (
+                {MENU_HEADER_TABLE.map((header) => (
                   <th
                     key={header.id}
                     className="text-[#169] hover:underline hover:text-[#c61a1a] p-1 text-xs border border-primary-border cursor-pointer"
@@ -344,14 +382,19 @@ const Issues = () => {
                     <td className="p-1 text-left text-xs border border-primary-border">
                       <input type="checkbox" />
                     </td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.id}</td>
+                    {MENU_HEADER_TABLE.map((column) => (
+                      <td key={column.id} className="p-1 text-center text-xs border border-primary-border">
+                        {renderCellContent(item, column.label)}
+                      </td>
+                    ))}
+                    {/* <td className="p-1 text-center text-xs border border-primary-border">{item.id}</td>
                     <td className="p-1 text-center text-xs border border-primary-border">{item.tracker.name}</td>
                     <td className="p-1 text-center text-xs border border-primary-border">{item.status?.name}</td>
                     <td className="p-1 text-center text-xs border border-primary-border">{item.priority?.name}</td>
                     <td className="p-1 text-center text-xs border border-primary-border">{item.subject}</td>
                     <td className="p-1 text-center text-xs border border-primary-border">{item.assigned_to?.name}</td>
                     <td className="p-1 text-center text-xs border border-primary-border">{formatDateTime(item.updated_on ?? "")}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.author?.name}</td>
+                    <td className="p-1 text-center text-xs border border-primary-border">{item.author?.name}</td> */}
                   </tr>
                 );
               })}
