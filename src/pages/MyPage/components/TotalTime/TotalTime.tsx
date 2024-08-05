@@ -27,7 +27,7 @@ const TotalTime: React.FC = () => {
   return (
     <div>
       <div className="flex justify-between my-3">
-        <h2 className="text-13">
+        <h2 className=" font-bold text-[#505050]">
           Total time:<span>{totalHours.toFixed(2)}</span>
         </h2>
         <Link to="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">

@@ -84,8 +84,8 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <>
-      <div className="text-start">
-        <Link to="#" className="text-[#1c5d8b] hover:underline hover:text-red-400" rel="noreferrer noopener">
+      <div className="text-start mb-2.5">
+        <Link to="#" className="font-semibold  text-[#159]  hover:underline hover:text-[#c61a1a]" rel="noreferrer noopener">
           {tableName}
         </Link>
       </div>

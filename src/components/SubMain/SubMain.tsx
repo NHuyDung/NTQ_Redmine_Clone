@@ -5,6 +5,9 @@ import SubProject from "./SubProject/SubProject";
 import SubOverview from "./components/SubOverview";
 import SubActivity from "./components/SubActivity";
 import SubRoadmap from "./components/SubRoadmap";
+import SubIssues from "./components/SubIssues";
+import SubDocuments from "./components/SubDocuments";
+import SubWiki from "./components/SubWiki";
 
 const SubMain = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -23,6 +26,14 @@ const SubMain = () => {
         return <SubActivity />;
       case "roadmap":
         return <SubRoadmap />;
+      case "issues":
+        return <SubIssues />;
+      case "documents":
+        return <SubDocuments />;
+      case "gantt":
+        return <SubIssues />;
+      case "wiki":
+        return <SubWiki />;
       default:
         return <div>Unknown section</div>;
     }

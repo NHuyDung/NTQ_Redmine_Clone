@@ -11,8 +11,8 @@ const MyPage = () => {
     <div>
       {hasItems ? (
         <div>
-          <div className="flex justify-between">
-            <h2 className="text-[#555] text-xl text-5 font-semibold">My page</h2>
+          <div className="flex justify-between mb-2.5">
+            <h2 className="text-[#555] text-xl font-semibold ">My page</h2>
             <Link to={"/my/page_layout"} className="text-primary text-11 hover:underline hover:text-red-400">
               Personalize this page
             </Link>

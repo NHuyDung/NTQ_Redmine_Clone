@@ -8,6 +8,7 @@ moment.updateLocale("en", {
   },
 });
 
+// format date
 export const formatDate = (date: string, showTodayAsDate: boolean = false): string => {
   const formattedDate = moment(date).format("MM/DD/YYYY");
   const today = moment().format("YYYY-MM-DD");
@@ -36,10 +37,6 @@ export const getLastWeekOfCurrentMonth = () => {
   // Lấy tuần cuối cùng của tháng hiện tại
   return moment(endOfCurrentMonth).tz(timezone).startOf("week");
 };
-export const formatDateTime = (date: moment.Moment, format: string = "YYYY-MM-DD HH:mm:ss"): string => {
-  return date.format(format);
-};
-
 export const formatTime = (date: string) => {
   const vietnamTime = moment.utc(date).add(7, "hours").format("h:mm A");
   return vietnamTime;
@@ -75,3 +72,12 @@ export const getWeekAndMonthDates = () => {
 };
 
 export default moment;
+export const formatDateTime = (datetime: string) => {
+  const formattedDateTime = moment(datetime).format("MM/DD/YYYY hh:mm A");
+  return formattedDateTime;
+};
+
+// const originalDateTime = '2024-08-04T10:03:31Z';
+// const formattedDateTime = formatDateTime(originalDateTime);
+
+// console.log(formattedDateTime);
