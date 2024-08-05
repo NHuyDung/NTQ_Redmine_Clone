@@ -3,15 +3,16 @@ import images from "~/assets/img";
 import { formatDate } from "~/utils/FormatDay";
 import { TimeEntriesType } from "~/types/spentTime";
 import { groupIssuesByDate } from "~/utils/GroupByDate";
-import { HeaderDetailData } from "~/const/MyPage";
+// import { HeaderDetailData } from "~/const/MyPage";
 import { getIssueSchedule } from "~/services/IssueService";
 import { Issue } from "~/types/Issue";
 
 interface DetailProps {
   data: TimeEntriesType[];
+  selectedColumns: string[];
 }
 
-const Detail: React.FC<DetailProps> = ({ data }) => {
+const Detail: React.FC<DetailProps> = ({ selectedColumns, data }) => {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [sortOrder, setSortOrder] = useState<"up" | "down">("up");
   const [sortedData, setSortedData] = useState<TimeEntriesType[]>([]);
@@ -29,6 +30,16 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
     fetchProjects();
   }, []);
 
+  // console.log(selectedColumns);
+  const convertColumn = (list: string[]) => {
+    return list.map((item, index) => ({
+      id: index + 1,
+      label: item,
+    }));
+  };
+
+  const MENU_HEADER_TABLE = convertColumn(selectedColumns);
+
   useEffect(() => {
     const sorted = sortData(data, sortOrder);
     setSortedData(sorted);
@@ -44,6 +55,47 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
 
   const handleSort = () => {
     setSortOrder(sortOrder === "up" ? "down" : "up");
+  };
+
+  console.log(MENU_HEADER_TABLE);
+
+  const renderCellContent = (header: { label: string }, item: TimeEntriesType, issue: Issue | undefined) => {
+    switch (header.label) {
+      case "Date":
+        return formatDate(item.spent_on, true);
+      case "Project":
+        return item.project.name;
+      case "User":
+        return item.user.name;
+      case "Activity":
+        return item.activity.name;
+      case "Issues":
+        return item.issue?.id ? (
+          <>
+            <a className="text-primary hover:underline hover:text-red-400" href="" rel="noreferrer noopener">
+              {issue ? `${issue.tracker.name} #${issue.id}:` : `Bug #${item.issue.id}:`}
+            </a>
+            <div className="">{issue ? issue.subject : "API issue"}</div>
+          </>
+        ) : null;
+      case "Comment":
+        return item.comments;
+      case "Hours":
+        return item.hours.toFixed(2);
+      case "Actions":
+        return (
+          <div className="flex justify-center items-end pb-3 gap-1 p-1 text-xs border border-primary-border">
+            <a href="" className="h-full" rel="noreferrer noopener">
+              <img src={images.edit} alt="edit" />
+            </a>
+            <a href="" className="h-full" rel="noreferrer noopener">
+              <img src={images.remove} alt="delete" />
+            </a>
+          </div>
+        );
+      default:
+        return "";
+    }
   };
 
   // Group date
@@ -63,7 +115,7 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
             <th className=" p-1 text-xs border border-primary-border">
               <img src={images.check} alt="check" />
             </th>
-            {HeaderDetailData.map((header) => (
+            {MENU_HEADER_TABLE.map((header) => (
               <th
                 key={header.id}
                 className="text-[#169] hover:underline hover:text-[#c61a1a] p-1 text-xs border border-primary-border cursor-pointer"
@@ -91,28 +143,11 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
                 <td className="p-1 text-center text-xs border border-primary-border">
                   <input type="checkbox" />
                 </td>
-                <td className="text-primary hover:underline hover:text-red-400 p-1 text-center text-xs border border-primary-border">
-                  {item.project.name}
-                </td>
-                <td className="p-1 text-center text-xs border border-primary-border">{formatDate(item.spent_on, true)}</td>
-                <td className="text-primary hover:underline hover:text-red-400 p-1 text-center text-xs border border-primary-border">
-                  {item.user.name}
-                </td>
-                <td className="p-1 text-center text-xs border border-primary-border">{item.activity.name}</td>
-                <td className=" p-1 text-left text-xs last:border-b border-primary-border flex gap-1">
-                  {item.issue?.id ? (
-                    <>
-                      <a className="text-primary hover:underline hover:text-red-400" href="" rel="noreferrer noopener">
-                        {issue ? `${issue.tracker.name} #${issue.id}:` : `Bug #${item.issue.id}:`}
-                      </a>
-                      <div className="">{issue ? issue.subject : "API issue"}</div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </td>
-                <td className="p-1 text-left text-xs border border-primary-border">{item.comments}</td>
-                <td className="p-1 text-center text-xs border border-primary-border">{item.hours.toFixed(2)}</td>
+                {MENU_HEADER_TABLE.map((header) => (
+                  <td key={header.id} className="p-1 text-start text-xs border border-primary-border">
+                    {renderCellContent(header, item, issue)}
+                  </td>
+                ))}
                 <td className="flex justify-center items-end pb-3 gap-1 p-1 text-xs border border-primary-border ">
                   <a href="" className="h-full" rel="noreferrer noopener">
                     <img src={images.edit} alt="edit" />
@@ -122,6 +157,41 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
                   </a>
                 </td>
               </tr>
+              // <tr className={`${index % 2 === 0 ? "bg-[#f6f7f9]" : "bg-[#fff]"} hover:bg-[#ffffdd]`} key={item.id}>
+              //   <td className="p-1 text-center text-xs border border-primary-border">
+              //     <input type="checkbox" />
+              //   </td>
+              //   <td className="text-primary hover:underline hover:text-red-400 p-1 text-center text-xs border border-primary-border">
+              //     {item.project.name}
+              //   </td>
+              //   <td className="p-1 text-center text-xs border border-primary-border">{formatDate(item.spent_on, true)}</td>
+              //   <td className="text-primary hover:underline hover:text-red-400 p-1 text-center text-xs border border-primary-border">
+              //     {item.user.name}
+              //   </td>
+              //   <td className="p-1 text-center text-xs border border-primary-border">{item.activity.name}</td>
+              //   <td className=" p-1 text-left text-xs last:border-b border-primary-border flex gap-1">
+              //     {item.issue?.id ? (
+              //       <>
+              //         <a className="text-primary hover:underline hover:text-red-400" href="" rel="noreferrer noopener">
+              //           {issue ? `${issue.tracker.name} #${issue.id}:` : `Bug #${item.issue.id}:`}
+              //         </a>
+              //         <div className="">{issue ? issue.subject : "API issue"}</div>
+              //       </>
+              //     ) : (
+              //       <></>
+              //     )}
+              //   </td>
+              //   <td className="p-1 text-left text-xs border border-primary-border">{item.comments}</td>
+              //   <td className="p-1 text-center text-xs border border-primary-border">{item.hours.toFixed(2)}</td>
+              //   <td className="flex justify-center items-end pb-3 gap-1 p-1 text-xs border border-primary-border ">
+              //     <a href="" className="h-full" rel="noreferrer noopener">
+              //       <img src={images.edit} alt="edit" />
+              //     </a>
+              //     <a href="" className="h-full" rel="noreferrer noopener">
+              //       <img src={images.remove} alt="delete" />
+              //     </a>
+              //   </td>
+              // </tr>
             );
           })}
         </tbody>
