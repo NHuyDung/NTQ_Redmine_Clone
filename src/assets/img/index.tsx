@@ -27,6 +27,16 @@ import imagePackage from "./roadmap_package.png";
 import attachment from "./activity_attachment.png";
 import ticket_overview from "./activity_ticket.png";
 import avatar from "./activity_avatar.png";
+import newissue_strong from "./newissue_strong.png";
+import newissue_italic from "./newissue_italic.png";
+import newissue_underline from "./newissue_underline.png";
+import newissue_delete from "./newissue_delete.png";
+import newissue_inlinecode from "./newissue_inlinecode.png";
+import newissue_heading1 from "./newissue_heading1.png";
+import newissue_heading2 from "./newissue_heading2.png";
+import newissue_heading3 from "./newissue_heading3.png";
+import newissue_ul from "./newissue_ul.png";
+import newissue_ol from "./newissue_ol.png";
 
 const images = {
   arrow_right,
@@ -57,6 +67,16 @@ const images = {
   attachment,
   ticket_overview,
   avatar,
+  newissue_strong,
+  newissue_italic,
+  newissue_underline,
+  newissue_delete,
+  newissue_inlinecode,
+  newissue_heading1,
+  newissue_heading2,
+  newissue_heading3,
+  newissue_ul,
+  newissue_ol,
 };
 
 export default images;
