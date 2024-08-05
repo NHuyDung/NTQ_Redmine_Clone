@@ -4,11 +4,12 @@ import App from "./App";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./app/store";
+import { ZIndexProvider } from "./pages/MyPage/components/TableIssue/ModalContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <Provider store={store}>
+  <Provider store={store}>
+    <ZIndexProvider>
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </ZIndexProvider>
+  </Provider>,
 );

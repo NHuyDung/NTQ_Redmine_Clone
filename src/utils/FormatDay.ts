@@ -1,4 +1,12 @@
 import moment from "moment";
+import "moment-timezone";
+const timezone = "Asia/Ho_Chi_Minh";
+
+moment.updateLocale("en", {
+  week: {
+    dow: 1,
+  },
+});
 
 export const formatDate = (date: string, showTodayAsDate: boolean = false): string => {
   const formattedDate = moment(date).format("MM/DD/YYYY");
@@ -10,10 +18,60 @@ export const formatDate = (date: string, showTodayAsDate: boolean = false): stri
 
   return formattedDate;
 };
+export const getCurrentTime = () => moment().tz(timezone);
+export const getStartOfWeek = () => moment().tz(timezone).startOf("week");
+export const getEndOfWeek = () => moment().tz(timezone).endOf("week");
+export const getStartOfMonth = () => moment().tz(timezone).startOf("month");
+export const getEndOfMonth = () => moment().tz(timezone).endOf("month");
+export const getLastWeekOfPreviousMonth = () => {
+  // Lấy ngày đầu của tháng hiện tại và trừ đi 1 ngày để có ngày cuối cùng của tháng trước
+  const endOfPreviousMonth = moment().tz(timezone).startOf("month").subtract(1, "day");
+  // Lấy tuần cuối cùng của tháng trước
+  return moment(endOfPreviousMonth).tz(timezone).startOf("week");
+};
 
-// format VN time
+export const getLastWeekOfCurrentMonth = () => {
+  // Lấy ngày cuối cùng của tháng hiện tại
+  const endOfCurrentMonth = moment().tz(timezone).endOf("month");
+  // Lấy tuần cuối cùng của tháng hiện tại
+  return moment(endOfCurrentMonth).tz(timezone).startOf("week");
+};
+export const formatDateTime = (date: moment.Moment, format: string = "YYYY-MM-DD HH:mm:ss"): string => {
+  return date.format(format);
+};
 
 export const formatTime = (date: string) => {
   const vietnamTime = moment.utc(date).add(7, "hours").format("h:mm A");
   return vietnamTime;
 };
+
+export const isToday = (date: moment.Moment): boolean => {
+  return date.isSame(getCurrentTime(), "day");
+};
+
+export const isThisWeek = (date: moment.Moment): boolean => {
+  return date.isBetween(getStartOfWeek(), getEndOfWeek(), "day", "[]");
+};
+
+export const isThisMonth = (date: moment.Moment): boolean => {
+  return date.isBetween(getStartOfMonth(), getEndOfMonth(), "day", "[]");
+};
+export const getDaysInMonth = (): number => {
+  // Lấy ngày đầu tiên của tháng hiện tại
+  const startOfMonth = moment().startOf("month");
+
+  // Lấy số ngày trong tháng hiện tại
+  return startOfMonth.daysInMonth();
+};
+// Hàm xác định ngày bắt đầu và kết thúc của tuần và tháng
+export const getWeekAndMonthDates = () => {
+  const startOfWeek = getStartOfWeek();
+  const endOfWeek = getEndOfWeek();
+  const startOfMonth = getStartOfMonth();
+  const endOfMonth = getEndOfMonth();
+  const LastWeekOfPreviousMonth = getLastWeekOfPreviousMonth();
+  const LastWeekOfCurrentMonth = getLastWeekOfCurrentMonth();
+  return { startOfWeek, endOfWeek, startOfMonth, endOfMonth, LastWeekOfPreviousMonth, LastWeekOfCurrentMonth };
+};
+
+export default moment;

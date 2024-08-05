@@ -1,12 +1,11 @@
 import React from "react";
-import images from "~/assets/img";
 import { Issue } from "~/types/Issue";
 
 const CustomTooltip: React.FC<Issue> = (issue) => {
   return (
     <div>
       <div className="flex pb-5 items-center">
-        {issue?.deadline ? <img src={images.arrow_left} alt="" /> : <img src={images.arrow_right} alt="" />}
+        <img src={issue.img} alt="" />
         <a href="#" className="text-primary-blue hover:text-red-500 hover:underline" rel="noreferrer noopener">
           {issue?.tracker.name} #{issue.id}
         </a>
@@ -14,14 +13,14 @@ const CustomTooltip: React.FC<Issue> = (issue) => {
       </div>
       <div className="flex items-center gap-1">
         <span className="font-bold">Project:</span>
-        {issue?.deadline ? <img src={images.arrow_left} alt="" /> : <img src={images.arrow_right} alt="" />}
+        <img src={issue.img} alt="" />
         <a href="#" className="text-primary-blue hover:text-red-500 hover:underline" rel="noreferrer noopener">
           {issue?.project.name}
         </a>
       </div>
       <div className="flex gap-1">
         <span className="font-bold">Status:</span>
-        <span>{issue?.status.name}</span>
+        <span>{issue?.status?.name}</span>
       </div>
       <div className="flex gap-1">
         <span className="font-bold">Start date:</span>
