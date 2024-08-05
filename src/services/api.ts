@@ -4,7 +4,7 @@ const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
-  // timeout: 2000,
+  timeout: 1000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -31,6 +31,9 @@ axiosInstance.interceptors.response.use(
           break;
         case 403:
           console.error("Forbidden: Access is denied.");
+          break;
+        case 404:
+          console.error("Not Found: The requested resource was not found.");
           break;
         default:
           console.error(`Error ${error.response.status}: ${error.response.data}`);

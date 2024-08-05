@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "~/services/api";
 import { Issue, IssuesState } from "~/types/Issue";
+import { fetchAPIGet } from "~/utils/helperAPI";
 const initialState: IssuesState = {
   issuesAssigned: [],
   loading: false,
@@ -8,13 +8,8 @@ const initialState: IssuesState = {
 };
 
 export const fetchIssuesAssigned = createAsyncThunk("issues/IssuesAssigned", async (): Promise<Issue[]> => {
-  try {
-    const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?assigned_to_id=me");
-    return response.data.issues;
-  } catch (error) {
-    console.error("Error fetching issues:", error);
-    throw error;
-  }
+  const data = await fetchAPIGet("/issues.json", "assigned_to_id=me");
+  return data.issues;
 });
 
 const issuesAssignedSlice = createSlice({

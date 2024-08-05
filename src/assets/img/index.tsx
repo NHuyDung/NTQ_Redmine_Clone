@@ -30,6 +30,7 @@ import attachment from "./activity_attachment.png";
 import ticket_overview from "./activity_ticket.png";
 import avatar from "./activity_avatar.png";
 import wiki from "./activity_wiki_edit.png";
+import diamond from "./bullet_diamond.png";
 import favowiki from "./wiki_fav_off.png";
 import history from "./wiki_history.png";
 import iconswiki from "./wiki_ui-icons.png";
@@ -67,6 +68,7 @@ const images = {
   ticket_overview,
   avatar,
   wiki,
+  diamond,
   save,
   favowiki,
   history,

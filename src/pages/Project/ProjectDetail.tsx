@@ -22,7 +22,7 @@ const ProjectDetail = () => {
       case "activity":
         return <Activity identifier={identifier} />;
       case "roadmap":
-        return <Roadmap />;
+        return <Roadmap identifier={identifier} />;
       case "issues":
         return <Issues />;
       case "gantt":
