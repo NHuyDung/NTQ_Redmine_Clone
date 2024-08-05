@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ title }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isProjectOverviewPage = location.pathname.includes("/projects/");
+  const isProjectDetailPage = location.pathname.includes("/projects/");
 
   const identifier = location.pathname.split("/")[2];
   const slug = location.pathname.split("/")[3];
@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           </div>
         </div>
 
-        {isProjectOverviewPage && (
+        {isProjectDetailPage && (
           <div className="flex gap-0.5 ml-2">
             {Projects.map((project) => (
               <button

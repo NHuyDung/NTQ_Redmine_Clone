@@ -71,39 +71,40 @@ const buttonData: ButtonData[] = [
   { id: 8, backgroundImage: images.newissue_heading3 },
   { id: 9, backgroundImage: images.newissue_ul },
   { id: 10, backgroundImage: images.newissue_ol },
-  { id: 11, backgroundImage: images.add },
-  { id: 12, backgroundImage: images.add },
-  { id: 13, backgroundImage: images.add },
-  { id: 14, backgroundImage: images.add },
-  { id: 15, backgroundImage: images.add },
-  { id: 16, backgroundImage: images.add },
+  { id: 11, backgroundImage: images.newissue_bq },
+  { id: 12, backgroundImage: images.newissue_bq_remove },
+  { id: 13, backgroundImage: images.newissue_pre },
+  { id: 14, backgroundImage: images.newissue_link },
+  { id: 15, backgroundImage: images.newissue_img },
+  { id: 16, backgroundImage: images.newissue_help },
 ];
 
 const NewIssue = () => {
   return (
     <div>
       <h2 className="text-[#555] text-lg text-5 font-semibold mb-2 flex items-center justify-between">New issue</h2>
-      <div className="bg-gray-50 text-gray-700 leading-6 border border-gray-200 break-words min-h-[715px]">
-        <p>
-          <label>Tracker</label>
+      <div className="bg-gray-50 text-gray-700 leading-6 border border-gray-200 break-words min-h-[715px] pl-[140px] pr-[90px]">
+        <p className="mb-2">
+          <label className="text-[#555] text-xs font-semibold mb-2">Tracker</label>
+          <span className="text-[#bb0000]">*</span>
           <select className="border border-primary-border w-56 h-6">
             <option>Bug</option>
             <option>Task</option>
           </select>
         </p>
-        <p>
-          <label>Subject</label>
-          <input type="text" className="border border-primary-border w-56 h-6"></input>
+        <p className="mb-2">
+          <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Subject</label>
+          <input type="text" className="border border-primary-border w-full h-6"></input>
         </p>
-        <p>
-          <label>Description</label>
+        <p className="mb-2">
           <span>
             <div className="flex flex-wrap gap-2.5">
+              <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Description</label>
               {buttonData.map((button) => (
                 <button
                   key={button.id}
                   style={{ backgroundImage: `url(${button.backgroundImage})` }}
-                  className="w-4 h-4 bg-cover bg-center border-none cursor-pointer"
+                  className="w-4 h-4 bg-cover bg-center border-none cursor-pointer mr-1 p-1 border border-gray-300 bg-gray-200 bg-no-repeat"
                 ></button>
               ))}
             </div>
@@ -115,44 +116,44 @@ const NewIssue = () => {
 
         <div>
           <div>
-            <div className="flex justify-between">
-              <p>
+            <div className="flex justify-between mr-[180px]">
+              <p className="w-1/3">
                 {items1.map((item, index) => (
-                  <div key={index}>
-                    <label>{item.label}</label>
-                    <select>
+                  <div key={index} className="mb-2 flex">
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
                   </div>
                 ))}
               </p>
-              <p>
+              <p className="w-1/3">
                 {items2.map((item, index) => (
-                  <div key={index}>
-                    <label>{item.label}</label>
-                    <select>
+                  <div key={index} className="mb-2 flex">
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
                   </div>
                 ))}
               </p>
             </div>
-            <div className="flex justify-between">
-              <p>
+            <div className="flex justify-between mr-[180px]">
+              <p className="w-1/3">
                 {items3.map((item, index) => (
-                  <div key={index}>
-                    <label>{item.label}</label>
-                    <select>
+                  <div key={index} className="mb-2 flex">
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
                   </div>
                 ))}
               </p>
-              <p>
+              <p className="w-1/3">
                 {items4.map((item, index) => (
-                  <div key={index}>
-                    <label>{item.label}</label>
-                    <select>
+                  <div key={index} className="mb-3 flex">
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
                   </div>
@@ -162,14 +163,14 @@ const NewIssue = () => {
           </div>
           <div>
             <div>
-              <label>Files</label>
-              <span>
+              <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Files</label>
+              <span className="text-xs">
                 <input type="file"></input>
-                (maximum)
+                (Maximum size: 500 MB)
               </span>
             </div>
             <div>
-              <label>Watchers</label>
+              <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Watchers</label>
               <span>
                 {items5.map((item, index) => (
                   <div key={index}>
@@ -180,8 +181,8 @@ const NewIssue = () => {
               </span>
             </div>
             <a className="flex items-center">
-              <img></img>
-              <p className="text-primary hover:underline hover:text-[#b2290f] text-xs">Search for watchers to add</p>
+              <img src={images.add} className="w-4 h-3 pr-1"></img>
+              <p className="text-primary hover:underline hover:text-[#b2290f] text-[0.6rem]">Search for watchers to add</p>
             </a>
           </div>
         </div>

@@ -4,6 +4,12 @@ import Overview from "./components/Overview";
 import Activity from "./components/Activity";
 import Roadmap from "./components/Roadmap";
 import NewIssue from "./components/NewIssue";
+import Issues from "./components/Issues";
+import Documents from "./components/Documents";
+import Files from "./components/Files";
+import Settings from "./components/Settings";
+import Wiki from "./components/Wiki";
+import Gantt from "./components/Gantt";
 
 const ProjectDetail = () => {
   const { identifier, slug } = useParams<{ identifier: string; slug: string }>();
@@ -20,6 +26,18 @@ const ProjectDetail = () => {
         return <Roadmap />;
       case "newissue":
         return <NewIssue />;
+      case "issues":
+        return <Issues />;
+      case "gantt":
+        return <Gantt />;
+      case "documents":
+        return <Documents />;
+      case "wiki":
+        return <Wiki />;
+      case "files":
+        return <Files />;
+      case "settings":
+        return <Settings />;
       default:
         return <div>Unknown section</div>;
     }

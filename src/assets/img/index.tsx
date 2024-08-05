@@ -2,6 +2,7 @@
 import arrow_right from "./mypage_bullet_go.png";
 import arrow_left from "./mypage_bullet_end.png";
 import arrow_expanded from "./spenttime_arrow_expanded.png";
+import bullet from "./mypage_bullet_toggle.png";
 import arrow_up from "./spenttime_arrow-up.png";
 import arrow_down from "./spenttime_arrow_down.png";
 import logtime from "./spenttime_time_add.png";
@@ -12,6 +13,7 @@ import reload from "./spenttime_reload.png";
 import add from "./mypage_add.png";
 import edit from "./mypage_edit.png";
 import remove from "./mypage_delete.png";
+import save from "./mypage_save.png";
 import exclamation from "./logtime_exclamation.png";
 import feed from "./spenttime_feed.png";
 import cancel from "./mypagelayout_cancel.png";
@@ -37,12 +39,25 @@ import newissue_heading2 from "./newissue_heading2.png";
 import newissue_heading3 from "./newissue_heading3.png";
 import newissue_ul from "./newissue_ul.png";
 import newissue_ol from "./newissue_ol.png";
+import newissue_bq from "./newissue_bq.png";
+import newissue_bq_remove from "./newissue_bq_remove.png";
+import newissue_pre from "./newissue_pre.png";
+import newissue_link from "./newissue_link.png";
+import newissue_img from "./newissue_img.png";
+import newissue_help from "./newissue_help.png";
+import wiki from "./activity_wiki_edit.png";
+import favowiki from "./wiki_fav_off.png";
+import history from "./wiki_history.png";
+import iconswiki from "./wiki_ui-icons.png";
+import imgwiki from "./wiki_12345.jpg";
+import preview from "./wiki_preview.png";
 
 const images = {
   arrow_right,
   arrow_expanded,
   arrow_up,
   arrow_down,
+  bullet,
   logtime,
   magnifier,
   calendar,
@@ -77,6 +92,19 @@ const images = {
   newissue_heading3,
   newissue_ul,
   newissue_ol,
+  newissue_bq,
+  newissue_bq_remove,
+  newissue_pre,
+  newissue_link,
+  newissue_img,
+  newissue_help,
+  wiki,
+  save,
+  favowiki,
+  history,
+  iconswiki,
+  imgwiki,
+  preview,
 };
 
 export default images;
