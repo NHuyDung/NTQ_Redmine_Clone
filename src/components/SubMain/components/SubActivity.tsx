@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RootState } from "~/app/store";
 import { setFilters, FilterState } from "~/features/issues/filterSlice";
 
 const SubActivity: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const filters = useSelector((state: RootState) => state.filter as FilterState);
 
   // Local state to manage checkbox values
@@ -36,6 +39,10 @@ const SubActivity: React.FC = () => {
     };
     setLocalFilters(updatedFilters);
     dispatch(setFilters(updatedFilters));
+
+    const projectName = location.state?.projectName;
+    console.log(projectName);
+    navigate(location.pathname, { state: { projectName } });
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -44,6 +51,8 @@ const SubActivity: React.FC = () => {
     dispatch(setFilters(localFilters));
   };
 
+  // console.log(projectName, "ho");
+
   return (
     <form onSubmit={handleSubmit}>
       <h3 className="text-[#666] text-sm mt-3.5 mb-2.5">Activity</h3>
@@ -51,31 +60,31 @@ const SubActivity: React.FC = () => {
         <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
           <input type="checkbox" id="show_issues" name="showIssues" checked={localFilters.showIssues} onChange={handleCheckboxChange} />
           <label htmlFor="show_issues" onClick={() => handleLabelClick("showIssues")}>
-            <a href="#">Issues</a>
+            <button type="button">Issues</button>
           </label>
         </li>
         <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
           <input type="checkbox" id="show_changesets" name="showChangesets" checked={localFilters.showChangesets} onChange={handleCheckboxChange} />
           <label htmlFor="show_changesets" onClick={() => handleLabelClick("showChangesets")}>
-            <a href="#">Changesets</a>
+            <button type="button">Changesets</button>
           </label>
         </li>
         <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
           <input type="checkbox" id="show_documents" name="showDocuments" checked={localFilters.showDocuments} onChange={handleCheckboxChange} />
           <label htmlFor="show_documents" onClick={() => handleLabelClick("showDocuments")}>
-            <a href="#">Documents</a>
+            <button type="button">Documents</button>
           </label>
         </li>
         <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
           <input type="checkbox" id="show_files" name="showFiles" checked={localFilters.showFiles} onChange={handleCheckboxChange} />
           <label htmlFor="show_files" onClick={() => handleLabelClick("showFiles")}>
-            <a href="#">Files</a>
+            <button type="button">Files</button>
           </label>
         </li>
         <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
           <input type="checkbox" id="show_wiki_edits" name="showWikiEdits" checked={localFilters.showWikiEdits} onChange={handleCheckboxChange} />
           <label htmlFor="show_wiki_edits" onClick={() => handleLabelClick("showWikiEdits")}>
-            <a href="#">Wiki edits</a>
+            <button type="button">Wiki edits</button>
           </label>
         </li>
         <li className="flex item-center gap-1.5 text-[#169] cursor-pointer hover:underline hover:text-[#b2290f]">
@@ -87,7 +96,7 @@ const SubActivity: React.FC = () => {
             onChange={handleCheckboxChange}
           />
           <label htmlFor="show_time_entries" onClick={() => handleLabelClick("showTimeEntries")}>
-            <a href="#">Spent time</a>
+            <button type="button">Spent time</button>
           </label>
         </li>
       </ul>

@@ -87,18 +87,18 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
             const issue = issues.find((issue) => issue.id === item.issue?.id);
 
             return (
-              <tr className={index % 2 === 0 ? "bg-[#f6f7f9]" : "bg-[#fff]"} key={item.id}>
-                <td className="p-1 text-left text-xs border border-primary-border">
+              <tr className={`${index % 2 === 0 ? "bg-[#f6f7f9]" : "bg-[#fff]"} hover:bg-[#ffffdd]`} key={item.id}>
+                <td className="p-1 text-center text-xs border border-primary-border">
                   <input type="checkbox" />
                 </td>
-                <td className="text-primary hover:underline hover:text-red-400 p-1 text-left text-xs border border-primary-border">
+                <td className="text-primary hover:underline hover:text-red-400 p-1 text-center text-xs border border-primary-border">
                   {item.project.name}
                 </td>
-                <td className="p-1 text-left text-xs border border-primary-border">{formatDate(item.spent_on, true)}</td>
-                <td className="text-primary hover:underline hover:text-red-400 p-1 text-left text-xs border border-primary-border">
+                <td className="p-1 text-center text-xs border border-primary-border">{formatDate(item.spent_on, true)}</td>
+                <td className="text-primary hover:underline hover:text-red-400 p-1 text-center text-xs border border-primary-border">
                   {item.user.name}
                 </td>
-                <td className="p-1 text-left text-xs border border-primary-border">{item.activity.name}</td>
+                <td className="p-1 text-center text-xs border border-primary-border">{item.activity.name}</td>
                 <td className=" p-1 text-left text-xs last:border-b border-primary-border flex gap-1">
                   {item.issue?.id ? (
                     <>
@@ -112,7 +112,7 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
                   )}
                 </td>
                 <td className="p-1 text-left text-xs border border-primary-border">{item.comments}</td>
-                <td className="p-1 text-left text-xs border border-primary-border">{item.hours.toFixed(2)}</td>
+                <td className="p-1 text-center text-xs border border-primary-border">{item.hours.toFixed(2)}</td>
                 <td className="flex justify-center items-end pb-3 gap-1 p-1 text-xs border border-primary-border ">
                   <a href="" className="h-full" rel="noreferrer noopener">
                     <img src={images.edit} alt="edit" />
@@ -126,7 +126,9 @@ const Detail: React.FC<DetailProps> = ({ data }) => {
           })}
         </tbody>
       </table>
-      <div className="text-11 text-[#484848] my-2">(1-15)/15</div>
+      <div className="text-11 text-[#484848] my-2">
+        (1-{data.length})/{data.length}
+      </div>
 
       <div className="flex items-center gap-1 justify-end text-11 mb-2">
         <span>Also available in: CSV</span>

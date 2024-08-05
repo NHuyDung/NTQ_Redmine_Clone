@@ -15,7 +15,7 @@ const loadInitialState = (): FilterState => {
   const storedFilters = localStorage.getItem("filters");
   return storedFilters
     ? JSON.parse(storedFilters)
-    : { showIssues: true, showChangesets: true, showDocuments: true, showFiles: true, showWikiEdits: false, howTimeEntries: false };
+    : { showIssues: true, showChangesets: true, showDocuments: true, showFiles: true, showWikiEdits: false, showTimeEntries: false };
 };
 
 const initialState: FilterState = loadInitialState();
@@ -26,8 +26,6 @@ const filterSlice = createSlice({
   reducers: {
     setFilters: (state, action: PayloadAction<Partial<FilterState>>) => {
       const newState = { ...state, ...action.payload };
-      // Save new state to localStorage
-      // localStorage.setItem("filters", JSON.stringify(newState));
       return newState;
     },
   },

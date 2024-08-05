@@ -1,21 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "~/app/store";
+import React, { useState } from "react";
 import images from "~/assets/img";
-import { Link } from "react-router-dom";
-// import { getSpentTime } from "~/services/PageService";
-// import { TimeEntriesType } from "~/types/spentTime";
-import { OPTIONS_DATE, OPTIONS_USER_1, OPTIONS_USER_2, OPTIONS_FILTER } from "~/const/MyPage";
-
 import Select from "~/components/Select/Select";
-import Detail from "./Detail";
-import Report from "./Report";
-import { fetchTimeSpent } from "~/features/issues/TimeSpentSlice";
+import { OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
 
-const SpentTimeDetail = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const { timeSpent } = useSelector((state: RootState) => state.timeSpent); // Update state slice name
-  const [tabPage, setTabPage] = useState<number>(0);
+const Gantt = () => {
   const [isOptions, setIsOptions] = useState(false);
   const [isFilters, setIsFilters] = useState(false);
 
@@ -86,14 +74,8 @@ const SpentTimeDetail = () => {
     "service offering",
     "release ok",
   ]);
-  const [selectedColumns, setSelectedColumns] = useState(["project", "date", "user", "activity", "issues", "comment", "hours"]);
+  const [selectedColumns, setSelectedColumns] = useState(["Status", "Priority", "Tracker", "Subject", "issues", "comment", "hours"]);
   const [selectedValue, setSelectedValue] = useState<string | string[]>("");
-
-  useEffect(() => {
-    if (timeSpent?.length === 0) {
-      dispatch(fetchTimeSpent()); // Update action
-    }
-  }, [dispatch]);
 
   const handleMultiSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(Array.from(e.target.selectedOptions, (option) => option.value));
@@ -176,16 +158,7 @@ const SpentTimeDetail = () => {
 
   return (
     <div>
-      <div className="flex justify-between my-1">
-        <Link className="text-primary text-11 hover:underline hover:text-red-400" to="my/page_layout" rel="noreferrer noopener">
-          All projects »
-        </Link>
-        <Link to="/log-time" className="flex items-center gap-1 text-primary text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
-          <img src={images.logtime} alt="add" />
-          <span>Log time</span>
-        </Link>
-      </div>
-      <h1 className="text-[#555] text-xl font-semibold mb-3">Spent time</h1>
+      <h1 className="text-[#555] text-xl font-semibold mb-3">Gantt</h1>
       <fieldset className="flex text-xs text-[#484848] py-2 px-3 border-t">
         <legend className="flex items-center cursor-pointer" onClick={toggleFilter}>
           <img src={isFilters ? images.arrow_rightgrey : images.arrow_expanded} alt="arrow_down" className="" />
@@ -197,51 +170,22 @@ const SpentTimeDetail = () => {
               <thead></thead>
               <tbody>
                 <tr className="flex items-center mb-1">
-                  <td className="flex items-center gap-1 w-1/6">
+                  <td className="flex items-center gap-1 w-4/12">
                     <input type="checkbox" id="date" />
-                    <label htmlFor="date">Date</label>
+                    <label htmlFor="date">Status</label>
                   </td>
-                  <td className="flex items-center gap-1 w-1/6">
+                  <td className="flex items-center gap-1 w-4/12">
                     <Select
                       value="selectedValue"
                       className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
                       onChange={() => {
                         return "selectedValue";
                       }}
-                      options={OPTIONS_DATE}
+                      options={OPTIONS_STATUS_1}
                       label="Select an option"
                     />
                   </td>
                   <td></td>
-                </tr>
-                <tr className="flex items-center mb-1">
-                  <td className="flex items-center gap-1 w-1/6">
-                    <input type="checkbox" id="user" />
-                    <label htmlFor="user">User</label>
-                  </td>
-                  <td className="flex items-center gap-1 w-1/4">
-                    <Select
-                      value="selectedValue"
-                      className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
-                      onChange={() => {
-                        return "selectedValue";
-                      }}
-                      options={OPTIONS_USER_1}
-                      label="Select an option"
-                    />
-                  </td>
-                  <td className="flex items-center gap-1 w-5/12">
-                    <Select
-                      value="selectedValue"
-                      className="h-6 text-xs text-black font-medium border border-primary-border rounded-none w-full"
-                      onChange={() => {
-                        return "selectedValue";
-                      }}
-                      options={OPTIONS_USER_2}
-                      label="Select an option"
-                    />
-                  </td>
-                  <img src={images.bullet} alt="bullet" />
                 </tr>
               </tbody>
             </table>
@@ -254,7 +198,7 @@ const SpentTimeDetail = () => {
                   onChange={() => {
                     return "selectedValue";
                   }}
-                  options={OPTIONS_FILTER}
+                  options={OPTIONS_FILTER_ISSUES}
                   label="Select an option"
                   placeholder=" "
                 />
@@ -309,34 +253,37 @@ const SpentTimeDetail = () => {
           </div>
         )}
       </fieldset>
-
-      <div className="flex items-center gap-1 my-4">
-        <span className="flex items-center gap-1 text-xs cursor-pointer text-primaryText hover:text-hoverText hover:underline">
+      <div className="flex items-center gap-1 my-4 ">
+        <span className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText ">
           <img src={images.check} alt="check" />
           <span>Apply</span>
         </span>
-        <span className="flex items-center gap-1 text-xs cursor-pointer text-primaryText hover:text-hoverText hover:underline">
+        <span className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText ">
           <img src={images.reload} alt="reload" />
           <span>Clear</span>
         </span>
+        <span className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText ">
+          <img src={images.save} alt="reload" />
+          <span>Save</span>
+        </span>
       </div>
-      <ul className="flex items-center gap-2 text-xs font-semibold text-[#484848] px-2 border-b">
-        <li
-          onClick={() => setTabPage(0)}
-          className={`relative top-[0.5px] border-t-1 border-x-1  rounded-tl-md rounded-tr-md p-1 z-100 cursor-pointer ${tabPage === 0 ? "bg-[#fff]" : "bg-[#f6f6f6] text-[#999] hover:bg-[#ffffdd]"}`}
-        >
-          Detail
-        </li>
-        <li
-          onClick={() => setTabPage(1)}
-          className={`relative top-[0.5px] border-t-1 border-x-1  rounded-tl-md rounded-tr-md p-1 z-100 cursor-pointer ${tabPage === 1 ? "bg-[#fff]" : "bg-[#f6f6f6] text-[#999] hover:bg-[#ffffdd]"}`}
-        >
-          Report
-        </li>
-      </ul>
-      <div>{tabPage === 0 ? <Detail data={timeSpent} /> : <Report />}</div>
+
+      <div className="flex items-center justify-between text-11">
+        <span className="text-[#169] hover:underline hover:text-[#c61a1a]">« Previous</span>
+        <span className="text-[#169] hover:underline hover:text-[#c61a1a]">Next »</span>
+      </div>
+      <div className="flex items-center gap-1 justify-end text-11 mb-2">
+        <span>Also available in:</span>
+        <a href="" className="text-[#169]  text-11 hover:underline hover:text-[#c61a1a]">
+          PDF
+        </a>
+        <span>|</span>
+        <a href="" className="text-[#169]  text-11 hover:underline hover:text-[#c61a1a]">
+          PNG
+        </a>
+      </div>
     </div>
   );
 };
 
-export default SpentTimeDetail;
+export default Gantt;

@@ -2,6 +2,7 @@
 import arrow_right from "./mypage_bullet_go.png";
 import arrow_left from "./mypage_bullet_end.png";
 import arrow_expanded from "./spenttime_arrow_expanded.png";
+import bullet from "./mypage_bullet_toggle.png";
 import arrow_up from "./spenttime_arrow-up.png";
 import arrow_down from "./spenttime_arrow_down.png";
 import logtime from "./spenttime_time_add.png";
@@ -12,6 +13,7 @@ import reload from "./spenttime_reload.png";
 import add from "./mypage_add.png";
 import edit from "./mypage_edit.png";
 import remove from "./mypage_delete.png";
+import save from "./mypage_save.png";
 import exclamation from "./logtime_exclamation.png";
 import feed from "./spenttime_feed.png";
 import cancel from "./mypagelayout_cancel.png";
@@ -28,12 +30,18 @@ import attachment from "./activity_attachment.png";
 import ticket_overview from "./activity_ticket.png";
 import avatar from "./activity_avatar.png";
 import wiki from "./activity_wiki_edit.png";
+import favowiki from "./wiki_fav_off.png";
+import history from "./wiki_history.png";
+import iconswiki from "./wiki_ui-icons.png";
+import imgwiki from "./wiki_12345.jpg";
+import preview from "./wiki_preview.png";
 
 const images = {
   arrow_right,
   arrow_expanded,
   arrow_up,
   arrow_down,
+  bullet,
   logtime,
   magnifier,
   calendar,
@@ -59,6 +67,12 @@ const images = {
   ticket_overview,
   avatar,
   wiki,
+  save,
+  favowiki,
+  history,
+  iconswiki,
+  imgwiki,
+  preview,
 };
 
 export default images;
