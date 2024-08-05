@@ -32,6 +32,8 @@ const SubMain = () => {
         return <SubDocuments />;
       case "gantt":
         return <SubIssues />;
+      case "calendar":
+        return <SubIssues />;
       case "wiki":
         return <SubWiki />;
       default:

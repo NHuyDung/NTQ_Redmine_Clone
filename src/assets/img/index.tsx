@@ -29,7 +29,24 @@ import imagePackage from "./roadmap_package.png";
 import attachment from "./activity_attachment.png";
 import ticket_overview from "./activity_ticket.png";
 import avatar from "./activity_avatar.png";
+import newissue_strong from "./newissue_strong.png";
+import newissue_italic from "./newissue_italic.png";
+import newissue_underline from "./newissue_underline.png";
+import newissue_delete from "./newissue_delete.png";
+import newissue_inlinecode from "./newissue_inlinecode.png";
+import newissue_heading1 from "./newissue_heading1.png";
+import newissue_heading2 from "./newissue_heading2.png";
+import newissue_heading3 from "./newissue_heading3.png";
+import newissue_ul from "./newissue_ul.png";
+import newissue_ol from "./newissue_ol.png";
+import newissue_bq from "./newissue_bq.png";
+import newissue_bq_remove from "./newissue_bq_remove.png";
+import newissue_pre from "./newissue_pre.png";
+import newissue_link from "./newissue_link.png";
+import newissue_img from "./newissue_img.png";
+import newissue_help from "./newissue_help.png";
 import wiki from "./activity_wiki_edit.png";
+import diamond from "./bullet_diamond.png";
 import favowiki from "./wiki_fav_off.png";
 import history from "./wiki_history.png";
 import iconswiki from "./wiki_ui-icons.png";
@@ -66,7 +83,24 @@ const images = {
   attachment,
   ticket_overview,
   avatar,
+  newissue_strong,
+  newissue_italic,
+  newissue_underline,
+  newissue_delete,
+  newissue_inlinecode,
+  newissue_heading1,
+  newissue_heading2,
+  newissue_heading3,
+  newissue_ul,
+  newissue_ol,
+  newissue_bq,
+  newissue_bq_remove,
+  newissue_pre,
+  newissue_link,
+  newissue_img,
+  newissue_help,
   wiki,
+  diamond,
   save,
   favowiki,
   history,

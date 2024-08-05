@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { getProjects } from "~/services/ProjectService";
+import React, { useEffect } from "react";
 import images from "~/assets/img";
 import { useNavigate } from "react-router-dom";
-
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  created_on: string;
-  identifier: string;
-}
+import { AppDispatch, RootState } from "~/app/store";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { fetchProject } from "~/features/issues/ProjectSlice ";
+import { RingLoader } from "react-spinners";
 
 const HomePage = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
   const navigate = useNavigate();
-
+  const dispatch: AppDispatch = useDispatch();
+  const { project, loading: loadingProject } = useSelector((state: RootState) => state.project);
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const result = await getProjects();
-        setProjects(result);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchProjects();
-  }, []);
+    if (project?.length === 0) {
+      dispatch(fetchProject());
+    }
+  }, [dispatch, project?.length]);
 
   const handleNavigate = (identifier: string, name: string) => {
     navigate(`/projects/${identifier}/overview`, { state: { projectName: name } });
@@ -41,17 +30,26 @@ const HomePage = () => {
             <img className="pr-1" src={images.homepage} alt="redmine_ntq_solutions"></img>
             <h3 className=" font-medium">Latest projects</h3>
           </div>
-          <ul className="pl-10 pt-3 list-disc">
-            {projects.map((project) => (
-              <li className="text-xs" key={project.id}>
-                <button onClick={() => handleNavigate(project.identifier, project.name)} className="text-[#169] hover:underline hover:text-[#b2290f]">
-                  {project.name}
-                </button>
-                ({project.created_on})<br></br>
-                {project.description}
-              </li>
-            ))}
-          </ul>
+          {loadingProject ? (
+            <div className="flex justify-center items-center h-24">
+              <RingLoader color="#34d2c8" speedMultiplier={2} />
+            </div>
+          ) : (
+            <ul className="pl-10 pt-3 list-disc">
+              {project.map((project) => (
+                <li className="text-xs" key={project.id}>
+                  <button
+                    onClick={() => handleNavigate(project?.identifier, project.name)}
+                    className="text-[#169] hover:underline hover:text-[#b2290f]"
+                  >
+                    {project.name}
+                  </button>
+                  ({project.created_on})<br></br>
+                  {project.description}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

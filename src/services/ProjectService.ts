@@ -1,4 +1,5 @@
 // src/api/projectService.js
+import { fetchAPIGet } from "~/utils/helperAPI";
 import axiosInstance from "./api";
 
 export const getProjects = async () => {
@@ -13,8 +14,8 @@ export const getProjects = async () => {
 
 export const getMembers = async (identifier: string) => {
   try {
-    const response = await axiosInstance.get(`/projects/${identifier}/memberships.json`);
-    return response.data.memberships;
+    const data = await fetchAPIGet(`/projects/${identifier}/memberships.json`);
+    return data.memberships;
   } catch (error) {
     console.error("Error fetching projects:", error);
     throw error;
@@ -23,8 +24,8 @@ export const getMembers = async (identifier: string) => {
 
 export const getTrackerQuantity = async (identifier: string) => {
   try {
-    const response = await axiosInstance.get(`/issues.json?identifier=${identifier}`);
-    return response.data.issues;
+    const data = await fetchAPIGet("/issues.json", `identifier=${identifier}`);
+    return data.issues;
   } catch (error) {
     console.error("Error fetching tracker quantity:", error);
     throw error;
@@ -35,20 +36,20 @@ export const getTrackerQuantity = async (identifier: string) => {
 
 export const timeEntries = async (identifier: string) => {
   try {
-    const response = await axiosInstance.get(`/time_entries.json?identifier=${identifier}`);
-    return response.data.time_entries;
+    const data = await fetchAPIGet("/time_entries.json", `identifier=${identifier}`);
+    return data.time_entries;
   } catch (error) {
-    console.error("Error fetching projects:", error);
+    console.error("Error fetching time entries:", error);
     throw error;
   }
 };
 
 export const getWiki = async (identifier: string) => {
   try {
-    const response = await axiosInstance.get(`projects/${identifier}/wiki/Wiki.json`);
-    return response.data.wiki_page;
+    const data = await fetchAPIGet(`projects/${identifier}/wiki/Wiki.json`);
+    return data.wiki_page;
   } catch (error) {
-    console.error("Error fetching projects:", error);
+    console.error("Error fetching wiki page:", error);
     throw error;
   }
 };

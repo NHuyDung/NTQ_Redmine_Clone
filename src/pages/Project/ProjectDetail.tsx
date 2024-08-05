@@ -3,12 +3,14 @@ import { useParams } from "react-router-dom";
 import Overview from "./components/Overview";
 import Activity from "./components/Activity";
 import Roadmap from "./components/Roadmap";
+import NewIssue from "./components/NewIssue";
 import Issues from "./components/Issues";
 import Documents from "./components/Documents";
 import Files from "./components/Files";
 import Settings from "./components/Settings";
 import Wiki from "./components/Wiki";
 import Gantt from "./components/Gantt";
+import Calendar from "./components/Canlendar";
 
 const ProjectDetail = () => {
   const { identifier, slug } = useParams<{ identifier: string; slug: string }>();
@@ -22,11 +24,15 @@ const ProjectDetail = () => {
       case "activity":
         return <Activity identifier={identifier} />;
       case "roadmap":
-        return <Roadmap />;
+        return <Roadmap identifier={identifier} />;
+      case "newissue":
+        return <NewIssue />;
       case "issues":
         return <Issues />;
       case "gantt":
         return <Gantt />;
+      case "calendar":
+        return <Calendar />;
       case "documents":
         return <Documents />;
       case "wiki":

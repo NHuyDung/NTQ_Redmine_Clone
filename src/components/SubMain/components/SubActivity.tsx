@@ -10,11 +10,9 @@ const SubActivity: React.FC = () => {
   const location = useLocation();
   const filters = useSelector((state: RootState) => state.filter as FilterState);
 
-  // Local state to manage checkbox values
   const [localFilters, setLocalFilters] = useState<FilterState>(filters);
 
   useEffect(() => {
-    // Save filters to localStorage when filters change
     localStorage.setItem("filters", JSON.stringify(filters));
   }, [filters]);
 
