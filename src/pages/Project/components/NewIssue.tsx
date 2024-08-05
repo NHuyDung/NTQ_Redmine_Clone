@@ -44,21 +44,56 @@ const items5: Item[] = [
   { label: "C", value: "3" },
 ];
 
-//   const option1: Item[] = [
-//     { label: "New", value: "1" },
-//     { label: "In Progress", value: "2" },
-//     { label: "Reviewing", value: "3" },
-//     { label: "Feedback", value: "4" },
-//     { label: "Resolved", value: "5" },
-//     { label: "Build", value: "6" },
-//     { label: "Closed", value: "7" },
-//     { label: "Can't fix", value: "8" },
-//     { label: "Next Release", value: "9" },
-//     { label: "Watching", value: "10" },
-//     { label: "Release OK", value: "11" },
-//     { label: "Done STG", value: "12" },
-//     { label: "Release Honban (Done Honban)", value: "13" },
-//   ];
+const optionsForStatus = [
+  { label: "New", value: "1" },
+  { label: "In Progress", value: "2" },
+  { label: "Reviewing", value: "3" },
+  { label: "Feedback", value: "4" },
+  { label: "Resolved", value: "5" },
+  { label: "Build", value: "6" },
+  { label: "Closed", value: "7" },
+  { label: "Can't fix", value: "8" },
+  { label: "Next Release", value: "9" },
+  { label: "Watching", value: "10" },
+  { label: "Release OK", value: "11" },
+  { label: "Done STG", value: "12" },
+  { label: "Release Honban (Done Honban)", value: "13" },
+];
+
+const optionsForPriority = [
+  { label: "Low", value: "low" },
+  { label: "Normal", value: "normal" },
+  { label: "Urgent", value: "urgent" },
+  { label: "High", value: "high" },
+  { label: "Immediate", value: "immediate" },
+];
+
+const optionsForBugType = [
+  { label: "GUI", value: "gui" },
+  { label: "Function", value: "function" },
+  { label: "Non-function", value: "non-function" },
+  { label: "Others", value: "others" },
+];
+
+const optionsForSeverity = [
+  { label: "Critical", value: "critical" },
+  { label: "Major", value: "major" },
+  { label: "Morderate", value: "morderate" },
+  { label: "Minor", value: "minor" },
+  { label: "Cosmetic", value: "cosmetic" },
+];
+
+const optionsForQC = [
+  { label: "Code review", value: "code-review" },
+  { label: "Unit test", value: "unit-test" },
+  { label: "Integration test", value: "intefration-test" },
+  { label: "System test", value: "system-test" },
+  { label: "Document review", value: "document-review" },
+  { label: "Acceptance review", value: "acceptance-review" },
+  { label: "Acceptance test", value: "acceptance-test" },
+  { label: "Other review", value: "other-review" },
+  { label: "Other test", value: "other-test" },
+];
 
 const buttonData: ButtonData[] = [
   { id: 1, backgroundImage: images.newissue_strong },
@@ -87,12 +122,12 @@ const NewIssue = () => {
         <p className="mb-2">
           <label className="text-[#555] text-xs font-semibold mb-2">Tracker</label>
           <span className="text-[#bb0000]">*</span>
-          <select className="border border-primary-border w-56 h-6">
+          <select className="border border-primary-border w-16 h-6 text-xs">
             <option>Bug</option>
             <option>Task</option>
           </select>
         </p>
-        <p className="mb-2">
+        <p className="mb-2 flex items-center">
           <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Subject</label>
           <input type="text" className="border border-primary-border w-full h-6"></input>
         </p>
@@ -120,9 +155,20 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items1.map((item, index) => (
                   <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
-                    <select className="border border-primary-border w-full h-6">
-                      <option></option>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
+                    <select className="border border-primary-border w-full h-6 text-xs">
+                      {item.label === "Status" &&
+                        optionsForStatus.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      {item.label === "Priority" &&
+                        optionsForPriority.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
                     </select>
                   </div>
                 ))}
@@ -130,7 +176,7 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items2.map((item, index) => (
                   <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
                     <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
@@ -142,9 +188,26 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items3.map((item, index) => (
                   <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
-                    <select className="border border-primary-border w-full h-6">
-                      <option></option>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
+                    <select className="border border-primary-border w-full h-6 text-xs">
+                      {item.label === "Bug Type" &&
+                        optionsForBugType.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      {item.label === "Severity" &&
+                        optionsForSeverity.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      {item.label === "QC Activity" &&
+                        optionsForQC.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
                     </select>
                   </div>
                 ))}
@@ -152,7 +215,7 @@ const NewIssue = () => {
               <p className="w-1/3">
                 {items4.map((item, index) => (
                   <div key={index} className="mb-3 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2">{item.label}</label>
+                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
                     <select className="border border-primary-border w-full h-6">
                       <option></option>
                     </select>
