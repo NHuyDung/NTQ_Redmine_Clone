@@ -19,7 +19,7 @@ const Schedule: React.FC = () => {
   }, [dispatch, issuesSchedule?.week.length]);
   return (
     <>
-      <p className="text-start mb-2">Calendar</p>
+      <p className="text-start mb-2 font-bold">Calendar</p>
       {loadingSchedule ? (
         <div className="flex justify-center items-center h-24">
           <RingLoader color="#34d2c8" speedMultiplier={2} />

@@ -7,11 +7,15 @@ import SpentTime from "../MyPage/components/SpentTime/SpentTime";
 import addButton from "~/assets/img/mypage_add.png";
 import backButton from "~/assets/img/mypage_back.png";
 import { Link } from "react-router-dom";
+import Documents from "../MyPage/components/Document/Documents";
+import LatestNews from "../MyPage/components/LatestNews/LatestNews";
 
 const componentMap: { [key: string]: React.ReactNode } = {
   Schedule: <Schedule />,
   TableIssue: <TableIssue id="" />,
   SpentTime: <SpentTime />,
+  Documents: <Documents />,
+  LatestNews: <LatestNews />,
 };
 
 const MyPageLayoutPage = () => {
@@ -19,9 +23,9 @@ const MyPageLayoutPage = () => {
     { label: "Issues assigned to me", value: "1", componentName: "TableIssue" },
     { label: "Reported issues", value: "2", componentName: "TableIssue" },
     { label: "Watched issues", value: "3", componentName: "TableIssue" },
-    { label: "Latest news", value: "4", componentName: "" },
+    { label: "Latest news", value: "4", componentName: "LatestNews" },
     { label: "Calendar", value: "5", componentName: "Schedule" },
-    { label: "Documents", value: "6", componentName: "" },
+    { label: "Documents", value: "6", componentName: "Documents" },
     { label: "Spent time", value: "7", componentName: "SpentTime" },
   ];
 
