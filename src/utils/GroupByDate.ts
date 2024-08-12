@@ -26,6 +26,7 @@ export const filterIssuesByDate = (issues: Issue[], startDate: moment.Moment, en
     const issueDueDate = issue.due_date ? moment(issue.due_date) : null;
     return issueStartDate.isBetween(startDate, endDate, "day", "[]") || (issueDueDate && issueDueDate.isBetween(startDate, endDate, "day", "[]"));
   });
+
 // Hàm nhóm issues theo ngày
 export const groupIssues = (issues: Issue[], startOfDay: moment.Moment, daysCount: number) => {
   const groupedIssues: Record<string, Issue[]> = {};

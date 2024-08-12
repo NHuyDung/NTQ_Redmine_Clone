@@ -20,6 +20,15 @@ export const OPTIONS_STATUS_1 = [
   { value: "any", label: "any" },
 ];
 
+export const activityItems = [
+  { id: "show_issues", name: "showIssues", label: "Issues" },
+  { id: "show_changesets", name: "showChangesets", label: "Changesets" },
+  { id: "show_documents", name: "showDocuments", label: "Documents" },
+  { id: "show_files", name: "showFiles", label: "Files" },
+  { id: "show_wiki_edits", name: "showWikiEdits", label: "Wiki edits" },
+  { id: "show_time_entries", name: "showTimeEntries", label: "Spent time" },
+] as const;
+
 export const OPTIONS_FILTER_ISSUES = [
   { value: "status", label: "Status" },
   { value: "tracker", label: "Tracker" },

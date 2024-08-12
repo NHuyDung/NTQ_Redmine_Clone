@@ -209,10 +209,13 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ hasBorder, items, setItems, s
     const updatedList = storedItems[targetList].filter((item: { id: string }) => item.id !== itemId);
     storedItems[targetList] = updatedList;
     localStorage.setItem("items", JSON.stringify(storedItems));
+
     const addedItems = JSON.parse(localStorage.getItem("addedOptions") || "[]");
     const updatedAddedItems = addedItems.filter((item: string) => item !== itemId);
     localStorage.setItem("addedOptions", JSON.stringify(updatedAddedItems));
-    setOptions((prevOptions) => prevOptions.map((option) => (updatedAddedItems.includes(option.value) ? option : { ...option, isAdded: false })));
+    setOptions((prevOptions) =>
+      prevOptions.map((option) => ({ ...option, isAdded: updatedAddedItems.includes(option.value) ? true : option.isAdded })),
+    );
 
     // Cập nhật lại trạng thái items thay vì reload
     setItems((prevItems) => ({

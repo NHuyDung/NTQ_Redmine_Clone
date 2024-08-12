@@ -22,6 +22,12 @@ interface OverviewProps {
   identifier: string;
 }
 
+const links = [
+  { href: "/issues", text: "View all issues" },
+  { href: "#", text: "Calendar" },
+  { href: "#", text: "Gantt" },
+];
+
 const Overview: React.FC<OverviewProps> = ({ identifier }) => {
   const [members, setMembers] = useState<Member[]>([]);
   const [trackerQuantity, setTrackerQuantity] = useState<TrackerItem[]>([]);
@@ -41,13 +47,12 @@ const Overview: React.FC<OverviewProps> = ({ identifier }) => {
     fetchData();
   }, [identifier]);
 
-  const managers = members.filter((member) => {
-    return member.roles.some((role) => role.name === "Manager");
-  });
+  const filterMembersByRole = (roleName: string) => {
+    return members.filter((member) => member.roles.some((role) => role.name === roleName));
+  };
 
-  const developers = members.filter((member) => {
-    return member.roles.some((role) => role.name === "Developer");
-  });
+  const managers = filterMembersByRole("Manager");
+  const developers = filterMembersByRole("Developer");
 
   const trackerCount = trackerQuantity.reduce<Record<string, number>>((acc, issue) => {
     const trackerName = issue.tracker.name;
@@ -85,15 +90,17 @@ const Overview: React.FC<OverviewProps> = ({ identifier }) => {
                 ))}
               </ul>
               <div className="text-xs flex pt-2.5">
-                <a href="/issues" className=" pl-1  text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
-                  View all issues |
-                </a>
-                <a className=" pl-1  text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
-                  Calendar |
-                </a>
-                <a className=" pl-1  text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" rel="noreferrer noopener">
-                  Gantt
-                </a>
+                {links.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.href}
+                    className="pl-1 text-primary cursor-pointer hover:underline hover:text-[#b2290f]"
+                    rel="noreferrer noopener"
+                  >
+                    {link.text}
+                    {index < links.length - 1 && " |"}
+                  </a>
+                ))}
               </div>
             </div>
           </div>

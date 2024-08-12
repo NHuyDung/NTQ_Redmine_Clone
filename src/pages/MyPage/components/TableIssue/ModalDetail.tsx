@@ -47,8 +47,8 @@ const ModalDetail: React.FC<IDragProps & { zIndex: number; onClick: () => void }
   };
 
   return (
-    <Draggable>
-      <div className="bg-white fixed border rounded" style={modalStyle} onClick={onClick}>
+    <Draggable onMouseDown={() => onClick()}>
+      <div className="bg-white fixed border rounded" style={modalStyle}>
         <div className="flex justify-between items-center bg-header m-1 bg-[#8db0d8]">
           <h2 style={{ marginRight: "auto" }} className="text-xs p-2 text-white font-bold">
             Quick View - #{issue.id} {issue.subject}

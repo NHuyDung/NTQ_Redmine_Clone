@@ -69,7 +69,7 @@ const TotalTime: React.FC = () => {
                     {groupedIssues[date].issues.map((issue) => (
                       <tr key={issue.id} className={"hover:bg-[#ffffdd]"}>
                         <td className="p-1 text-center text-xs font-medium text-gray-900 border border-primary-border">{issue.activity.name}</td>
-                        <td className="p-1 text-left text-xs border border-primary-border">{issue.project.name}</td>
+                        <td className="p-1 text-center text-xs border border-primary-border">{issue.project.name}</td>
                         <td className="p-1 text-left text-xs border border-primary-border">{issue.comments}</td>
                         <td className="p-1 text-center text-xs border border-primary-border">{issue.hours.toFixed(2)}</td>
                         <td className="flex justify-center gap-1 p-1 text-xs border border-primary-border">

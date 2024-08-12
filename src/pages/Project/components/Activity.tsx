@@ -10,30 +10,7 @@ import images from "~/assets/img";
 import Nodata from "~/components/NoData/Nodata";
 import { Link } from "react-router-dom";
 import { RingLoader } from "react-spinners";
-// import SubActivity from "./SubActivity";
-
-interface Time {
-  activity: { id: number; name: string };
-  id: string;
-  spent_on: string;
-  comments: string;
-  created_on: string;
-  user: { id: number; name: string };
-  hours: number;
-  issue?: { id: number };
-}
-
-interface Wikis {
-  title: string;
-  text: string;
-  version: number;
-  author: { id: number; name: string };
-  created_on: string;
-}
-
-interface OverviewProps {
-  identifier: string;
-}
+import { OverviewProps, Time, Wikis } from "~/types/Project";
 
 interface DataSample {
   title: string;
@@ -205,18 +182,15 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
                               </a>
                             ) : item.type === "timeEntries" ? (
                               <span className="text-xs text-[#169] font-medium">
-                                {/* {(item.hours ?? 0).toFixed(2)} hours - {item.statusName}: {item.subject} */}
-                                <span className="text-xs text-[#169] font-medium">
-                                  {(item.hours ?? 0).toFixed(2)} hours
-                                  {item.id ? (
-                                    <>
-                                      {" "}
-                                      {item.trackerName} #{item.id} ({item.statusName}): {item.subject}
-                                    </>
-                                  ) : (
-                                    "(Project: [Fresher]_ ReactJS Fresher)"
-                                  )}
-                                </span>
+                                {(item.hours ?? 0).toFixed(2)} hours
+                                {item.id ? (
+                                  <>
+                                    {" "}
+                                    {item.trackerName} #{item.id} ({item.statusName}): {item.subject}
+                                  </>
+                                ) : (
+                                  "(Project: [Fresher]_ ReactJS Fresher)"
+                                )}
                               </span>
                             ) : item.type === "wiki" ? (
                               <span className="text-xs text-[#169] font-medium">

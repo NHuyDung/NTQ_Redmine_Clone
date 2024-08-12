@@ -5,6 +5,8 @@ import Schedule from "~/pages/MyPage/components/Schedule/Schedule";
 import TableIssue from "~/pages/MyPage/components/TableIssue/TableIssue";
 import TotalTime from "~/pages/MyPage/components/TotalTime/TotalTime";
 import SpentTime from "~/pages/MyPage/components/SpentTime/SpentTime";
+import Documents from "~/pages/MyPage/components/Document/Documents";
+import LatestNews from "~/pages/MyPage/components/LatestNews/LatestNews";
 
 type Item = {
   id: string;
@@ -28,6 +30,8 @@ const componentsMap = {
   TableIssue,
   TotalTime,
   SpentTime,
+  LatestNews,
+  Documents,
 };
 
 const DragAndDrop: React.FC<DragAndDropProps> = ({ items, hasBorder }) => {

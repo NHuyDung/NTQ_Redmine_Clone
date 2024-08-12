@@ -80,9 +80,9 @@ const Issues = () => {
     "release ok",
   ]);
   const [selectedColumns, setSelectedColumns] = useState(["#", "Status", "Priority", "Tracker", "Subject", "Assignee", "Updated", "author"]);
-  const [columnsDetail, setColumnsDetail] = useState<string[]>(selectedColumns);
-  const [selectedValue, setSelectedValue] = useState<string | string[]>("");
-  const [loading, setLoading] = useState<boolean>(true); // Trạng thái loading
+  const [columnsDetail, setColumnsDetail] = useState<string[]>(selectedColumns); //
+  const [selectedValue, setSelectedValue] = useState<string | string[]>(""); // Lưu trữ
+  const [loading, setLoading] = useState<boolean>(true); //  loading
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -112,16 +112,12 @@ const Issues = () => {
     setSortOrder(sortOrder === "up" ? "down" : "up");
   };
 
+  const toggleState = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setter((prevState) => !prevState);
+  };
+
   const handleMultiSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(Array.from(e.target.selectedOptions, (option) => option.value));
-  };
-
-  const toggleOption = () => {
-    setIsOptions((prevState) => !prevState);
-  };
-
-  const toggleFilter = () => {
-    setIsFilters((prevState) => !prevState);
   };
 
   const moveLeft = () => {
@@ -237,7 +233,7 @@ const Issues = () => {
       ) : (
         <>
           <fieldset className="flex text-xs text-[#484848] py-2 px-3 border-t">
-            <legend className="flex items-center cursor-pointer" onClick={toggleFilter}>
+            <legend className="flex items-center cursor-pointer" onClick={() => toggleState(setIsFilters)}>
               <img src={isFilters ? images.arrow_rightgrey : images.arrow_expanded} alt="arrow_down" className="" />
               Filters
             </legend>
@@ -271,7 +267,7 @@ const Issues = () => {
                     <span className="text-nowrap">Add filter</span>
                     <Select
                       value="selectedValue"
-                      className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
+                      className="h-6 text-xs text-black max-w-52 w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
                       onChange={() => {
                         return "selectedValue";
                       }}
@@ -285,7 +281,7 @@ const Issues = () => {
             )}
           </fieldset>
           <fieldset className="flex text-xs text-[#484848] py-2 px-3">
-            <legend className="flex items-center cursor-pointer" onClick={toggleOption}>
+            <legend className="flex items-center cursor-pointer" onClick={() => toggleState(setIsOptions)}>
               <img src={isOptions ? images.arrow_expanded : images.arrow_rightgrey} alt="arrow_down" className="" />
               Options
             </legend>
