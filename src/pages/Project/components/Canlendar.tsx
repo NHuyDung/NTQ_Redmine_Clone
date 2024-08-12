@@ -9,7 +9,19 @@ import { fetchIssuesSchedule } from "~/features/issues/IssuesScheduleSlice";
 import { RingLoader } from "react-spinners";
 import { getLastWeekOfPreviousMonth, isToday } from "~/utils/FormatDay";
 import images from "~/assets/img";
+const statusOptions = [
+  { value: "", label: "All" },
+  { value: "open", label: "Open" },
+  { value: "resolved", label: "Resolved" },
+  { value: "closed", label: "Closed" },
+];
 
+const filterOptions = [
+  { value: "", label: "All" },
+  { value: "created_on", label: "Created on" },
+  { value: "updated_on", label: "Updated on" },
+  { value: "due_date", label: "Due date" },
+];
 const Calendar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const [isOpenFilter, setIsOpenFilter] = useState(false);
@@ -38,7 +50,7 @@ const Calendar: React.FC = () => {
 
       {loadingSchedule ? (
         <div className="flex justify-center items-center h-24">
-          <RingLoader color="#34d2c8" speedMultiplier={2} />
+          <RingLoader speedMultiplier={2} />
         </div>
       ) : (
         <>
@@ -46,33 +58,26 @@ const Calendar: React.FC = () => {
             <fieldset className="mb-4">
               <legend onClick={handleToggleFilter} className="cursor-pointer pb-2 text-xs">
                 {!isOpenFilter ? (
-                  <img className="inline w-3" alt="collapsed" src="https://redmine.ntq.solutions/images/arrow_collapsed.png"></img>
+                  <img className="inline w-3" alt="collapsed" src={images.arrow_rightgrey}></img>
                 ) : (
-                  <img className="inline w-3" alt="expanded" src="https://redmine.ntq.solutions/images/arrow_expanded.png"></img>
+                  <img className="inline w-3" alt="expanded" src={images.arrow_downgrey}></img>
                 )}
                 Filters
               </legend>
               {!isOpenFilter ? null : (
                 <div className="flex justify-between">
                   <div className="flex items-center">
-                    <input type="checkbox" id="cb_status_id"></input>
+                    <input type="checkbox" id="cb_status_id" />
                     <label htmlFor="cb_status_id" className="pl-1 text-xs">
                       Status
                     </label>
                   </div>
                   <select id="operators_status_id" className="border border-primary-border w-16 h-6 text-xs">
-                    <option className="text-xs" value="">
-                      All
-                    </option>
-                    <option className="text-xs" value="open">
-                      Open
-                    </option>
-                    <option className="text-xs" value="resolved">
-                      Resolved
-                    </option>
-                    <option className="text-xs" value="closed">
-                      Closed
-                    </option>
+                    {statusOptions.map((option) => (
+                      <option key={option.value} className="text-xs" value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                   </select>
 
                   <span></span>
@@ -82,18 +87,11 @@ const Calendar: React.FC = () => {
                       Add filter
                     </label>
                     <select id="add_filter_select" className="border border-primary-border w-32 h-6 text-xs">
-                      <option className="text-xs" value="">
-                        All
-                      </option>
-                      <option className="text-xs" value="created_on">
-                        Created on
-                      </option>
-                      <option className="text-xs" value="updated_on">
-                        Updated on
-                      </option>
-                      <option className="text-xs" value="due_date">
-                        Due date
-                      </option>
+                      {filterOptions.map((option) => (
+                        <option key={option.value} className="text-xs" value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -122,14 +120,14 @@ const Calendar: React.FC = () => {
                 }, [] as moment.Moment[][])
                 .map((weekDays, weekIndex) => (
                   <tr key={weekIndex}>
-                    <td className="bg-[#eeeeee] p-1 text-right align-top">{weekDays[0].clone().startOf("week").format("W")}</td>
+                    <td className="bg-primary-sub_bg p-1 text-right align-top">{weekDays[0].clone().startOf("week").format("W")}</td>
                     {weekDays.map((currentDay, dayIndex) => {
                       const dayData = issuesSchedule?.month?.find((data) => data.day === currentDay.format("YYYY-MM-DD"));
-                      const dayClassName = isToday(currentDay) ? "bg-[#ffffdd]" : "";
+                      const dayClassName = isToday(currentDay) ? "bg-yellow-50" : "";
                       return (
                         <td
                           key={dayIndex}
-                          className={`border border-gray-300 p-1 text-right align-top w-full sm:w-[50px] md:w-[100px] lg:w-[130px] xl:w-[180px] ${dayClassName}`}
+                          className={`border border-gray-300 p-1 text-right align-top w-full sm:w-12 md:w-24 lg:w-32 xl:w-44 ${dayClassName}`}
                         >
                           {currentDay.format("DD")}
                           {dayData?.tasks?.map((task, taskIndex) => (
@@ -138,7 +136,7 @@ const Calendar: React.FC = () => {
                               data-tooltip-variant="light"
                               key={taskIndex}
                               data-tooltip-offset={-100}
-                              className="min-h-16 p-4 bg-[#ffffdd] border border-gray-300 text-left mb-2 cursor-pointer"
+                              className="min-h-16 p-4 bg-yellow-50 border border-gray-300 text-left mb-2 cursor-pointer"
                             >
                               <div className="text-xs">
                                 {task.project.name} -
