@@ -103,7 +103,7 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
       <div className="overflow-x-auto">
         {loading ? (
           <div className="flex justify-center items-center h-24">
-            <RingLoader speedMultiplier={2} />
+            <RingLoader color="#34d2c8" speedMultiplier={2} />
           </div>
         ) : (
           <table className="min-w-full divide-gray-200 border border-gray-300">
