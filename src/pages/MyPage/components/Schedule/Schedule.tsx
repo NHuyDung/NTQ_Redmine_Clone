@@ -17,6 +17,7 @@ const Schedule: React.FC = () => {
       dispatch(fetchIssuesSchedule());
     }
   }, [dispatch, issuesSchedule?.week.length]);
+
   return (
     <>
       <p className="text-start mb-2 font-bold">Calendar</p>
@@ -26,7 +27,7 @@ const Schedule: React.FC = () => {
         </div>
       ) : (
         <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-auto">
-          <thead className="bg-[#eeeeee] h-7">
+          <thead className="bg-primary-sub_bg h-7">
             <tr>
               <th className="w-7"></th>
               {DaysOfWeek.map((day) => (
@@ -38,14 +39,14 @@ const Schedule: React.FC = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200 ">
             <tr>
-              <td className="bg-[#eeeeee] p-1 text-right align-top">{getStartOfWeek().week()}</td>
+              <td className="bg-primary-sub_bg p-1 text-right align-top">{getStartOfWeek().week()}</td>
               {issuesSchedule?.week?.map((data, index) => {
                 const currentDay = getStartOfWeek().clone().add(index, "day");
-                const dayClassName = isToday(currentDay) ? "bg-[#ffffdd]" : "";
+                const dayClassName = isToday(currentDay) ? "bg-yellow-50" : "";
                 return (
                   <td
                     key={index}
-                    className={`border border-gray-300 p-1 text-right align-top w-full sm:w-[50px] md:w-[100px] lg:w-[130px] xl:w-[180px] ${dayClassName}`}
+                    className={`border border-gray-300 p-1 text-right align-top w-full sm:w-12 md:w-24 lg:w-32 xl:w-44 ${dayClassName}`}
                   >
                     {currentDay.format("DD")}
                     {data.tasks?.map((task, taskIndex) => (
@@ -54,7 +55,7 @@ const Schedule: React.FC = () => {
                         data-tooltip-variant="light"
                         key={taskIndex}
                         data-tooltip-offset={-100}
-                        className="min-h-16 p-4 bg-[#ffffdd] border border-gray-300 text-left mb-2 cursor-pointer"
+                        className="min-h-16 p-4 bg-yellow-50 border border-gray-300 text-left mb-2 cursor-pointer"
                       >
                         <div className="text-xs">
                           {task.project.name} -
@@ -64,7 +65,7 @@ const Schedule: React.FC = () => {
                           </a>
                           : {task.subject}
                         </div>
-                        <Tooltip id={`tooltip-${task.id}-${taskIndex}`} clickable={true}>
+                        <Tooltip id={`tooltip-${task.id}-${taskIndex}`} clickable={true} className="border">
                           <CustomTooltip {...task} />
                         </Tooltip>
                       </div>

@@ -30,7 +30,9 @@ export const getLastWeekOfPreviousMonth = () => {
   // Lấy tuần cuối cùng của tháng trước
   return moment(endOfPreviousMonth).tz(timezone).startOf("week");
 };
-
+export const getCreatedTimeAgo = (date?: string): string => {
+  return moment(date).fromNow();
+};
 export const getLastWeekOfCurrentMonth = () => {
   // Lấy ngày cuối cùng của tháng hiện tại
   const endOfCurrentMonth = moment().tz(timezone).endOf("month");
@@ -75,6 +77,10 @@ export default moment;
 export const formatDateTime = (datetime: string) => {
   const formattedDateTime = moment(datetime).format("MM/DD/YYYY hh:mm A");
   return formattedDateTime;
+};
+export const formatDateMonth = (datetime?: string) => {
+  const formatDateMonth = moment(datetime).format("MM/DD/YYYY");
+  return formatDateMonth;
 };
 
 // const originalDateTime = '2024-08-04T10:03:31Z';

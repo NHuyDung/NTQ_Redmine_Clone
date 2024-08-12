@@ -1,12 +1,12 @@
 import React from "react";
 import { Issue } from "~/types/Issue";
-
+const linkStyle = "text-primary-blue hover:text-red-500 hover:underline";
 const CustomTooltip: React.FC<Issue> = (issue) => {
   return (
     <div>
       <div className="flex pb-5 items-center">
         <img src={issue.img} alt="" />
-        <a href="#" className="text-primary-blue hover:text-red-500 hover:underline" rel="noreferrer noopener">
+        <a href="#" className={linkStyle} rel="noreferrer noopener">
           {issue?.tracker.name} #{issue.id}
         </a>
         : {issue?.subject}
@@ -14,7 +14,7 @@ const CustomTooltip: React.FC<Issue> = (issue) => {
       <div className="flex items-center gap-1">
         <span className="font-bold">Project:</span>
         <img src={issue.img} alt="" />
-        <a href="#" className="text-primary-blue hover:text-red-500 hover:underline" rel="noreferrer noopener">
+        <a href="#" className={linkStyle} rel="noreferrer noopener">
           {issue?.project.name}
         </a>
       </div>

@@ -17,6 +17,12 @@ export default {
           bgLogin: "#ffebc1",
           borderLogin: "#fdbf3b",
           borderError: "#ee7878",
+          lightBlue: "#8db0d8",
+          darkBlue: "#159",
+          red: "#c61a1a",
+          pink: "#ffc4c4",
+          gray: "[#f6f7f8]",
+          loading: "34d2c8",
         },
       },
       borderWidth: {

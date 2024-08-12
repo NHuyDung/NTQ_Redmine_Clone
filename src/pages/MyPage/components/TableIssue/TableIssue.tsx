@@ -6,19 +6,32 @@ import { fetchIssuesReport } from "~/features/issues/IssuesReportSlice";
 import { fetchIssuesAssigned } from "~/features/issues/IssuesAssignedSlice";
 import { fetchIssuesWatched } from "~/features/issues/IssuesWatchedSlice";
 import ModalDetail from "./ModalDetail";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ZIndexContext } from "./ModalContext";
 import { RingLoader } from "react-spinners";
+const tableHeaders = [
+  { key: "#", label: "#" },
+  { key: "Project", label: "Project" },
+  { key: "Tracker", label: "Tracker" },
+  { key: "Subject", label: "Subject" },
+];
+const tableCellClasses = "p-1 text-center text-xs border border-primary-border hover:underline";
+const tableNames = {
+  issuesAssigned: "Issues assigned to me",
+  issuesReport: "Reported issues",
+  issuesWatched: "Watched issues",
+  default: "Issues",
+};
 const getTableName = (id: string): string => {
   switch (id) {
     case "1":
-      return "Issues assigned to me";
+      return tableNames.issuesAssigned;
     case "2":
-      return "Reported issues";
+      return tableNames.issuesReport;
     case "3":
-      return "Watched issues";
+      return tableNames.issuesWatched;
     default:
-      return "Issues";
+      return tableNames.default;
   }
 };
 
@@ -33,8 +46,6 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
   const { issuesWatched, loading: loadingWatched } = useSelector((state: RootState) => state.issuesWatched);
   const { issuesAssigned, loading: loadingAssigned } = useSelector((state: RootState) => state.issuesAssigned);
 
-  const location = useLocation();
-
   useEffect(() => {
     if (id === "1" && issuesAssigned?.length === 0) {
       dispatch(fetchIssuesAssigned());
@@ -43,22 +54,19 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
     } else if (id === "3" && issuesWatched?.length === 0) {
       dispatch(fetchIssuesWatched());
     }
-  }, [id, dispatch]);
+  }, [id]);
 
-  const onDoubleClick = (issue: Issue, event?: React.MouseEvent<HTMLTableRowElement>) => {
-    if (event && location.pathname !== "/my/page_layout") {
-      const { clientX, clientY } = event;
-      const isIssueAlreadyOpen = modals.some((modal) => modal.issue.id === issue.id);
-      if (!isIssueAlreadyOpen) {
-        incrementZIndex();
-
-        const newModal = {
-          issue,
-          mousePosition: { x: clientX, y: clientY },
-          zIndex: zIndexCounter,
-        };
-        setModals((prevModals) => [...prevModals, newModal]);
-      }
+  const onDoubleClick = (issue: Issue, event: React.MouseEvent<HTMLTableRowElement>) => {
+    const { clientX, clientY } = event;
+    const isIssueAlreadyOpen = modals.some((modal) => modal.issue.id === issue.id);
+    if (!isIssueAlreadyOpen) {
+      incrementZIndex();
+      const newModal = {
+        issue,
+        mousePosition: { x: clientX, y: clientY },
+        zIndex: zIndexCounter,
+      };
+      setModals((prevModals) => [...prevModals, newModal]);
     }
   };
 
@@ -73,6 +81,7 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
   const closeModal = (issueToClose: Issue) => {
     setModals((prevModals) => prevModals.filter((modal) => modal.issue.id !== issueToClose.id));
   };
+
   if (id === "1") {
     displayedData = issuesAssigned || [];
     loading = loadingAssigned;
@@ -86,8 +95,8 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
 
   return (
     <>
-      <div className="text-start mb-2.5">
-        <Link to="#" className="font-semibold  text-[#159]  hover:underline hover:text-[#c61a1a]" rel="noreferrer noopener">
+      <div className="text-start mb-2">
+        <Link to="#" className="font-semibold text-primary-darkBlue hover:underline hover:text-primary-red" rel="noreferrer noopener">
           {tableName} <span>{`(${displayedData?.length})`}</span>
         </Link>
       </div>
@@ -99,35 +108,25 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
         ) : (
           <table className="min-w-full divide-gray-200 border border-gray-300">
             <thead className="bg-primary-sub_bg h-7">
-              <tr>
-                <th scope="col" className="p-1 text-xs border border-primary-border">
-                  #
+              {tableHeaders.map((header) => (
+                <th key={header.key} scope="col" className="p-1 text-xs border border-primary-border">
+                  {header.label}
                 </th>
-                <th scope="col" className="p-1 text-xs border border-primary-border">
-                  Project
-                </th>
-                <th scope="col" className="p-1 text-xs border border-primary-border">
-                  Tracker
-                </th>
-                <th scope="col" className="p-1 text-xs border border-primary-border">
-                  Subject
-                </th>
-              </tr>
+              ))}
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 h-6">
               {displayedData?.map((issue, index: number) => {
-                const rowBgColor =
-                  issue.priority?.name === "Urgent" || issue.priority?.name === "Immediate"
-                    ? "bg-[#ffc4c4]"
-                    : index % 2 === 0
-                      ? "bg-[#ffffff]"
-                      : "bg-[#f6f7f8]";
+                const rowBgColor = ["Urgent", "Immediate"].includes(issue.priority!.name)
+                  ? "bg-primary-pink"
+                  : index % 2 === 0
+                    ? "bg-white"
+                    : "bg-gray-100";
                 return (
-                  <tr key={issue.id} className={`hover:bg-[#ffffdd] ${rowBgColor}`} onDoubleClick={(e) => onDoubleClick(issue, e)}>
-                    <td className="p-1 text-center text-xs font-medium text-gray-900 border border-primary-border hover:underline">{issue.id}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border hover:underline">{issue?.project?.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{issue?.tracker?.name}</td>
-                    <td className="p-1 text-left text-xs border border-primary-border hover:underline">{issue?.subject}</td>
+                  <tr key={issue.id} className={`hover:bg-yellow-50 ${rowBgColor}`} onDoubleClick={(e) => onDoubleClick(issue, e)}>
+                    <td className={tableCellClasses}>{issue.id}</td>
+                    <td className={tableCellClasses}>{issue?.project?.name}</td>
+                    <td className={tableCellClasses}>{issue?.tracker?.name}</td>
+                    <td className={tableCellClasses}>{issue?.subject}</td>
                   </tr>
                 );
               })}
