@@ -23,6 +23,8 @@ export default {
           pink: "#ffc4c4",
           gray: "[#f6f7f8]",
           loading: "34d2c8",
+          text_gray: "#555",
+          bg_gray: "#fcfcfc",
         },
       },
       borderWidth: {

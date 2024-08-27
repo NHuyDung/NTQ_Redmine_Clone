@@ -41,3 +41,24 @@ export interface IssueReport {
   subject?: string;
 }
 export type IssueType = IssueReport[] | GroupedIssues[];
+export interface CustomFieldValue {
+  field_id: number;
+  value: string | number | string[];
+}
+
+export interface IssueData {
+  project_id: number;
+  subject: string;
+  priority_id: number;
+  tracker_id: number;
+  status_id: number;
+  description?: string;
+  assigned_to_id?: string;
+  fixed_version_id?: string;
+  parent_issue_id: string;
+  start_date?: string;
+  due_date?: string;
+  estimated_hours: string;
+  done_ratio: string;
+  custom_field_values: CustomFieldValue[];
+}

@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import images from "~/assets/img";
-
+import FileUpload from "~/utils/UploadFile";
+const buttonStyle = "border border bg-primary-sub_bg text-13 mt-2.5 mr-1 p-1 hover:bg-[#c3c2c2] ";
 const Wiki = () => {
+  const [showUpload, setShowUpload] = useState(false);
+  const [files, setFiles] = useState<{ file: File; description: string }[]>([]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = event.target.files;
+    if (selectedFiles) {
+      const newFiles = Array.from(selectedFiles).map((file) => ({
+        file,
+        description: "",
+      }));
+      setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+    }
+  };
+
+  const handleDescriptionChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const newFiles = [...files];
+    newFiles[index].description = event.target.value;
+    setFiles(newFiles);
+  };
+
+  const handleRemoveFile = (index: number) => {
+    const newFiles = [...files];
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
+  };
   return (
     <div>
       <div className="flex items-center justify-between mb-2.5 ">
@@ -73,10 +99,25 @@ const Wiki = () => {
 
         <Link
           className="flex item-center gap-1 my-3 text-xs text-[#169] hover:underline hover:text-[#b2290f]"
-          to="/projects/fresher-_-reactjs-fresher/wiki"
+          to="#"
+          onClick={() => setShowUpload(true)}
         >
           New file
         </Link>
+        {showUpload && (
+          <>
+            <FileUpload
+              files={files}
+              handleDescriptionChange={handleDescriptionChange}
+              handleRemoveFile={handleRemoveFile}
+              handleFileChange={handleFileChange}
+            />
+            <button className={buttonStyle} type="submit">
+              Add
+            </button>
+            <button className={buttonStyle}>Cancel</button>
+          </>
+        )}
       </div>
     </div>
   );
