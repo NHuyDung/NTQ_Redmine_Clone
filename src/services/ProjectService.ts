@@ -1,7 +1,12 @@
 // src/api/projectService.js
 import { fetchAPIGet } from "~/utils/helperAPI";
 import axiosInstance from "./api";
-
+import { Member, VersionSelect } from "~/types/Project";
+import { projectID } from "~/utils/CommonData";
+const customLabels = [
+  { value: "", label: "" },
+  { value: "2803", label: "<<me>>" },
+];
 export const getProjects = async () => {
   try {
     const response = await axiosInstance.get("/projects.json");
@@ -16,6 +21,37 @@ export const getMembers = async (identifier: string) => {
   try {
     const data = await fetchAPIGet(`/projects/${identifier}/memberships.json`);
     return data.memberships;
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    throw error;
+  }
+};
+export const getMembersSelect = async () => {
+  try {
+    const data = await fetchAPIGet(`/projects/${projectID}/memberships.json`);
+    const memberships = data.memberships?.map((membership: Member) => ({
+      value: membership.user.id,
+      label: membership.user.name,
+    }));
+    const Membership = [...customLabels, ...memberships];
+    const Watcher = [...memberships];
+    return { Membership, Watcher };
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    throw error;
+  }
+};
+export const getVersionSelect = async () => {
+  try {
+    const data = await fetchAPIGet(`/projects/${projectID}/versions.json`);
+    let version = data.versions
+      ?.filter((version: VersionSelect) => version.status === "open")
+      .map((version: VersionSelect) => ({
+        value: version.id,
+        label: version.name,
+      }));
+
+    return (version = [customLabels[0], ...version]);
   } catch (error) {
     console.error("Error fetching projects:", error);
     throw error;
