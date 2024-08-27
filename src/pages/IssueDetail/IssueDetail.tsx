@@ -282,9 +282,7 @@ const IssueDetail = () => {
           <button className="flex gap-1 hover:underline">
             <img src={images.fav} className="w-4" alt="Time add" />
           </button>
-          <button className="flex gap-1 hover:underline">
-            <img src={images.copy} className="w-4" alt="Time add" /> Copy
-          </button>
+          <button className="flex gap-1 hover:underline">{/* <img src={images.copy} className="w-4" alt="Time add" /> Copy */}</button>
         </div>
 
         <div className="flex items-center gap-1 justify-end text-11 my-2.5">

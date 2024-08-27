@@ -1,259 +1,495 @@
-import React from "react";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { RingLoader } from "react-spinners";
 import images from "~/assets/img";
-
-interface Item {
-  label: string;
-  value: string;
+import ModalCreateVersion from "~/pages/MyPage/components/TableIssue/ModalCreateVersion";
+import { CreateIssue, UploadFile } from "~/services/IssueService";
+import { getMembersSelect, getVersionSelect } from "~/services/ProjectService";
+import { IssueData } from "~/types/Issue";
+import {
+  defatultValueForSeverity,
+  defaultValueForBugType,
+  defaultValueForOptions,
+  defaultValueForQc,
+  IsDegree,
+  optionsForBugType,
+  optionsForPriority,
+  optionsForQC,
+  optionsForSeverity,
+  optionsForStatus,
+  ratio,
+  selectOptions,
+} from "~/types/NewIssue";
+import { GroupMemberSelect, Versions } from "~/types/Project";
+import { projectID } from "~/utils/CommonData";
+import DescriptionInput from "~/utils/EditText";
+import Preview from "~/utils/Preview";
+import FileUpload from "~/utils/UploadFile";
+const textColor = "text-primary-text_gray";
+const labelStyle = `${textColor} text-xs font-semibold mb-2 mr-1 `;
+const labelDataStyle = `${textColor} text-xs font-semibold mb-2 mr-1 w-28`;
+const buttonStyle = "border border bg-primary-sub_bg text-13 mt-2.5 mr-1 p-1 hover:bg-[#c3c2c2] ";
+const statusOptions = [
+  { label: "Bug", value: 1 },
+  { label: "Task", value: 4 },
+];
+interface FileObj {
+  file: File;
+  description: string;
 }
-
-interface ButtonData {
-  id: number;
-  backgroundImage: string;
-}
-
-const items1: Item[] = [
-  { label: "Status", value: "1" },
-  { label: "Priority", value: "2" },
-  { label: "Assignee", value: "3" },
-  { label: "Target version", value: "4" },
-];
-
-const items2: Item[] = [
-  { label: "Parent task", value: "1" },
-  { label: "Start date", value: "2" },
-  { label: "Due date", value: "3" },
-  { label: "Estimate time", value: "4" },
-  { label: "% Done", value: "5" },
-];
-
-const items3: Item[] = [
-  { label: "Bug Type", value: "1" },
-  { label: "Severity", value: "2" },
-  { label: "QC Activity", value: "3" },
-];
-
-const items4: Item[] = [
-  { label: "Cause Category", value: "1" },
-  { label: "Is Degrade?", value: "2" },
-  { label: "Reopen counter", value: "3" },
-];
-
-const items5: Item[] = [
-  { label: "A", value: "1" },
-  { label: "B", value: "2" },
-  { label: "C", value: "3" },
-];
-
-const optionsForStatus = [
-  { label: "New", value: "1" },
-  { label: "In Progress", value: "2" },
-  { label: "Reviewing", value: "3" },
-  { label: "Feedback", value: "4" },
-  { label: "Resolved", value: "5" },
-  { label: "Build", value: "6" },
-  { label: "Closed", value: "7" },
-  { label: "Can't fix", value: "8" },
-  { label: "Next Release", value: "9" },
-  { label: "Watching", value: "10" },
-  { label: "Release OK", value: "11" },
-  { label: "Done STG", value: "12" },
-  { label: "Release Honban (Done Honban)", value: "13" },
-];
-
-const optionsForPriority = [
-  { label: "Low", value: "low" },
-  { label: "Normal", value: "normal" },
-  { label: "Urgent", value: "urgent" },
-  { label: "High", value: "high" },
-  { label: "Immediate", value: "immediate" },
-];
-
-const optionsForBugType = [
-  { label: "GUI", value: "gui" },
-  { label: "Function", value: "function" },
-  { label: "Non-function", value: "non-function" },
-  { label: "Others", value: "others" },
-];
-
-const optionsForSeverity = [
-  { label: "Critical", value: "critical" },
-  { label: "Major", value: "major" },
-  { label: "Morderate", value: "morderate" },
-  { label: "Minor", value: "minor" },
-  { label: "Cosmetic", value: "cosmetic" },
-];
-
-const optionsForQC = [
-  { label: "Code review", value: "code-review" },
-  { label: "Unit test", value: "unit-test" },
-  { label: "Integration test", value: "intefration-test" },
-  { label: "System test", value: "system-test" },
-  { label: "Document review", value: "document-review" },
-  { label: "Acceptance review", value: "acceptance-review" },
-  { label: "Acceptance test", value: "acceptance-test" },
-  { label: "Other review", value: "other-review" },
-  { label: "Other test", value: "other-test" },
-];
-
-const buttonData: ButtonData[] = [
-  { id: 1, backgroundImage: images.newissue_strong },
-  { id: 2, backgroundImage: images.newissue_italic },
-  { id: 3, backgroundImage: images.newissue_underline },
-  { id: 4, backgroundImage: images.newissue_delete },
-  { id: 5, backgroundImage: images.newissue_inlinecode },
-  { id: 6, backgroundImage: images.newissue_heading1 },
-  { id: 7, backgroundImage: images.newissue_heading2 },
-  { id: 8, backgroundImage: images.newissue_heading3 },
-  { id: 9, backgroundImage: images.newissue_ul },
-  { id: 10, backgroundImage: images.newissue_ol },
-  { id: 11, backgroundImage: images.newissue_bq },
-  { id: 12, backgroundImage: images.newissue_bq_remove },
-  { id: 13, backgroundImage: images.newissue_pre },
-  { id: 14, backgroundImage: images.newissue_link },
-  { id: 15, backgroundImage: images.newissue_img },
-  { id: 16, backgroundImage: images.newissue_help },
-];
 
 const NewIssue = () => {
-  return (
-    <div>
-      <h2 className="text-[#555] text-lg text-5 font-semibold mb-2 flex items-center justify-between">New issue</h2>
-      <div className="bg-gray-50 text-gray-700 leading-6 border border-gray-200 break-words min-h-[715px] pl-[140px] pr-[90px]">
-        <div className="mb-2">
-          <label className="text-[#555] text-xs font-semibold mb-2">Tracker</label>
-          <span className="text-[#bb0000]">*</span>
-          <select className="border border-primary-border w-16 h-6 text-xs">
-            <option>Bug</option>
-            <option>Task</option>
-          </select>
-        </div>
-        <div className="mb-2 flex items-center">
-          <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Subject</label>
-          <input type="text" className="border border-primary-border w-full h-6"></input>
-        </div>
-        <div className="mb-2">
-          <span>
-            <div className="flex flex-wrap gap-2.5">
-              <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Description</label>
-              {buttonData.map((button) => (
-                <button
-                  key={button.id}
-                  style={{ backgroundImage: `url(${button.backgroundImage})` }}
-                  className="w-4 h-4 bg-cover bg-center border-none cursor-pointer mr-1 p-1 border border-gray-300 bg-gray-200 bg-no-repeat"
-                ></button>
-              ))}
-            </div>
-            <div>
-              <textarea className="border border-primary-border w-full h-[170px]"></textarea>
-            </div>
-          </span>
-        </div>
+  const [description, setDescription] = useState("");
+  const [assignee, setAssignee] = useState<GroupMemberSelect>();
+  const [version, setVersion] = useState<Versions[] | []>([]);
+  const [files, setFiles] = useState<FileObj[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState<number>(0);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  const navigate = useNavigate();
 
-        <div>
-          <div>
-            <div className="flex justify-between mr-[180px]">
-              <div className="w-1/3">
-                {items1.map((item, index) => (
-                  <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
-                    <select className="border border-primary-border w-full h-6 text-xs">
-                      {item.label === "Status" &&
-                        optionsForStatus.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      {item.label === "Priority" &&
-                        optionsForPriority.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const selectedFiles = Array.from(e.target.files);
+    const filesWithDesc = selectedFiles.map((file) => ({
+      file,
+      description: "",
+    }));
+    setFiles((prevFiles) => [...prevFiles, ...filesWithDesc]);
+  };
+
+  const handleDescriptionChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedFiles = [...files];
+    updatedFiles[index].description = e.target.value;
+    setFiles(updatedFiles);
+  };
+
+  const handleRemoveFile = (index: number) => {
+    const updatedFiles = files.filter((_, i) => i !== index);
+    setFiles(updatedFiles);
+  };
+  useEffect(() => {
+    fetchVersions();
+  }, [refresh]); // Thay đổi refresh sẽ trigger lại việc fetch data
+
+  const fetchVersions = async () => {
+    try {
+      const versions = await getVersionSelect();
+      setVersion(versions || []);
+    } catch (error) {
+      console.error("Error fetching versions:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const members = await getMembersSelect();
+        if (members) {
+          setAssignee(members);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [refresh]);
+  const handleVersionCreated = () => {
+    setRefresh((prev) => prev + 1);
+    handleCloseModal();
+  };
+  const onSubmit: SubmitHandler<IssueData> = async (data) => {
+    setLoading(true);
+
+    const formattedData = {
+      ...data,
+      due_date: data.due_date ? moment(data.due_date).format("YYYY-MM-DD") : undefined,
+      start_date: data.start_date ? moment(data.start_date).format("YYYY-MM-DD") : undefined,
+      project_id: projectID,
+      description: description,
+      // custom_fields:
+    };
+
+    try {
+      const uploadAllFiles = async () => {
+        try {
+          const uploadPromises = files.map((fileObj) => UploadFile(fileObj.file));
+          const tokens = await Promise.all(uploadPromises);
+          console.log("All files uploaded successfully.");
+          console.log("Received tokens:", tokens);
+
+          // Xử lý tiếp các tokens nếu cần thiết, ví dụ thêm vào formattedData nếu cần
+          // formattedData.tokens = tokens;
+        } catch (error) {
+          console.error("Error uploading files:", error);
+          throw error;
+        }
+      };
+
+      await uploadAllFiles(); // Chờ đợi quá trình upload file hoàn thành
+
+      // Tạo issue sau khi upload file thành công
+      await CreateIssue(formattedData);
+      navigate("/projects/fresher-_-reactjs-fresher/issues");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error creating Issue:", error);
+    }
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <>
+          <h2 className={`${textColor} text-lg text-5 font-semibold mb-2`}>New issue</h2>
+          {errors.subject && (
+            <p className="text-red-500 text-sm w-full border-primary-borderError bg-primary-bgError border-2 ps-4 mb-4">
+              {String(errors.subject.message)}
+            </p>
+          )}
+          <div className="bg-gray-50 text-gray-700 leading-6 border border-gray-200  pl-36 pr-24">
+            <p className="mb-2 mt-2">
+              <label className={`${textColor} text-xs font-semibold mb-2`}>
+                Tracker<span className="text-red-700"> * </span>
+              </label>
+              <select {...register("tracker_id", { required: true })} className="border border-primary-border w-16 h-6 text-xs">
+                {statusOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
                 ))}
-              </div>
-              <div className="w-1/3">
-                {items2.map((item, index) => (
-                  <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
-                    <select className="border border-primary-border w-full h-6">
-                      <option></option>
-                    </select>
-                  </div>
-                ))}
-              </div>
+              </select>
+            </p>
+
+            <div className="mb-2 flex">
+              <p className={labelStyle}>
+                Subject<span className="text-red-700 ms-1">*</span>
+              </p>
+              <input
+                type="text"
+                className="border border-primary-border w-full p-1 h-6 text-xs"
+                {...register("subject", {
+                  required: "Subject can't be blank",
+                  validate: (value) => value.trim() !== "" || "Subject cannot be just spaces",
+                })}
+              />
             </div>
-            <div className="flex justify-between mr-[180px]">
-              <div className="w-1/3">
-                {items3.map((item, index) => (
-                  <div key={index} className="mb-2 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
-                    <select className="border border-primary-border w-full h-6 text-xs">
-                      {item.label === "Bug Type" &&
-                        optionsForBugType.map((opt) => (
+            <DescriptionInput description={description} setDescription={setDescription} />
+            <div>
+              <div>
+                <div className="flex justify-between mr-[180px]">
+                  <div className="w-1/3">
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>
+                        Status
+                        <span className="text-red-700"> *</span>
+                      </label>
+                      <select className="border border-primary-border w-auto h-6 text-xs flex-grow" {...register("status_id")}>
+                        {optionsForStatus.map((opt) => (
                           <option key={opt.value} value={opt.value}>
                             {opt.label}
                           </option>
                         ))}
-                      {item.label === "Severity" &&
-                        optionsForSeverity.map((opt) => (
+                      </select>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>
+                        Priority
+                        <span className="text-red-700"> *</span>
+                      </label>
+                      <select {...register("priority_id")} className="border border-primary-border w-auto h-6 text-xs flex-grow">
+                        {optionsForPriority.map((opt) => (
                           <option key={opt.value} value={opt.value}>
                             {opt.label}
                           </option>
                         ))}
-                      {item.label === "QC Activity" &&
-                        optionsForQC.map((opt) => (
-                          <option key={opt.value} value={opt.value}>
+                      </select>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>Assignee</label>
+
+                      <select {...register("assignee_id")} className="border border-primary-border w-auto h-6 text-xs flex-grow">
+                        {assignee?.Membership.map((opt, index) => (
+                          <option key={index} value={opt.value}>
                             {opt.label}
                           </option>
                         ))}
-                    </select>
+                      </select>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>Target version</label>
+                      <select {...register("fixed_version_id")} className="border border-primary-border w-auto h-6 text-xs flex-grow">
+                        {version?.map((opt, index) => (
+                          <option key={index} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                      <img src={images.add} alt="add icon" className="ms-1 right-2 h-4 cursor-pointer" onClick={handleOpenModal} />
+                    </div>
                   </div>
-                ))}
+                  <div className="w-1/3">
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>Parent task</label>
+                      <div className="relative flex items-center">
+                        <input
+                          {...register("parent_issue_id")}
+                          type="text"
+                          className="border border-primary-border w-full h-6 text-xs pl-8"
+                          placeholder="Search..."
+                        />
+                        <img src={images.magnifier} alt="magnifier icon" className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4" />
+                      </div>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>Start date</label>
+                      <div className="relative flex items-center">
+                        <Controller
+                          name="start_date"
+                          control={control}
+                          defaultValue={new Date()} // Thiết lập giá trị mặc định là ngày hiện tại
+                          render={({ field }) => (
+                            <DatePicker
+                              {...field}
+                              selected={field.value || new Date()} // Nếu không có giá trị thì sẽ lấy ngày hiện tại
+                              onChange={(date) => field.onChange(date)}
+                              minDate={new Date()}
+                              customInput={
+                                <input
+                                  type="text"
+                                  name="start_date"
+                                  className="border border-primary-border w-full h-6 text-xs pl-2"
+                                  placeholder="Start Date"
+                                />
+                              }
+                            />
+                          )}
+                        />
+                        <img
+                          src={images.calendar}
+                          alt="calendar icon"
+                          className="absolute right-2 bottom-1/2 transform translate-y-1/2 h-4 cursor-pointer"
+                          onClick={() => document.querySelector<HTMLInputElement>(".react-datepicker__input-container input")?.focus()}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>due date</label>
+                      <div className="relative flex items-center">
+                        <Controller
+                          control={control}
+                          name="due_date"
+                          render={({ field }) => (
+                            <DatePicker
+                              selected={field.value}
+                              onChange={(date) => field.onChange(date)}
+                              minDate={new Date()}
+                              customInput={
+                                <input
+                                  type="text"
+                                  name="due_date"
+                                  className="border border-primary-border w-full h-6 text-xs pl-2"
+                                  placeholder="Due Date"
+                                />
+                              }
+                            />
+                          )}
+                        />
+                        <img
+                          src={images.calendar}
+                          alt="calendar icon"
+                          className="absolute right-2 bottom-1/2 transform translate-y-1/2 h-4 cursor-pointer"
+                          onClick={() => document.querySelector<HTMLInputElement>(".react-datepicker__input-container input")?.focus()}
+                        />
+                      </div>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>Estimate time</label>
+                      <div className="relative flex items-center">
+                        <input type="text" {...register("estimated_hours")} className="p-1 border border-primary-border w-full h-6 text-xs flex-1" />
+                        <span className="ml-2 text-xs">Hours</span>
+                      </div>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>% Done</label>
+                      <div className="relative flex items-center">
+                        <select {...register("done_ratio")} className="border border-primary-border w-16 h-6 text-xs flex-1">
+                          {ratio.map((opt) => (
+                            <option key={opt.value} value={opt.value}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between mr-[180px]">
+                  <div className="w-1/3">
+                    <div className="mb-2 flex">
+                      <label className={labelDataStyle}>
+                        Bug Type
+                        <span className="text-red-700">*</span>
+                      </label>
+                      <select
+                        defaultValue={defaultValueForBugType}
+                        // {...register("custom_field_values[12]")}
+                        className="border border-primary-border w-auto h-6 text-xs flex-grow"
+                      >
+                        {optionsForBugType.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-2 flex">
+                      <label className={labelDataStyle}>
+                        Severity
+                        <span className="text-red-700">*</span>
+                      </label>
+                      <select
+                        defaultValue={defatultValueForSeverity}
+                        // {...register("custom_field_values[13]")}
+                        className="border border-primary-border w-auto h-6 text-xs flex-grow"
+                      >
+                        {optionsForSeverity.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-2 flex">
+                      <label className={labelDataStyle}>
+                        QC Activity
+                        <span className="text-red-700">*</span>
+                      </label>
+                      <select
+                        defaultValue={defaultValueForQc}
+                        // {...register("custom_field_values[23]")}
+                        className="border border-primary-border w-auto h-6 text-xs flex-grow"
+                      >
+                        {optionsForQC.map((opt) => (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="w-1/3">
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>
+                        Cause Category <span className="text-red-700"> * </span>
+                      </label>
+                      <select
+                        defaultValue={[defaultValueForOptions]}
+                        // {...register("custom_field_values[25]")}
+                        className="border border-primary-border w-3/4 h-20 text-xs p-1 rounded-md"
+                        multiple
+                      >
+                        {selectOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>
+                        Is Degrade? <span className="text-red-700"> * </span>
+                      </label>
+                      <select
+                        // {...register("custom_field_values[62]")}
+                        className="border border-primary-border w-3/4 h-6 text-xs"
+                      >
+                        {IsDegree.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mb-2 flex items-center">
+                      <label className={labelDataStyle}>
+                        Reopen counter <span className="text-red-700"> * </span>
+                      </label>
+                      <input
+                        type="text"
+                        defaultValue={0}
+                        // {...register("custom_field_values[63]")}
+                        className="border border-primary-border w-1/4 h-6 text-xs p-1"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="w-1/3">
-                {items4.map((item, index) => (
-                  <div key={index} className="mb-3 flex">
-                    <label className="text-[#555] text-xs font-semibold mb-2 mr-2 w-20">{item.label}</label>
-                    <select className="border border-primary-border w-full h-6">
-                      <option></option>
-                    </select>
-                  </div>
-                ))}
+              <div>
+                <FileUpload
+                  files={files}
+                  handleDescriptionChange={handleDescriptionChange}
+                  handleRemoveFile={handleRemoveFile}
+                  handleFileChange={handleFileChange}
+                />
+                <div>
+                  <label className="labelStyle">Watchers</label>
+                  <span className="grid grid-cols-6 gap-1">
+                    {assignee?.Watcher.map((item, index) => (
+                      <Controller
+                        key={index}
+                        name={`watchers.${index}`}
+                        control={control}
+                        render={({ field }) => (
+                          <div className="flex items-center">
+                            <input type="checkbox" className="mr-2" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
+                            <label className="text-xs">{item.label}</label>
+                          </div>
+                        )}
+                      />
+                    ))}
+                  </span>
+                </div>
+                <a className="flex items-center">
+                  <img src={images.add} className="w-4 h-3 pr-1"></img>
+                  <p className="text-primary hover:underline hover:text-[#b2290f] text-[0.6rem]">Search for watchers to add</p>
+                </a>
               </div>
             </div>
           </div>
-          <div>
-            <div>
-              <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Files</label>
-              <span className="text-xs">
-                <input type="file"></input>
-                (Maximum size: 500 MB)
-              </span>
-            </div>
-            <div>
-              <label className="text-[#555] text-xs font-semibold mb-2 mr-2">Watchers</label>
-              <span>
-                {items5.map((item, index) => (
-                  <div key={index}>
-                    <input type="checkbox"></input>
-                    <label>{item.label}</label>
-                  </div>
-                ))}
-              </span>
-            </div>
-            <a className="flex items-center">
-              <img src={images.add} className="w-4 h-3 pr-1"></img>
-              <div className="text-primary hover:underline hover:text-[#b2290f] text-[0.6rem]">Search for watchers to add</div>
-            </a>
-          </div>
+          <button className={buttonStyle} type="submit">
+            Create
+          </button>
+          <button className={buttonStyle}>Create and continue</button>
+        </>
+      </form>
+      <a className="text-primary hover:underline hover:text-primary-red text-xs">Preview</a>
+      <Preview description={description} />
+      {isModalVisible && <ModalCreateVersion onClose={handleCloseModal} onVersionCreated={handleVersionCreated} />}
+      {loading && (
+        <div className="fixed inset-0 bg-gray-100 bg-opacity-50 flex justify-center items-center z-50">
+          <RingLoader color="#34d2c8" speedMultiplier={2} />
         </div>
-      </div>
-      <button className="border border-[#cccccc] text-[#222222] bg-[#f2f2f2] text-13 mt-2.5 mr-1 w-12 hover:bg-[#c3c2c2]">Create</button>
-      <button className="border border-[#cccccc] text-[#222222] bg-[#f2f2f2] text-13 mt-2.5 mr-1 w-30 hover:bg-[#c3c2c2]">Create and continue</button>
-      <a className="text-primary hover:underline hover:text-[#b2290f] text-xs">Preview</a>
-    </div>
+      )}
+    </>
   );
 };
 
