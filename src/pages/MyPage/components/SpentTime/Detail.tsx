@@ -85,8 +85,10 @@ const Detail: React.FC<DetailProps> = ({ selectedColumns, data }) => {
     }
   };
 
+  console.log(data);
   // Group date
   const groupedIssues = groupIssuesByDate(data);
+  console.log(groupedIssues);
 
   // total time
   const totalHours = Object.values(groupedIssues).reduce((sum, { totalHours }) => sum + totalHours, 0);

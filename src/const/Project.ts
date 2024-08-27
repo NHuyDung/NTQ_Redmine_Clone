@@ -70,3 +70,16 @@ export const OPTIONS_FILTER_ISSUES = [
 //   { id: 7, label: "Updated" },
 //   { id: 8, label: "author" },
 // ];
+
+export const OPTION_DIALOG = [
+  { label: "Related to", value: "related to" },
+  { label: "Duplicates", value: "duplicates" },
+  { label: "Duplicated by", value: "duplicated" },
+  { label: "Blocks", value: "blocks" },
+  { label: "Blocked by", value: "blocked" },
+  { label: "Precedes", value: "precedes" },
+  { label: "Follows", value: "follows" },
+  { label: "Copied to", value: "copied_to" },
+  { label: "Copied from", value: "copied_from" },
+  // Add more options as needed
+];

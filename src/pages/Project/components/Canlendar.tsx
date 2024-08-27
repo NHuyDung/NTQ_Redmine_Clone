@@ -8,14 +8,26 @@ import { useSelector } from "react-redux";
 import { fetchIssuesSchedule } from "~/features/issues/IssuesScheduleSlice";
 import { RingLoader } from "react-spinners";
 import Select from "~/components/Select/Select";
-import { OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
+import { OPTIONS_STATUS_1 } from "~/const/Project";
 import { getLastWeekOfPreviousMonth, isToday } from "~/utils/FormatDay";
 import images from "~/assets/img";
 import { Link } from "react-router-dom";
+const statusOptions = [
+  { value: "", label: "All" },
+  { value: "open", label: "Open" },
+  { value: "resolved", label: "Resolved" },
+  { value: "closed", label: "Closed" },
+];
 
+const filterOptions = [
+  { value: "", label: "All" },
+  { value: "created_on", label: "Created on" },
+  { value: "updated_on", label: "Updated on" },
+  { value: "due_date", label: "Due date" },
+];
 const Calendar: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [isFilters, setIsFilters] = useState(false);
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
   const { issuesSchedule, loading: loadingSchedule } = useSelector((state: RootState) => state.issuesSchedule);
 
   useEffect(() => {
@@ -33,7 +45,7 @@ const Calendar: React.FC = () => {
     currentDay.add(1, "day");
   }
   const handleToggleFilter = () => {
-    setIsFilters(!isFilters);
+    setIsOpenFilter(!isOpenFilter);
   };
   return (
     <>
@@ -41,57 +53,51 @@ const Calendar: React.FC = () => {
 
       {loadingSchedule ? (
         <div className="flex justify-center items-center h-24">
-          <RingLoader color="#34d2c8" speedMultiplier={2} />
+          <RingLoader speedMultiplier={2} />
         </div>
       ) : (
         <>
           <div>
-            <fieldset className="flex text-xs text-[#484848] py-2 px-3 border-t">
-              <legend className="flex items-center cursor-pointer" onClick={handleToggleFilter}>
-                <img src={isFilters ? images.arrow_rightgrey : images.arrow_expanded} alt="arrow_down" className="" />
+            <fieldset className="mb-4">
+              <legend onClick={handleToggleFilter} className="cursor-pointer pb-2 text-xs">
+                {!isOpenFilter ? (
+                  <img className="inline w-3" alt="collapsed" src={images.arrow_rightgrey}></img>
+                ) : (
+                  <img className="inline w-3" alt="expanded" src={images.arrow_downgrey}></img>
+                )}
                 Filters
               </legend>
-              {!isFilters && (
-                <>
-                  <table className="max-w-[60%] w-full flex flex-col gap-1">
-                    <thead></thead>
-                    <tbody>
-                      <tr className="flex items-center mb-1">
-                        <td className="flex items-center gap-1 w-4/12">
-                          <input type="checkbox" id="date" />
-                          <label htmlFor="date">Status</label>
-                        </td>
-                        <td className="flex items-center gap-1 w-4/12">
-                          <Select
-                            value="selectedValue"
-                            className="h-6 text-xs text-black font-medium border border-primary-border rounded-none"
-                            onChange={() => {
-                              return "selectedValue";
-                            }}
-                            options={OPTIONS_STATUS_1}
-                            label="Select an option"
-                          />
-                        </td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div className="max-w-[40%] w-full flex justify-end items-start">
-                    <div className="flex items-center gap-1">
-                      <span className="text-nowrap">Add filter</span>
-                      <Select
-                        value="selectedValue"
-                        className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
-                        onChange={() => {
-                          return "selectedValue";
-                        }}
-                        options={OPTIONS_FILTER_ISSUES}
-                        label="Select an option"
-                        placeholder=" "
-                      />
-                    </div>
+              {!isOpenFilter ? null : (
+                <div className="flex justify-between">
+                  <div className="flex items-center">
+                    <input type="checkbox" id="cb_status_id" />
+                    <label htmlFor="cb_status_id" className="pl-1 text-xs">
+                      Status
+                    </label>
                   </div>
-                </>
+                  <select id="operators_status_id" className="border border-primary-border w-16 h-6 text-xs">
+                    {statusOptions.map((option) => (
+                      <option key={option.value} className="text-xs" value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+
+                  <span></span>
+
+                  <div>
+                    <label htmlFor="add_filter_select" className="pr-1">
+                      Add filter
+                    </label>
+                    <select id="add_filter_select" className="border border-primary-border w-32 h-6 text-xs">
+                      {filterOptions.map((option) => (
+                        <option key={option.value} className="text-xs" value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
               )}
             </fieldset>
             <div className="flex items-center justify-between text-11 mt-3 mb-4 ">
@@ -171,14 +177,14 @@ const Calendar: React.FC = () => {
                 }, [] as moment.Moment[][])
                 .map((weekDays, weekIndex) => (
                   <tr key={weekIndex}>
-                    <td className="bg-[#eeeeee] p-1 text-right align-top">{weekDays[0].clone().startOf("week").format("W")}</td>
+                    <td className="bg-primary-sub_bg p-1 text-right align-top">{weekDays[0].clone().startOf("week").format("W")}</td>
                     {weekDays.map((currentDay, dayIndex) => {
                       const dayData = issuesSchedule?.month?.find((data) => data.day === currentDay.format("YYYY-MM-DD"));
-                      const dayClassName = isToday(currentDay) ? "bg-[#ffffdd]" : "";
+                      const dayClassName = isToday(currentDay) ? "bg-yellow-50" : "";
                       return (
                         <td
                           key={dayIndex}
-                          className={`border border-gray-300 p-1 text-right align-top w-full sm:w-[50px] md:w-[100px] lg:w-[130px] xl:w-[180px] ${dayClassName}`}
+                          className={`border border-gray-300 p-1 text-right align-top w-full sm:w-12 md:w-24 lg:w-32 xl:w-44 ${dayClassName}`}
                         >
                           {currentDay.format("DD")}
                           {dayData?.tasks?.map((task, taskIndex) => (
@@ -187,7 +193,7 @@ const Calendar: React.FC = () => {
                               data-tooltip-variant="light"
                               key={taskIndex}
                               data-tooltip-offset={-100}
-                              className="min-h-16 p-1.5 bg-[#ffffdd] border border-gray-300 text-left mb-2 cursor-pointer"
+                              className="min-h-16 p-4 bg-yellow-50 border border-gray-300 text-left mb-2 cursor-pointer"
                             >
                               <div className=" text-11">
                                 <img src={task.img} alt="" className="mx-1 inline align-middle" />

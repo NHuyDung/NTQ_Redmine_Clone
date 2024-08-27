@@ -53,7 +53,6 @@ export const fetchIssuesSchedule = createAsyncThunk(
       const filteredIssuesForMonth = filterIssuesByDate(issues, LastWeekOfPreviousMonth, LastWeekOfCurrentMonth);
       const groupedIssuesForWeek = groupIssues(filteredIssuesForWeek, startOfWeek, 7);
       const groupedIssuesForMonth = groupIssues(filteredIssuesForMonth, LastWeekOfPreviousMonth, 35);
-
       const groupedIssuesArrayForWeek: GroupedIssues[] = Object.keys(groupedIssuesForWeek).map((date) => ({
         day: date,
         tasks: sortIssues(groupedIssuesForWeek[date], date).map((issue) => ({

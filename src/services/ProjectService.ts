@@ -53,3 +53,37 @@ export const getWiki = async (identifier: string) => {
     throw error;
   }
 };
+
+export const getUserDetail = async (user_id: string) => {
+  try {
+    const data = await fetchAPIGet(`users/${user_id}.json`);
+    return data.user;
+  } catch (error) {
+    console.error("Error fetching wiki page:", error);
+    throw error;
+  }
+};
+
+// Issues
+
+export const getIssuesDetail = async (user_id: string) => {
+  try {
+    const data = await fetchAPIGet(`issues/${user_id}.json`);
+    return data.issue;
+  } catch (error) {
+    console.error("Error fetching wiki page:", error);
+    throw error;
+  }
+};
+
+// Settings
+
+export const getVersions = async (identifier: string) => {
+  try {
+    const data = await fetchAPIGet(`projects/${identifier}/versions.json`);
+    return data.versions;
+  } catch (error) {
+    console.error("Error fetching wiki page:", error);
+    throw error;
+  }
+};

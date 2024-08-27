@@ -93,7 +93,7 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
     const timeEntriesDataSample: DataSample[] = time.map((entry) => {
       const relatedIssue = entry.issue ? issues.find((issue) => issue.id === entry.issue?.id) : undefined;
       return {
-        title: entry.activity.name || "",
+        title: entry.activity?.name || "",
         type: "timeEntries",
         description: entry.comments || "",
         author: {

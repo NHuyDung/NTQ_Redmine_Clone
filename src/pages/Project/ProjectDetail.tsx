@@ -40,7 +40,7 @@ const ProjectDetail = () => {
       case "files":
         return <Files />;
       case "settings":
-        return <Settings />;
+        return <Settings identifier={identifier} />;
       default:
         return <div>Unknown section</div>;
     }

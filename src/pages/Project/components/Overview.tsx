@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { getMembers, getTrackerQuantity } from "~/services/ProjectService";
 import images from "~/assets/img";
 import { RingLoader } from "react-spinners";
+import { Link } from "react-router-dom";
+import { setLocalMembers } from "~/features/users/memberSlice";
+import { useDispatch } from "react-redux";
 
 interface Member {
   id: number;
-  name: string;
-  roles: { name: string }[];
-  user: { name: string };
+  project: { id: number; name: string };
+  roles: { id: number; name: string }[];
+  user: { id: number; name: string };
 }
 
 interface TrackerItem {
@@ -22,16 +25,18 @@ interface OverviewProps {
   identifier: string;
 }
 
-const links = [
-  { href: "/issues", text: "View all issues" },
-  { href: "#", text: "Calendar" },
-  { href: "#", text: "Gantt" },
-];
-
 const Overview: React.FC<OverviewProps> = ({ identifier }) => {
   const [members, setMembers] = useState<Member[]>([]);
   const [trackerQuantity, setTrackerQuantity] = useState<TrackerItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const links = [
+    { href: `/projects/${identifier}/issues`, text: "View all issues" },
+    { href: `/projects/${identifier}/calendar`, text: "Calendar" },
+    { href: `/projects/${identifier}/gantt`, text: "Gantt" },
+  ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,7 +50,9 @@ const Overview: React.FC<OverviewProps> = ({ identifier }) => {
     };
 
     fetchData();
-  }, [identifier]);
+  }, [identifier, dispatch]);
+
+  dispatch(setLocalMembers(members));
 
   const filterMembersByRole = (roleName: string) => {
     return members.filter((member) => member.roles.some((role) => role.name === roleName));
@@ -115,17 +122,27 @@ const Overview: React.FC<OverviewProps> = ({ identifier }) => {
                 <p className="break-words w-auto">
                   Manager:
                   {managers.map((manager) => (
-                    <a className="text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" key={manager.id} rel="noreferrer noopener">
+                    <Link
+                      to={`/users/${manager.user.id}`}
+                      className="text-primary cursor-pointer  hover:underline hover:text-[#b2290f]"
+                      key={manager.id}
+                      rel="noreferrer noopener"
+                    >
                       {manager.user.name},{" "}
-                    </a>
+                    </Link>
                   ))}
                 </p>
                 <p className="break-words max-w-[550px]">
                   Developer:
                   {developers.map((developer) => (
-                    <a className="text-primary cursor-pointer  hover:underline hover:text-[#b2290f]" key={developer.id} rel="noreferrer noopener">
+                    <Link
+                      to={`/users/${developer.user.id}`}
+                      className="text-primary cursor-pointer  hover:underline hover:text-[#b2290f]"
+                      key={developer.id}
+                      rel="noreferrer noopener"
+                    >
                       {developer.user.name},{" "}
-                    </a>
+                    </Link>
                   ))}
                 </p>
               </div>

@@ -2,7 +2,7 @@ export interface Issue {
   id: number;
   project: { id: number; name: string };
   subject: string;
-  start_date?: string;
+  start_date: string;
   status?: { id: number; name: string };
   author?: { id: number; name: string };
   description?: string;
@@ -20,6 +20,7 @@ export interface Issue {
   loading?: boolean;
   error?: string | null;
   img?: string;
+  spent_hours?: number;
 }
 export interface GroupedIssues {
   day?: string;

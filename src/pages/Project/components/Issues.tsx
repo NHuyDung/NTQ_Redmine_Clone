@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { RingLoader } from "react-spinners";
 import images from "~/assets/img";
 import Select from "~/components/Select/Select";
@@ -6,6 +6,9 @@ import { OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
 import { getIssueSchedule } from "~/services/IssueService";
 import { Issue } from "~/types/Issue";
 import { formatDateTime } from "~/utils/FormatDay";
+
+import ModalDetail from "~/pages/MyPage/components/TableIssue/ModalDetail";
+import { ZIndexContext } from "~/pages/MyPage/components/TableIssue/ModalContext";
 
 const Issues = () => {
   const [issues, setIssues] = useState<Issue[]>([]);
@@ -84,6 +87,9 @@ const Issues = () => {
   const [selectedValue, setSelectedValue] = useState<string | string[]>(""); // Lưu trữ
   const [loading, setLoading] = useState<boolean>(true); //  loading
 
+  const [modals, setModals] = useState<{ issue: Issue; mousePosition: { x: number; y: number }; zIndex: number }[]>([]);
+  const { zIndexCounter, incrementZIndex } = useContext(ZIndexContext);
+
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -98,6 +104,8 @@ const Issues = () => {
 
     fetchProjects();
   }, []);
+
+  // handle option
 
   const handleSort = () => {
     const sortedIssues = [...issues];
@@ -191,6 +199,8 @@ const Issues = () => {
     setColumnsDetail(selectedColumns);
   };
 
+  //
+
   const convertColumn = (list: string[]) => {
     return list.map((item, index) => ({
       id: index + 1,
@@ -221,6 +231,33 @@ const Issues = () => {
       default:
         return "";
     }
+  };
+
+  // handle dialog
+  const onDoubleClick = (issue: Issue, event: React.MouseEvent<HTMLTableRowElement>) => {
+    const { clientX, clientY } = event;
+    const isIssueAlreadyOpen = modals.some((modal) => modal.issue.id === issue.id);
+    if (!isIssueAlreadyOpen) {
+      incrementZIndex();
+      const newModal = {
+        issue,
+        mousePosition: { x: clientX, y: clientY },
+        zIndex: zIndexCounter,
+      };
+      setModals((prevModals) => [...prevModals, newModal]);
+    }
+  };
+
+  const bringToFront = (id: number) => {
+    incrementZIndex();
+    setModals((prevModals) => {
+      const updatedModals = prevModals.map((modal) => (modal.issue.id === id ? { ...modal, zIndex: zIndexCounter } : modal));
+      return updatedModals;
+    });
+  };
+
+  const closeModal = (issueToClose: Issue) => {
+    setModals((prevModals) => prevModals.filter((modal) => modal.issue.id !== issueToClose.id));
   };
 
   return (
@@ -373,8 +410,11 @@ const Issues = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 h-6">
               {issues.map((item, index) => {
+                const isEven = index % 2 === 0;
+                const isUrgent = item.priority?.name === "Urgent";
+                const bgColor = isUrgent ? (isEven ? "bg-[#ffc4c4]" : "bg-[#ffd4d4]") : isEven ? "bg-[#f6f7f9]" : "bg-[#fff]";
                 return (
-                  <tr className={`${index % 2 === 0 ? "bg-[#f6f7f9]" : "bg-[#fff]"} hover:bg-[#ffffdd]`} key={item.id}>
+                  <tr className={`${bgColor} bg-[#ffc4c] hover:bg-[#ffffdd]`} key={item.id} onDoubleClick={(e) => onDoubleClick(item, e)}>
                     <td className="p-1 text-left text-xs border border-primary-border">
                       <input type="checkbox" />
                     </td>
@@ -383,19 +423,21 @@ const Issues = () => {
                         {renderCellContent(item, column.label)}
                       </td>
                     ))}
-                    {/* <td className="p-1 text-center text-xs border border-primary-border">{item.id}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.tracker.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.status?.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.priority?.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.subject}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.assigned_to?.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{formatDateTime(item.updated_on ?? "")}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.author?.name}</td> */}
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          {modals.map((modalData, index) => (
+            <ModalDetail
+              key={index}
+              modal={() => closeModal(modalData.issue)}
+              issue={modalData.issue}
+              mousePosition={modalData.mousePosition}
+              zIndex={modalData.zIndex}
+              onClick={() => bringToFront(modalData.issue.id)}
+            />
+          ))}
           <div className="text-11 text-[#484848] my-2">
             (1-{issues.length})/{issues.length}
           </div>
