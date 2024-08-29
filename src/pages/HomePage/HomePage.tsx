@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { fetchProject } from "~/features/issues/ProjectSlice ";
 import { RingLoader } from "react-spinners";
+import { formatDateTime } from "~/utils/FormatDay";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const HomePage = () => {
                   >
                     {project.name}
                   </button>
-                  ({project.created_on})<br></br>
+                  ({formatDateTime(project.created_on)})<br></br>
                   {project.description}
                 </li>
               ))}

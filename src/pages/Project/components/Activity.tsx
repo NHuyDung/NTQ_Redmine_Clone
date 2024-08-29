@@ -10,30 +10,7 @@ import images from "~/assets/img";
 import Nodata from "~/components/NoData/Nodata";
 import { Link } from "react-router-dom";
 import { RingLoader } from "react-spinners";
-// import SubActivity from "./SubActivity";
-
-interface Time {
-  activity: { id: number; name: string };
-  id: string;
-  spent_on: string;
-  comments: string;
-  created_on: string;
-  user: { id: number; name: string };
-  hours: number;
-  issue?: { id: number };
-}
-
-interface Wikis {
-  title: string;
-  text: string;
-  version: number;
-  author: { id: number; name: string };
-  created_on: string;
-}
-
-interface OverviewProps {
-  identifier: string;
-}
+import { OverviewProps, Time, Wikis } from "~/types/Project";
 
 interface DataSample {
   title: string;
@@ -48,27 +25,6 @@ interface DataSample {
   hours?: number;
   version?: number;
 }
-
-const groupByDate = (data: DataSample[]) => {
-  const groupedData = data.reduce(
-    (acc, item) => {
-      const date = item.created_on.split("T")[0];
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(item);
-      return acc;
-    },
-    {} as Record<string, DataSample[]>,
-  );
-
-  // Sort items in each date group by time (created_on)
-  Object.keys(groupedData).forEach((date) => {
-    groupedData[date].sort((a, b) => new Date(b.created_on).getTime() - new Date(a.created_on).getTime());
-  });
-
-  return groupedData;
-};
 
 const Activity: React.FC<OverviewProps> = ({ identifier }) => {
   const [time, setTime] = useState<Time[]>([]);
@@ -97,6 +53,27 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
     fetchProjects();
   }, [identifier]);
 
+  const groupByDate = (data: DataSample[]) => {
+    const groupedData = data.reduce(
+      (acc, item) => {
+        const date = item.created_on.split("T")[0];
+        if (!acc[date]) {
+          acc[date] = [];
+        }
+        acc[date].push(item);
+        return acc;
+      },
+      {} as Record<string, DataSample[]>,
+    );
+
+    // Sort items in each date group by time (created_on)
+    Object.keys(groupedData).forEach((date) => {
+      groupedData[date].sort((a, b) => new Date(b.created_on).getTime() - new Date(a.created_on).getTime());
+    });
+
+    return groupedData;
+  };
+
   useEffect(() => {
     const issuesDataSample: DataSample[] = issues.map((issue) => ({
       title: issue.subject || "",
@@ -116,7 +93,7 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
     const timeEntriesDataSample: DataSample[] = time.map((entry) => {
       const relatedIssue = entry.issue ? issues.find((issue) => issue.id === entry.issue?.id) : undefined;
       return {
-        title: entry.activity.name || "",
+        title: entry.activity?.name || "",
         type: "timeEntries",
         description: entry.comments || "",
         author: {
@@ -205,18 +182,15 @@ const Activity: React.FC<OverviewProps> = ({ identifier }) => {
                               </a>
                             ) : item.type === "timeEntries" ? (
                               <span className="text-xs text-[#169] font-medium">
-                                {/* {(item.hours ?? 0).toFixed(2)} hours - {item.statusName}: {item.subject} */}
-                                <span className="text-xs text-[#169] font-medium">
-                                  {(item.hours ?? 0).toFixed(2)} hours
-                                  {item.id ? (
-                                    <>
-                                      {" "}
-                                      {item.trackerName} #{item.id} ({item.statusName}): {item.subject}
-                                    </>
-                                  ) : (
-                                    "(Project: [Fresher]_ ReactJS Fresher)"
-                                  )}
-                                </span>
+                                {(item.hours ?? 0).toFixed(2)} hours
+                                {item.id ? (
+                                  <>
+                                    {" "}
+                                    {item.trackerName} #{item.id} ({item.statusName}): {item.subject}
+                                  </>
+                                ) : (
+                                  "(Project: [Fresher]_ ReactJS Fresher)"
+                                )}
                               </span>
                             ) : item.type === "wiki" ? (
                               <span className="text-xs text-[#169] font-medium">

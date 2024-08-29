@@ -57,8 +57,6 @@ const Detail: React.FC<DetailProps> = ({ selectedColumns, data }) => {
     setSortOrder(sortOrder === "up" ? "down" : "up");
   };
 
-  console.log(MENU_HEADER_TABLE);
-
   const renderCellContent = (header: { label: string }, item: TimeEntriesType, issue: Issue | undefined) => {
     switch (header.label) {
       case "Date":
@@ -82,24 +80,15 @@ const Detail: React.FC<DetailProps> = ({ selectedColumns, data }) => {
         return item.comments;
       case "Hours":
         return item.hours.toFixed(2);
-      case "Actions":
-        return (
-          <div className="flex justify-center items-end pb-3 gap-1 p-1 text-xs border border-primary-border">
-            <a href="" className="h-full" rel="noreferrer noopener">
-              <img src={images.edit} alt="edit" />
-            </a>
-            <a href="" className="h-full" rel="noreferrer noopener">
-              <img src={images.remove} alt="delete" />
-            </a>
-          </div>
-        );
       default:
         return "";
     }
   };
 
+  console.log(data);
   // Group date
   const groupedIssues = groupIssuesByDate(data);
+  console.log(groupedIssues);
 
   // total time
   const totalHours = Object.values(groupedIssues).reduce((sum, { totalHours }) => sum + totalHours, 0);
@@ -207,7 +196,7 @@ const Detail: React.FC<DetailProps> = ({ selectedColumns, data }) => {
           Atom
         </a>
         <span>|</span>
-        <a href="" className="text-primary  text-11 hover:underline hover:text-red-400">
+        <a href="" className="text-primary  text-11 hover:underline hover:text-red-400" rel="noreferrer noopener">
           CSV
         </a>
       </div>

@@ -20,7 +20,7 @@ const Schedule: React.FC = () => {
 
   return (
     <>
-      <p className="text-start mb-2 font-bold">Calendar</p>
+      <p className="text-start mb-2 font-bold text-[#505050]">Calendar</p>
       {loadingSchedule ? (
         <div className="flex justify-center items-center h-24">
           <RingLoader color="#34d2c8" speedMultiplier={2} />

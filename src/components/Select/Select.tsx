@@ -5,8 +5,8 @@ const Select: React.FC<SelectProps> = ({ options, className, ariaLabel, placehol
   return (
     <select className={className} aria-label={ariaLabel} {...props}>
       {placeholder !== undefined && <option value="">{placeholder}</option>}
-      {options.map((option) => (
-        <option key={option.value} value={option.value} disabled={option.disabled || option.hidden}>
+      {options.map((option, index) => (
+        <option key={`${option.value}-${index}`} value={option.value} disabled={option.disabled || option.hidden}>
           {option.label}
         </option>
       ))}

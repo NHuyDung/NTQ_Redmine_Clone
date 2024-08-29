@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "~/app/store";
 import images from "~/assets/img";
 import { Link } from "react-router-dom";
-// import { getSpentTime } from "~/services/PageService";
-// import { TimeEntriesType } from "~/types/spentTime";
 import { OPTIONS_DATE, OPTIONS_USER_1, OPTIONS_USER_2, OPTIONS_FILTER } from "~/const/MyPage";
 
 import Select from "~/components/Select/Select";
@@ -89,34 +87,31 @@ const SpentTimeDetail = () => {
   ]);
   const [selectedColumns, setSelectedColumns] = useState(["Project", "Date", "User", "Activity", "Issues", "Comment", "Hours"]);
   const [columnsDetail, setColumnsDetail] = useState<string[]>(selectedColumns);
-  const [selectedValue, setSelectedValue] = useState<string | string[]>("");
+  const [selectedValue, setSelectedValue] = useState<string | string[]>(""); // value column selected
 
   useEffect(() => {
     if (timeSpent?.length === 0) {
-      dispatch(fetchTimeSpent());
+      dispatch(fetchTimeSpent()); // Update action
     }
   }, [dispatch]);
 
+  const toggleState = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setter((prevState) => !prevState);
+  };
+
+  // column mangement
   const handleMultiSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(Array.from(e.target.selectedOptions, (option) => option.value));
   };
 
-  const toggleOption = () => {
-    setIsOptions((prevState) => !prevState);
-  };
-
-  const toggleFilter = () => {
-    setIsFilters((prevState) => !prevState);
-  };
-
   const moveLeft = () => {
-    setAvailableColumns((prevAvailable) => [...prevAvailable, ...selectedColumns.filter((col) => selectedValue.includes(col))]);
+    setAvailableColumns((prevAvailable) => [...prevAvailable, ...selectedValue]);
     setSelectedColumns((prevSelected) => prevSelected.filter((col) => !selectedValue.includes(col)));
     setSelectedValue([]);
   };
 
   const moveRight = () => {
-    setSelectedColumns((prevSelected) => [...prevSelected, ...availableColumns.filter((col) => selectedValue.includes(col))]);
+    setSelectedColumns((prevSelected) => [...prevSelected, ...selectedValue]);
     setAvailableColumns((prevAvailable) => prevAvailable.filter((col) => !selectedValue.includes(col)));
     setSelectedValue([]);
   };
@@ -132,15 +127,21 @@ const SpentTimeDetail = () => {
   };
 
   const moveBottom = () => {
-    const newSelectedColumns = [...selectedColumns];
+    const newSelectedColumns = [
+      ...selectedColumns.filter((col) => !selectedValue.includes(col)),
+      ...selectedColumns.filter((col) => selectedValue.includes(col)),
+    ];
 
-    // Ensure selectedValue is always treated as an array
-    const selectedArray = Array.isArray(selectedValue) ? selectedValue : [selectedValue];
+    setSelectedColumns(newSelectedColumns);
+    // const newSelectedColumns = [...selectedColumns];
 
-    const columnsToMove = selectedArray.filter((value) => newSelectedColumns.includes(value));
-    const otherColumns = newSelectedColumns.filter((col) => !columnsToMove.includes(col));
+    // // Ensure selectedValue is always treated as an array
+    // const selectedArray = Array.isArray(selectedValue) ? selectedValue : [selectedValue];
 
-    setSelectedColumns([...otherColumns, ...columnsToMove]);
+    // const columnsToMove = selectedArray.filter((value) => newSelectedColumns.includes(value));
+    // const otherColumns = newSelectedColumns.filter((col) => !columnsToMove.includes(col));
+
+    // setSelectedColumns([...otherColumns, ...columnsToMove]);
   };
 
   const moveUp = () => {
@@ -152,10 +153,7 @@ const SpentTimeDetail = () => {
       const index = newSelectedColumns.indexOf(value);
 
       if (index > 0) {
-        // Swap with the previous item
-        const temp = newSelectedColumns[index - 1];
-        newSelectedColumns[index - 1] = newSelectedColumns[index];
-        newSelectedColumns[index] = temp;
+        [newSelectedColumns[index - 1], newSelectedColumns[index]] = [newSelectedColumns[index], newSelectedColumns[index - 1]];
       }
     }
 
@@ -164,15 +162,18 @@ const SpentTimeDetail = () => {
 
   const moveDown = () => {
     const newSelectedColumns = [...selectedColumns];
+
+    // Iterate through the selected values in order to handle swaps correctly
     for (let i = 0; i < selectedValue.length; i++) {
       const value = selectedValue[i];
       const index = newSelectedColumns.indexOf(value);
+
       if (index !== -1 && index < newSelectedColumns.length - 1) {
-        const temp = newSelectedColumns[index + 1];
-        newSelectedColumns[index + 1] = newSelectedColumns[index];
-        newSelectedColumns[index] = temp;
+        // Swap with the next item
+        [newSelectedColumns[index], newSelectedColumns[index + 1]] = [newSelectedColumns[index + 1], newSelectedColumns[index]];
       }
     }
+
     setSelectedColumns(newSelectedColumns);
   };
 
@@ -199,7 +200,7 @@ const SpentTimeDetail = () => {
       ) : (
         <>
           <fieldset className="flex text-xs text-[#484848] py-2 px-3 border-t">
-            <legend className="flex items-center cursor-pointer" onClick={toggleFilter}>
+            <legend className="flex items-center cursor-pointer" onClick={() => toggleState(setIsFilters)}>
               <img src={isFilters ? images.arrow_rightgrey : images.arrow_expanded} alt="arrow_down" className="" />
               Filters
             </legend>
@@ -253,7 +254,9 @@ const SpentTimeDetail = () => {
                           label="Select an option"
                         />
                       </td>
-                      <img src={images.bullet} alt="bullet" />
+                      <td>
+                        <img src={images.bullet} alt="bullet" />
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -262,7 +265,7 @@ const SpentTimeDetail = () => {
                     <span className="text-nowrap">Add filter</span>
                     <Select
                       value="selectedValue"
-                      className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
+                      className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-primary-border rounded-none mr-2 "
                       onChange={() => {
                         return "selectedValue";
                       }}
@@ -276,21 +279,20 @@ const SpentTimeDetail = () => {
             )}
           </fieldset>
           <fieldset className="flex text-xs text-[#484848] py-2 px-3">
-            <legend className="flex items-center cursor-pointer" onClick={toggleOption}>
-              <img src={isOptions ? images.arrow_expanded : images.arrow_rightgrey} alt="arrow_down" className="" />
+            <legend className="flex items-center cursor-pointer" onClick={() => toggleState(setIsOptions)}>
+              <img src={isOptions ? images.arrow_expanded : images.arrow_rightgrey} alt="arrow_down" />
               Options
             </legend>
             {isOptions && (
               <div className="flex items-center mt-1 ml-4">
-                <span className="text-gray-rain text-11 mr-1">Columns</span>
+                <span className="text-11 mr-1">Columns</span>
                 <div className="flex flex-col">
                   <div className="text-gray-rain text-11 inline-block">Available Columns</div>
                   <Select
                     size={10}
                     className="h-full w-[150px] text-13 border border-[#d7d7d7]"
-                    defaultValue={[]}
                     multiple
-                    value={selectedValue}
+                    value={Array.isArray(selectedValue) ? selectedValue : []}
                     onChange={handleMultiSelect}
                     options={availableColumns.map((option) => ({ value: option, label: option }))}
                   />
@@ -305,8 +307,7 @@ const SpentTimeDetail = () => {
                     size={10}
                     className="h-full w-[150px] text-13 border border-[#d7d7d7]"
                     multiple
-                    value={selectedValue}
-                    defaultValue={[]}
+                    value={Array.isArray(selectedValue) ? selectedValue : []}
                     onChange={handleMultiSelect}
                     options={selectedColumns.map((option) => ({ value: option, label: option }))}
                   />
@@ -354,7 +355,6 @@ const SpentTimeDetail = () => {
               Report
             </li>
           </ul>
-
           <div>{tabPage === 0 ? <Detail selectedColumns={columnsDetail} data={timeSpent} /> : <Report />}</div>
         </>
       )}

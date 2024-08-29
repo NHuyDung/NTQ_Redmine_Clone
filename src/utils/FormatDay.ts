@@ -74,7 +74,8 @@ export const getWeekAndMonthDates = () => {
 };
 
 export default moment;
-export const formatDateTime = (datetime: string) => {
+
+export const formatDateTime = (datetime: string | undefined) => {
   const formattedDateTime = moment(datetime).format("MM/DD/YYYY hh:mm A");
   return formattedDateTime;
 };
@@ -85,5 +86,3 @@ export const formatDateMonth = (datetime?: string) => {
 
 // const originalDateTime = '2024-08-04T10:03:31Z';
 // const formattedDateTime = formatDateTime(originalDateTime);
-
-// console.log(formattedDateTime);

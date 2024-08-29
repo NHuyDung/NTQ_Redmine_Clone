@@ -20,6 +20,15 @@ export const OPTIONS_STATUS_1 = [
   { value: "any", label: "any" },
 ];
 
+export const activityItems = [
+  { id: "show_issues", name: "showIssues", label: "Issues" },
+  { id: "show_changesets", name: "showChangesets", label: "Changesets" },
+  { id: "show_documents", name: "showDocuments", label: "Documents" },
+  { id: "show_files", name: "showFiles", label: "Files" },
+  { id: "show_wiki_edits", name: "showWikiEdits", label: "Wiki edits" },
+  { id: "show_time_entries", name: "showTimeEntries", label: "Spent time" },
+] as const;
+
 export const OPTIONS_FILTER_ISSUES = [
   { value: "status", label: "Status" },
   { value: "tracker", label: "Tracker" },
@@ -51,13 +60,26 @@ export const OPTIONS_FILTER_ISSUES = [
   { value: "rrelease", label: "Issue's Release OK " },
 ];
 
-export const HeaderIssuesData = [
-  { id: 1, label: "#" },
-  { id: 2, label: "Tracker" },
-  { id: 3, label: "Status" },
-  { id: 4, label: "Priority" },
-  { id: 5, label: "Subject" },
-  { id: 6, label: "Assignee" },
-  { id: 7, label: "Updated" },
-  { id: 8, label: "author" },
+// export const HeaderIssuesData = [
+//   { id: 1, label: "#" },
+//   { id: 2, label: "Tracker" },
+//   { id: 3, label: "Status" },
+//   { id: 4, label: "Priority" },
+//   { id: 5, label: "Subject" },
+//   { id: 6, label: "Assignee" },
+//   { id: 7, label: "Updated" },
+//   { id: 8, label: "author" },
+// ];
+
+export const OPTION_DIALOG = [
+  { label: "Related to", value: "related to" },
+  { label: "Duplicates", value: "duplicates" },
+  { label: "Duplicated by", value: "duplicated" },
+  { label: "Blocks", value: "blocks" },
+  { label: "Blocked by", value: "blocked" },
+  { label: "Precedes", value: "precedes" },
+  { label: "Follows", value: "follows" },
+  { label: "Copied to", value: "copied_to" },
+  { label: "Copied from", value: "copied_from" },
+  // Add more options as needed
 ];

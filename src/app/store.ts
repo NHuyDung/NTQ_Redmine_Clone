@@ -13,6 +13,8 @@ import filterReducer from "~/features/issues/filterSlice";
 import timeSpentReducer from "~/features/issues/TimeSpentSlice";
 import ProjectSlice from "~/features/issues/ProjectSlice ";
 import issuesAllSlice from "~/features/issues/issuesAllSlice";
+import memberReducer from "~/features/users/memberSlice";
+
 const store = configureStore({
   reducer: {
     issuesReport: IssuesReportSlice,
@@ -29,6 +31,7 @@ const store = configureStore({
     filter: filterReducer,
     timeSpent: timeSpentReducer,
     project: ProjectSlice,
+    members: memberReducer,
   },
 });
 

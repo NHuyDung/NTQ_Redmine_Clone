@@ -93,6 +93,8 @@ const TableIssue: React.FC<{ id: string }> = ({ id }) => {
     loading = loadingWatched;
   }
 
+  console.log(modals);
+
   return (
     <>
       <div className="text-start mb-2">

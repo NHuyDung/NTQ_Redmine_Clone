@@ -52,7 +52,7 @@ import history from "./wiki_history.png";
 import iconswiki from "./wiki_ui-icons.png";
 import imgwiki from "./wiki_12345.jpg";
 import preview from "./wiki_preview.png";
-import deleteImage from "./delete.png";
+import copy from "./project_copy.png";
 
 const images = {
   arrow_right,
@@ -108,7 +108,7 @@ const images = {
   iconswiki,
   imgwiki,
   preview,
-  deleteImage,
+  copy,
 };
 
 export default images;

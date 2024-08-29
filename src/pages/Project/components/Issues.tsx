@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { RingLoader } from "react-spinners";
 import images from "~/assets/img";
 import Select from "~/components/Select/Select";
-import { HeaderIssuesData, OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
+import { OPTIONS_FILTER_ISSUES, OPTIONS_STATUS_1 } from "~/const/Project";
 import { getIssueSchedule } from "~/services/IssueService";
 import { Issue } from "~/types/Issue";
 import { formatDateTime } from "~/utils/FormatDay";
+
+import ModalDetail from "~/pages/MyPage/components/TableIssue/ModalDetail";
+import { ZIndexContext } from "~/pages/MyPage/components/TableIssue/ModalContext";
 
 const Issues = () => {
   const [issues, setIssues] = useState<Issue[]>([]);
@@ -79,9 +82,13 @@ const Issues = () => {
     "service offering",
     "release ok",
   ]);
-  const [selectedColumns, setSelectedColumns] = useState(["Status", "Priority", "Tracker", "Subject", "issues", "comment", "hours"]);
-  const [selectedValue, setSelectedValue] = useState<string | string[]>("");
-  const [loading, setLoading] = useState<boolean>(true); // Trạng thái loading
+  const [selectedColumns, setSelectedColumns] = useState(["#", "Status", "Priority", "Tracker", "Subject", "Assignee", "Updated", "author"]);
+  const [columnsDetail, setColumnsDetail] = useState<string[]>(selectedColumns); //
+  const [selectedValue, setSelectedValue] = useState<string | string[]>(""); // Lưu trữ
+  const [loading, setLoading] = useState<boolean>(true); //  loading
+
+  const [modals, setModals] = useState<{ issue: Issue; mousePosition: { x: number; y: number }; zIndex: number }[]>([]);
+  const { zIndexCounter, incrementZIndex } = useContext(ZIndexContext);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -98,6 +105,8 @@ const Issues = () => {
     fetchProjects();
   }, []);
 
+  // handle option
+
   const handleSort = () => {
     const sortedIssues = [...issues];
     sortedIssues.sort((a, b) => {
@@ -111,16 +120,12 @@ const Issues = () => {
     setSortOrder(sortOrder === "up" ? "down" : "up");
   };
 
+  const toggleState = (setter: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setter((prevState) => !prevState);
+  };
+
   const handleMultiSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(Array.from(e.target.selectedOptions, (option) => option.value));
-  };
-
-  const toggleOption = () => {
-    setIsOptions((prevState) => !prevState);
-  };
-
-  const toggleFilter = () => {
-    setIsFilters((prevState) => !prevState);
   };
 
   const moveLeft = () => {
@@ -190,9 +195,74 @@ const Issues = () => {
     setSelectedColumns(newSelectedColumns);
   };
 
+  const handleApply = () => {
+    setColumnsDetail(selectedColumns);
+  };
+
+  //
+
+  const convertColumn = (list: string[]) => {
+    return list.map((item, index) => ({
+      id: index + 1,
+      label: item,
+    }));
+  };
+
+  const MENU_HEADER_TABLE = convertColumn(columnsDetail);
+
+  const renderCellContent = (item: Issue, column: string) => {
+    switch (column) {
+      case "#":
+        return item.id;
+      case "Status":
+        return item.status?.name;
+      case "Priority":
+        return item.priority?.name;
+      case "Tracker":
+        return item.tracker.name;
+      case "Subject":
+        return item.subject;
+      case "Assignee":
+        return item.assigned_to?.name;
+      case "Updated":
+        return formatDateTime(item.updated_on ?? "");
+      case "author":
+        return item.author?.name;
+      default:
+        return "";
+    }
+  };
+
+  // handle dialog
+  const onDoubleClick = (issue: Issue, event: React.MouseEvent<HTMLTableRowElement>) => {
+    const { clientX, clientY } = event;
+    const isIssueAlreadyOpen = modals.some((modal) => modal.issue.id === issue.id);
+    if (!isIssueAlreadyOpen) {
+      incrementZIndex();
+      const newModal = {
+        issue,
+        mousePosition: { x: clientX, y: clientY },
+        zIndex: zIndexCounter,
+      };
+      setModals((prevModals) => [...prevModals, newModal]);
+    }
+  };
+
+  const bringToFront = (id: number) => {
+    incrementZIndex();
+    setModals((prevModals) => {
+      const updatedModals = prevModals.map((modal) => (modal.issue.id === id ? { ...modal, zIndex: zIndexCounter } : modal));
+      return updatedModals;
+    });
+  };
+
+  const closeModal = (issueToClose: Issue) => {
+    setModals((prevModals) => prevModals.filter((modal) => modal.issue.id !== issueToClose.id));
+  };
+
   return (
     <div>
-      <h1 className="text-[#555] text-xl font-semibold mb-3">Spent time</h1>
+      <h1 className="text-[#555] text-xl font-semibold mb-3">Issues</h1>
       {loading ? (
         <div className="flex justify-center items-center my-4">
           <RingLoader color="#34d2c8" />
@@ -200,7 +270,7 @@ const Issues = () => {
       ) : (
         <>
           <fieldset className="flex text-xs text-[#484848] py-2 px-3 border-t">
-            <legend className="flex items-center cursor-pointer" onClick={toggleFilter}>
+            <legend className="flex items-center cursor-pointer" onClick={() => toggleState(setIsFilters)}>
               <img src={isFilters ? images.arrow_rightgrey : images.arrow_expanded} alt="arrow_down" className="" />
               Filters
             </legend>
@@ -234,7 +304,7 @@ const Issues = () => {
                     <span className="text-nowrap">Add filter</span>
                     <Select
                       value="selectedValue"
-                      className="h-6 text-xs text-black max-w-[204px] w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
+                      className="h-6 text-xs text-black max-w-52 w-full font-medium border border-primary-border rounded-none mr-2 min-w-[210px] "
                       onChange={() => {
                         return "selectedValue";
                       }}
@@ -248,7 +318,7 @@ const Issues = () => {
             )}
           </fieldset>
           <fieldset className="flex text-xs text-[#484848] py-2 px-3">
-            <legend className="flex items-center cursor-pointer" onClick={toggleOption}>
+            <legend className="flex items-center cursor-pointer" onClick={() => toggleState(setIsOptions)}>
               <img src={isOptions ? images.arrow_expanded : images.arrow_rightgrey} alt="arrow_down" className="" />
               Options
             </legend>
@@ -260,9 +330,8 @@ const Issues = () => {
                   <Select
                     size={10}
                     className="h-full w-[150px] text-13 border border-[#d7d7d7]"
-                    defaultValue={[]}
                     multiple
-                    value={selectedValue}
+                    value={Array.isArray(selectedValue) ? selectedValue : []}
                     onChange={handleMultiSelect}
                     options={availableColumns.map((option) => ({ value: option, label: option }))}
                   />
@@ -277,8 +346,7 @@ const Issues = () => {
                     size={10}
                     className="h-full w-[150px] text-13 border border-[#d7d7d7]"
                     multiple
-                    value={selectedValue}
-                    defaultValue={[]}
+                    value={Array.isArray(selectedValue) ? selectedValue : []}
                     onChange={handleMultiSelect}
                     options={selectedColumns.map((option) => ({ value: option, label: option }))}
                   />
@@ -299,7 +367,10 @@ const Issues = () => {
             )}
           </fieldset>
           <div className="flex items-center gap-1 my-4 ">
-            <span className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText ">
+            <span
+              onClick={handleApply}
+              className="flex items-center gap-1 text-xs text-[#169] hover:underline hover:text-[#c61a1a] cursor-pointer text-primaryText hover:text-hoverText "
+            >
               <img src={images.check} alt="check" />
               <span>Apply</span>
             </span>
@@ -319,7 +390,7 @@ const Issues = () => {
                 <th className=" p-1 text-xs border border-primary-border">
                   <img src={images.check} alt="check" />
                 </th>
-                {HeaderIssuesData.map((header) => (
+                {MENU_HEADER_TABLE.map((header) => (
                   <th
                     key={header.id}
                     className="text-[#169] hover:underline hover:text-[#c61a1a] p-1 text-xs border border-primary-border cursor-pointer"
@@ -339,24 +410,34 @@ const Issues = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200 h-6">
               {issues.map((item, index) => {
+                const isEven = index % 2 === 0;
+                const isUrgent = item.priority?.name === "Urgent";
+                const bgColor = isUrgent ? (isEven ? "bg-[#ffc4c4]" : "bg-[#ffd4d4]") : isEven ? "bg-[#f6f7f9]" : "bg-[#fff]";
                 return (
-                  <tr className={`${index % 2 === 0 ? "bg-[#f6f7f9]" : "bg-[#fff]"} hover:bg-[#ffffdd]`} key={item.id}>
+                  <tr className={`${bgColor} bg-[#ffc4c] hover:bg-[#ffffdd]`} key={item.id} onDoubleClick={(e) => onDoubleClick(item, e)}>
                     <td className="p-1 text-left text-xs border border-primary-border">
                       <input type="checkbox" />
                     </td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.id}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.tracker.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.status?.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.priority?.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.subject}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.assigned_to?.name}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{formatDateTime(item.updated_on ?? "")}</td>
-                    <td className="p-1 text-center text-xs border border-primary-border">{item.author?.name}</td>
+                    {MENU_HEADER_TABLE.map((column) => (
+                      <td key={column.id} className="p-1 text-center text-xs border border-primary-border">
+                        {renderCellContent(item, column.label)}
+                      </td>
+                    ))}
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          {modals.map((modalData, index) => (
+            <ModalDetail
+              key={index}
+              modal={() => closeModal(modalData.issue)}
+              issue={modalData.issue}
+              mousePosition={modalData.mousePosition}
+              zIndex={modalData.zIndex}
+              onClick={() => bringToFront(modalData.issue.id)}
+            />
+          ))}
           <div className="text-11 text-[#484848] my-2">
             (1-{issues.length})/{issues.length}
           </div>

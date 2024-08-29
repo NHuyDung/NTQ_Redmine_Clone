@@ -1,6 +1,7 @@
 import React from "react";
 import ForgotPasswordPage from "~/pages/ForgotPasswordPage/ForgotPasswordPage";
 import HomePage from "~/pages/HomePage/HomePage";
+import IssueDetail from "~/pages/IssueDetail/IssueDetail";
 import IssuesPage from "~/pages/IssuesPage/IssuesPage";
 import LoginPage from "~/pages/LoginPage/LoginPage";
 import SpentTimeDetail from "~/pages/MyPage/components/SpentTime/SpentTimeDetail";
@@ -10,6 +11,7 @@ import MyPageLayoutPage from "~/pages/MyPageLayoutPage/MyPageLayoutPage";
 import NotFoundPage from "~/pages/NotFoundPage/NotFoundPage";
 import Project from "~/pages/Project/Project";
 import ProjectDetail from "~/pages/Project/ProjectDetail";
+import Users from "~/pages/Users/Users";
 // import Overview from "~/pages/Project/components/Overview";
 
 interface RouteConfig {
@@ -38,17 +40,22 @@ const routesConfig: RouteConfig[] = [
     path: "/projects",
     element: <Project />,
   },
-  // {
-  //   path: "/projects/:projectId/overview",
-  //   element: <Overview projectId={323} />,
-  // },
   {
     path: "/projects/:identifier/:slug",
     element: <ProjectDetail />,
   },
+
+  {
+    path: "/users/:user_id",
+    element: <Users />,
+  },
   {
     path: "/issues",
     element: <IssuesPage />,
+  },
+  {
+    path: "/issues/:issue_id",
+    element: <IssueDetail />,
   },
   {
     path: "/forgot-password",

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SubDocuments = () => {
   return (
@@ -6,25 +7,41 @@ const SubDocuments = () => {
       <h3 className="text-sm text-[#666] font-medium mt-3.5 mb-2.5">Sort by</h3>
       <ul className="text-xs">
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues?set_filter=1">
+          <Link
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            to="/projects/fresher-_-reactjs-fresher/issues?set_filter=1"
+          >
             Category
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues/report">
+          <Link
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            to="/projects/fresher-_-reactjs-fresher/issues/report"
+          >
             Date
-          </a>
+          </Link>
         </li>
 
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues/calendar">
+          <Link
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            to="/projects/fresher-_-reactjs-fresher/issues/calendar"
+          >
             Title
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="text-[#169] hover:underline hover:text-[#c61a1a]" href="/projects/fresher-_-reactjs-fresher/issues/gantt">
+          <Link
+            className="text-[#169] hover:underline hover:text-[#c61a1a]"
+            rel="noreferrer noopener"
+            to="/projects/fresher-_-reactjs-fresher/issues/gantt"
+          >
             Author
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

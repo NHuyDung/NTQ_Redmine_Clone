@@ -1,8 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import images from "~/assets/img";
+import { getVersions } from "~/services/ProjectService";
+import { formatDate } from "~/utils/FormatDay";
 
-const Settings = () => {
+interface SettingsProps {
+  identifier: string;
+}
+
+interface Settings {
+  id: number;
+  version: string;
+  name: string;
+  sharing: string;
+  status: string;
+  date: string;
+  description: string;
+  updated_on: string;
+  created_on: string;
+  due_date: string;
+  project: { id: number; name: string };
+}
+
+const Settings: React.FC<SettingsProps> = ({ identifier }) => {
+  const [versions, setVersions] = useState<Settings[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchVersions = async () => {
+      try {
+        const response = await getVersions(identifier);
+        setVersions(response);
+      } catch (error) {
+        setLoading(false);
+      }
+    };
+    fetchVersions();
+  }, [identifier]);
+
+  console.log(versions, loading);
   return (
     <div>
       <h2 className="text-xl text-[#555] mb-2.5 font-medium">Settings</h2>
@@ -22,34 +58,45 @@ const Settings = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="text-[#169] hover:underline hover:text-[#b2290f] border border-[#d7d7d7] text-center">
-              <Link to="/versions/1302" title="07/17/2024>ui-icons.png">
-                fdsfd
-              </Link>
-            </td>
-            <td className="border border-[#d7d7d7] text-center">07/17/2024</td>
-            <td className="border border-[#d7d7d7] text-center">fsdfsdf</td>
-            <td className="border border-[#d7d7d7] text-center">open</td>
-            <td className="border border-[#d7d7d7] text-center">Not shared</td>
-            <td className="text-[#169] hover:underline hover:text-[#b2290f] border border-[#d7d7d7] text-center">
-              <Link to="/versions/1302" title="07/17/2024>ui-icons.png">
-                fdsfs
-              </Link>
-            </td>
-            <td className="flex items-center gap-1.5 justify-center border border-[#d7d7d7]">
-              <Link to="/attachments/43995" className="flex items-center gap-1 text-[#169] hover:underline hover:text-[#b2290f]" rel="nofollow">
-                <img alt="Delete" src={images.edit} />
-                <span>Edit</span>
-              </Link>
-              <Link to="/attachments/43995" className="flex items-center gap-1 text-[#169] hover:underline hover:text-[#b2290f]" rel="nofollow">
-                <img alt="Delete" src={images.remove} />
-                <span>Delete</span>
-              </Link>
-            </td>
-          </tr>
+          {versions.map((version: Settings) => (
+            <tr key={version.id}>
+              <td className="text-[#169] hover:underline hover:text-[#b2290f] border border-[#d7d7d7] text-center">
+                <Link to={`/versions/${version.id}`} title={version.name}>
+                  {version.name}
+                </Link>
+              </td>
+              <td className="border border-[#d7d7d7] text-center">{formatDate(version.due_date, true)}</td>
+              <td className="border border-[#d7d7d7] text-center">{version.description}</td>
+              <td className="border border-[#d7d7d7] text-center">{version.status}</td>
+              <td className="border border-[#d7d7d7] text-center">{version.sharing}</td>
+              <td className="text-[#169] hover:underline hover:text-[#b2290f] border border-[#d7d7d7] text-center">
+                <Link to={`/versions/${version.id}`} title={version.name}>
+                  {version.description}
+                </Link>
+              </td>
+              <td className="flex items-center gap-1.5 justify-center border border-[#d7d7d7]">
+                <Link to="/attachments/43995" className="flex items-center gap-1 text-[#169] hover:underline hover:text-[#b2290f]" rel="nofollow">
+                  <img alt="Edit" src={images.edit} />
+                  <span>Edit</span>
+                </Link>
+                <Link to="/attachments/43995" className="flex items-center gap-1 text-[#169] hover:underline hover:text-[#b2290f]" rel="nofollow">
+                  <img alt="Delete" src={images.remove} />
+                  <span>Delete</span>
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
+      <div className="flex items-center justify-between text-xs my-3">
+        <div className="flex items-center gap-1">
+          <img src={images.add} alt="add" />
+          <span className="text-[#169] hover:underline hover:text-[#b2290f]">New version</span>
+        </div>
+        <a href="" className="text-[#169] hover:underline hover:text-[#b2290f]">
+          Close completed versions
+        </a>
+      </div>
     </div>
   );
 };
