@@ -20,6 +20,12 @@ export interface Issue {
   loading?: boolean;
   error?: string | null;
   img?: string;
+  value?: string;
+  label?: string;
+}
+export interface IssueSelect {
+  value: string;
+  label: string;
 }
 export interface GroupedIssues {
   day?: string;
@@ -27,6 +33,7 @@ export interface GroupedIssues {
 }
 export interface IssuesState {
   issuesReport?: Issue[];
+  issuesAll?: Issue[];
   issuesAssigned?: Issue[];
   issuesWatched?: Issue[];
   issuesSchedule?: { week: GroupedIssues[]; month: GroupedIssues[] };
@@ -42,8 +49,13 @@ export interface IssueReport {
 }
 export type IssueType = IssueReport[] | GroupedIssues[];
 export interface CustomFieldValue {
-  field_id: number;
+  id: number;
   value: string | number | string[];
+}
+export interface File {
+  token: string;
+  filename: string;
+  content_type: string;
 }
 
 export interface IssueData {
@@ -53,12 +65,14 @@ export interface IssueData {
   tracker_id: number;
   status_id: number;
   description?: string;
-  assigned_to_id?: string;
+  assignee_id?: string;
   fixed_version_id?: string;
   parent_issue_id: string;
   start_date?: string;
   due_date?: string;
   estimated_hours: string;
   done_ratio: string;
-  custom_field_values: CustomFieldValue[];
+  custom_fields: CustomFieldValue[];
+  uploads: File;
+  watchers?: string[] | undefined;
 }

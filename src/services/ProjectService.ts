@@ -30,7 +30,7 @@ export const getMembersSelect = async () => {
   try {
     const data = await fetchAPIGet(`/projects/${projectID}/memberships.json`);
     const memberships = data.memberships?.map((membership: Member) => ({
-      value: membership.user.id,
+      value: +membership.user.id,
       label: membership.user.name,
     }));
     const Membership = [...customLabels, ...memberships];

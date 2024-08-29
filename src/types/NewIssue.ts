@@ -45,22 +45,22 @@ export const customText = [
   textName.Link,
 ];
 export const selectOptions = [
-  { value: "1.1", label: "1.1 REQ_Missing or incomplete" },
-  { value: "2.1", label: "2.1 DES_Missing or incomplete" },
-  { value: "3.1", label: "3.1 PRO_Missing or Incomplete" },
-  { value: "4.1", label: "4.1 IMP_Discipline/Process non-compliance" },
-  { value: "4.2", label: "4.2 IMP_Insufficient analysis before implementation" },
-  { value: "4.3", label: "4.3 IMP_Shortage of time" },
-  { value: "4.4", label: "4.4 IMP_Missing or incomplete process" },
-  { value: "4.5", label: "4.5 IMP_Lack of testing" },
-  { value: "5.1", label: "5.1 COM_Missing communication" },
-  { value: "5.2", label: "5.2 COM_Missing confirmation" },
-  { value: "6.1", label: "6.1 SKI_Inadequate language proficiency" },
-  { value: "6.2", label: "6.2 SKI_Shortage of business domain expertise" },
-  { value: "6.3", label: "6.3 SKI_Lack of experience" },
-  { value: "8", label: "8. Inconsistency in document or design" },
-  { value: "9", label: "9. Other" },
+  { label: "1.1. REQ_Missing or incomplete", value: "1.1. REQ_Missing or incomplete" },
+  { label: "2.1. DES_Missing or incomplete", value: "2.1. DES_Missing or incomplete" },
+  { label: "3.1. PRO_Missing or Incomplete", value: "3.1. PRO_Missing or Incomplete" },
+  { label: "4.1. IMP_Discipline/Process non-compliance", value: "4.1. IMP_Discipline/Process non-compliance" },
+  { label: "4.2. IMP_Insuffcient analysis before implementation", value: "4.2. IMP_Insuffcient analysis before implementation" },
+  { label: "4.3. IMP_Shortage of time", value: "4.3. IMP_Shortage of time" },
+  { label: "4.5. IMP_Lack of testing", value: "4.5. IMP_Lack of testing" },
+  { label: "5.1. COM_Missing communication", value: "5.1. COM_Missing communication" },
+  { label: "5.2. COM_Missing confirmation", value: "5.2. COM_Missing confirmation" },
+  { label: "6.1. SKI_Inadequate language proficiency", value: "6.1. SKI_Inadequate language proficiency" },
+  { label: "6.2. SKI_Shortage of business domain expertise", value: "6.2. SKI_Shortage of business domain expertise" },
+  { value: "6.3. SKI_Lack of experience", label: "6.3. SKI_Lack of experience" },
+  { label: "8. Inconsistency in document or design", value: "8. Inconsistency in document or design" },
+  { label: "9. Other", value: "9. Other" },
 ];
+
 export interface Item {
   label: string;
   value: string;
@@ -159,17 +159,17 @@ export const optionsForSeverity = [
 ];
 
 export const optionsForQC = [
-  { label: "Code review", value: "Code review" },
+  { label: "Code Review", value: "Code Review" },
   { label: "Unit test", value: "Unit test" },
   { label: "Integration test", value: "Integration test" },
   { label: "System test", value: "System test" },
-  { label: "Document review", value: "Document review" },
-  { label: "Acceptance review", value: "Acceptance review" },
-  { label: "Acceptance test", value: "Acceptance test" },
-  { label: "Other review", value: "Other revie" },
-  { label: "Other test", value: "Other test" },
+  { label: "Document Review", value: "Document Review" },
+  { label: "Acceptance Review", value: "Acceptance Review" },
+  { label: "Acceptance Test", value: "Acceptance Test" },
+  { label: "Other Review", value: "Other Review" },
+  { label: "Other Test", value: "Other Test" },
 ];
 export const defaultValueForQc = optionsForQC[8].value;
 export const defaultValueForBugType = optionsForBugType[3].value;
 export const defatultValueForSeverity = optionsForSeverity[4].value;
-export const defaultValueForOptions = selectOptions[14].value;
+export const defaultValueForOptions = selectOptions[13].value;

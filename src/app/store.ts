@@ -12,12 +12,13 @@ import tempSettingsSlice from "~/features/Roadmap/tempSettingsSlice";
 import filterReducer from "~/features/issues/filterSlice";
 import timeSpentReducer from "~/features/issues/TimeSpentSlice";
 import ProjectSlice from "~/features/issues/ProjectSlice ";
-
+import issuesAllSlice from "~/features/issues/issuesAllSlice";
 const store = configureStore({
   reducer: {
     issuesReport: IssuesReportSlice,
     issuesWatched: IssuesWatchedSlice,
     issuesAssigned: IssuesAssignedSlice,
+    issuesAll: issuesAllSlice,
     issuesSchedule: IssuesScheduleSlice,
     SpentTime: SpentTimeSlice,
     showClosed: showClosedSlice,

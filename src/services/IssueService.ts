@@ -12,6 +12,15 @@ export const getIssueSchedule = async () => {
     throw error;
   }
 };
+export const getAllIssue = async () => {
+  try {
+    const data = await fetchAPIGet("/issues.json");
+    return data.issues;
+  } catch (error) {
+    console.error("Error fetching issues:", error);
+    throw error;
+  }
+};
 export const getIssueReport = async (): Promise<IssueReport[]> => {
   try {
     const response = await axiosInstance.get<{ issues: Issue[] }>("/issues.json?author_id=me");
@@ -53,11 +62,10 @@ export const CreateIssue = async (body: IssueData) => {
 export const UploadFile = async (file: File): Promise<string | undefined> => {
   try {
     const response = await uploadFile.post("/uploads.json", file);
-
-    const token = response.data.upload.token; // Lưu token từ phản hồi
-    return token; // Trả về token để sử dụng trong các hàm khác nếu cần
+    const token = response.data.upload.token;
+    return token;
   } catch (err) {
     console.error("Error uploading file:", err);
-    return undefined; // Trả về undefined nếu có lỗi
+    return undefined;
   }
 };
