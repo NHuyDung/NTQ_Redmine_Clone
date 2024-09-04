@@ -132,8 +132,7 @@ const NewIssue = () => {
         try {
           const uploadPromises = files.map((fileObj) => UploadFile(fileObj.file));
           const tokens = await Promise.all(uploadPromises);
-          console.log("All files uploaded successfully.");
-          console.log("Received tokens:", tokens);
+          console.log(tokens);
 
           // Xử lý tiếp các tokens nếu cần thiết, ví dụ thêm vào formattedData nếu cần
           // formattedData.tokens = tokens;

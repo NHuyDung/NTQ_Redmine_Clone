@@ -150,8 +150,6 @@ const Users: React.FC = () => {
           <div className="space-y-4">
             {Object.entries(groupedActivities).map(([date, activities]) => {
               // Log each date and activities
-              console.log("Date:", date);
-              console.log("Activities:", activities);
 
               return (
                 <div key={date}>
