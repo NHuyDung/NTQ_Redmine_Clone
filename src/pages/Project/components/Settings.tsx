@@ -89,13 +89,13 @@ const Settings: React.FC<SettingsProps> = ({ identifier }) => {
         </tbody>
       </table>
       <div className="flex items-center justify-between text-xs my-3">
-        <div className="flex items-center gap-1">
+        <Link to={`/projects/${identifier}/new_versions`} className="flex items-center gap-1">
           <img src={images.add} alt="add" />
           <span className="text-[#169] hover:underline hover:text-[#b2290f]">New version</span>
-        </div>
-        <a href="" className="text-[#169] hover:underline hover:text-[#b2290f]">
+        </Link>
+        <Link to="" className="text-[#169] hover:underline hover:text-[#b2290f]">
           Close completed versions
-        </a>
+        </Link>
       </div>
     </div>
   );

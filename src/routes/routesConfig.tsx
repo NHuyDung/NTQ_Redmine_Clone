@@ -1,4 +1,5 @@
 import React from "react";
+import CreateNewVersion from "~/pages/CreateVersion/CreateVersion";
 import ForgotPasswordPage from "~/pages/ForgotPasswordPage/ForgotPasswordPage";
 import HomePage from "~/pages/HomePage/HomePage";
 import IssueDetail from "~/pages/IssueDetail/IssueDetail";
@@ -43,6 +44,11 @@ const routesConfig: RouteConfig[] = [
   {
     path: "/projects/:identifier/:slug",
     element: <ProjectDetail />,
+  },
+
+  {
+    path: "/projects/:identifier/new_versions",
+    element: <CreateNewVersion />,
   },
 
   {

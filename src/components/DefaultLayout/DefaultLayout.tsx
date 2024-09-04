@@ -11,11 +11,13 @@ interface DefaultLayoutProps {
 const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children }) => {
   const location = useLocation();
   const path = location.pathname;
-  const isProjectPath =
-    path.startsWith("/projects") &&
-    path !== "/projects/fresher-_-reactjs-fresher/files" &&
-    path !== "/projects/fresher-_-reactjs-fresher/settings" &&
-    path !== "/projects/fresher-_-reactjs-fresher/newissue";
+  const excludedPaths = [
+    "/projects/fresher-_-reactjs-fresher/files",
+    "/projects/fresher-_-reactjs-fresher/settings",
+    "/projects/fresher-_-reactjs-fresher/newissue",
+    "/projects/fresher-_-reactjs-fresher/new_versions",
+  ];
+  const isProjectPath = path.startsWith("/projects") && !excludedPaths.includes(path);
   const projectName = location.state?.projectName;
 
   return (

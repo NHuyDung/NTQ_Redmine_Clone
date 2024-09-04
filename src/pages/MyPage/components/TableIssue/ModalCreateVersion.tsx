@@ -47,8 +47,8 @@ const ModalCreateVersion: React.FC<ModalCreateVersionProps> = ({ onClose, onVers
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     const dataBody = { ...data, due_date: moment(data.due_date).format("YYYY-MM-DD") };
     try {
-      await CreateVersion(dataBody); // Tạo phiên bản mới
-      onVersionCreated(); // Trigger việc làm mới phiên bản trong NewIssue
+      await CreateVersion(dataBody);
+      onVersionCreated();
     } catch (error) {
       console.error("Error creating version:");
     }
@@ -133,7 +133,7 @@ const ModalCreateVersion: React.FC<ModalCreateVersionProps> = ({ onClose, onVers
             <div className="flex items-center mb-2">
               <label className={label}>Sharing</label>
               <div className="flex items-center w-2/3">
-                <select {...register("sharing")} className="w-2/3 border rounded p-1 text-sm w-2/4" defaultValue={1}>
+                <select {...register("sharing")} className="border rounded p-1 text-sm w-2/4" defaultValue={1}>
                   {sharingOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
